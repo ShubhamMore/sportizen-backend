@@ -10,6 +10,7 @@ require('./database/mongoose');
 
 // MANAGEMENT
 const userRouter = require('./routers/user.route');
+const tournamentRouter = require('./routers/tournament.route');
 
 const app = express();
 
@@ -46,6 +47,7 @@ app.use((req, res, next) => {
 
 // CONTENT
 app.use(userRouter);
+app.use(tournamentRouter);
 
 app.use((req, res, next) => {
   const error = new Error('NOT FOUND');
