@@ -23,29 +23,25 @@ const tournamentSchema = new mongoose.Schema({
       }
     }
   ],
-  tournament_period: {
-    start_date: {
-      type: String,
-      required: true
-    },
-    end_date: {
-      type: String,
-      required: true
-    }
+  start_date: {
+    type: String,
+    required: true
   },
-  location: {
-    lattitude: {
-      type: String,
-      required: true
-    },
-    longitude: {
-      type: String,
-      required: true
-    },
-    address: {
-      type: String,
-      required: true
-    }
+  end_date: {
+    type: String,
+    required: true
+  },
+  lattitude: {
+    type: String,
+    required: true
+  },
+  longitude: {
+    type: String, 
+    required: true
+  },
+  address: {
+    type: String,
+    required: true
   },
   description: {
     type: String,
@@ -84,3 +80,4 @@ const tournamentSchema = new mongoose.Schema({
 const Tournament = mongoose.model('Tournament', tournamentSchema);
 
 module.exports = Tournament;
+  
