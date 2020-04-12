@@ -3,6 +3,8 @@ const express = require('express');
 const multer = require('multer');
 const newTournament = require('../handlers/tournament/newTournament');
 const getTournament = require('../handlers/tournament/getTournament');
+const getTournaments = require('../handlers/tournament/getTournaments');
+const getAllTournaments = require('../handlers/tournament/getAllTurnaments');
 const router = new express.Router();
 
 const MIME_TYPE_MAP = {
@@ -33,6 +35,20 @@ router.post(
   multer({ storage: storage }).array('tournamentImages'),
   async (req, res) => {
     await newTournament(req, res);
+  }
+);
+
+router.get(
+  '/getTournaments',
+  async (req, res) => {
+    await getTournaments(req, res);
+  }
+);
+
+router.get(
+  '/getAllTournaments',
+  async (req, res) => {
+    await getAllTournaments(req, res);
   }
 );
 
