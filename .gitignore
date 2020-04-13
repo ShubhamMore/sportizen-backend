@@ -1,5 +1,7 @@
 node_modules
 fileToUpload/*
 !fileToUpload/.gitkeep
-image-categories/*
-!image-categories/.gitkeep
+images/*
+!images/.gitkeep
+log/*
+!log/.gitkeep
