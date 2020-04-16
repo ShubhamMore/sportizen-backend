@@ -5,7 +5,7 @@ const newTournament = async (req, res) => {
   try {
     const file = req.files;
     const images = new Array();
-    
+
     if (file !== undefined) {
       let filePaths = new Array();
       let fileNames = new Array();
@@ -20,7 +20,6 @@ const newTournament = async (req, res) => {
 
       const upload_res = upload_responce.upload_res;
       const upload_res_len = upload_res.length;
-
 
       if (upload_res_len > 0) {
         for (let i = 0; i < upload_res_len; i++) {
@@ -42,16 +41,21 @@ const newTournament = async (req, res) => {
       teams: JSON.parse(req.body.teams),
       start_date: req.body.start_date,
       end_date: req.body.end_date,
+      time: req.body.time,
       lattitude: req.body.lattitude,
       longitude: req.body.longitude,
       address: req.body.address,
       description: req.body.description,
+      winning_price: req.body.winning_price,
+      fees: req.body.fees,
       images: images,
+      created_by: req.body.created_by,
       created_at: Date.now(),
       modified_at: Date.now(),
     };
 
     const tournament = new Tournament(tournamentData);
+
     await tournament.save();
 
     res.status(201).send(tournament);

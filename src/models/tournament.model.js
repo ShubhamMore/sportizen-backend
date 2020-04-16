@@ -5,79 +5,87 @@ const tournamentSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
   },
   sport: {
     type: String,
-    required: true
+    required: true,
   },
   type: {
     type: String,
-    required: true
+    required: true,
   },
-  teams: [
-    {
-      team: {
-        type: String,
-        required: true
-      }
-    }
-  ],
+  teams: [String],
   start_date: {
     type: String,
-    required: true
+    required: true,
   },
   end_date: {
     type: String,
-    required: true
+    required: true,
+  },
+  time: {
+    type: String,
+    required: true,
   },
   lattitude: {
     type: String,
-    required: true
+    required: true,
   },
   longitude: {
-    type: String, 
-    required: true
+    type: String,
+    required: true,
   },
   address: {
     type: String,
-    required: true
+    required: true,
   },
   description: {
     type: String,
-    required: true
+    required: true,
+  },
+  winning_price: {
+    type: String,
+    required: true,
+  },
+  fees: {
+    type: String,
+    required: true,
   },
   images: [
     {
       image_name: {
         type: String,
-        required: true
+        required: true,
       },
       secure_url: {
         type: String,
-        required: true
+        required: true,
       },
       public_id: {
         type: String,
-        required: true
+        required: true,
       },
       created_at: {
         type: Date,
-        required: true
-      }
-    }
+        required: true,
+      },
+    },
   ],
+  created_by: {
+    type: String,
+    required: true,
+  },
   created_at: {
     type: Date,
-    required: true
+    required: true,
   },
   modified_at: {
     type: Date,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const Tournament = mongoose.model('Tournament', tournamentSchema);
 
 module.exports = Tournament;
-  

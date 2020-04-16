@@ -1,9 +1,16 @@
 const User = require('../../models/user.model');
-
+const UserProfile = require('../../models/user-profile.model');
+const noUser = require('../../shared/user.image');
 const newUser = async (req, res) => {
-  const user = new User(req.body);
   try {
+    const user = new User(req.body);
+    const userProfile = new UserProfile({
+      name: user.name,
+      email: user.email,
+      userImage: noUser,
+    });
     await user.save();
+    await userProfile.save();
     const token = await user.generateAuthToken();
     const data = {
       _id: user._id,

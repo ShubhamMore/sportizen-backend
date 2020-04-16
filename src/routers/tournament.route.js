@@ -1,6 +1,7 @@
 const express = require('express');
 
 const multer = require('multer');
+const auth = require('../middleware/auth');
 const newTournament = require('../handlers/tournament/newTournament');
 const getTournament = require('../handlers/tournament/getTournament');
 const getTournaments = require('../handlers/tournament/getTournaments');
@@ -26,37 +27,32 @@ const storage = multer.diskStorage({
   filename: (req, file, cb) => {
     const name = file.originalname.toLowerCase().split(' ').join('-');
     const ext = MIME_TYPE_MAP[file.mimetype];
-    cb(null, name + '-' + Date.now() + '.' + ext);
+    cb(
+      null,
+      'tournament-' + name.substring(0, name.lastIndexOf('.')) + '-' + Date.now() + '.' + ext
+    );
   },
 });
 
 router.post(
   '/newTournament',
-  multer({ storage: storage }).array('tournamentImages'),
+  auth,
+  multer({ storage: storage }).array('tournamentImage'),
   async (req, res) => {
     await newTournament(req, res);
   }
 );
 
-router.get(
-  '/getTournaments',
-  async (req, res) => {
-    await getTournaments(req, res);
-  }
-);
+router.get('/getTournaments', auth, async (req, res) => {
+  await getTournaments(req, res);
+});
 
-router.get(
-  '/getAllTournaments',
-  async (req, res) => {
-    await getAllTournaments(req, res);
-  }
-);
+router.get('/getAllTournaments', async (req, res) => {
+  await getAllTournaments(req, res);
+});
 
-router.get(
-  '/getTournament',
-  async (req, res) => {
-    await getTournament(req, res);
-  }
-);
+router.get('/getTournament', async (req, res) => {
+  await getTournament(req, res);
+});
 
 module.exports = router;

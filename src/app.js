@@ -17,6 +17,7 @@ require('./database/mongoose');
 
 // MANAGEMENT
 const userRouter = require('./routers/user.route');
+const userProfileRouter = require('./routers/user-profile.route');
 const tournamentRouter = require('./routers/tournament.route');
 
 const app = express();
@@ -33,14 +34,13 @@ app.use('/fileToUpload', express.static(path.join('fileToUpload')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
 // NOSQL INJECTION
 app.use(mongoSanitize());
 
 // to replace prohibited characters with '_':
 app.use(
   mongoSanitize({
-    replaceWith: '_'
+    replaceWith: '_',
   })
 );
 
@@ -56,19 +56,16 @@ app.use(helmet());
 // HTTP request logger
 app.use(
   morgan('combined', {
-    stream: fs.createWriteStream(
-      path.join(__dirname, '..', 'log', 'access.log'),
-      {
-        flags: 'a'
-      }
-    )
+    stream: fs.createWriteStream(path.join(__dirname, '..', 'log', 'access.log'), {
+      flags: 'a',
+    }),
   })
 );
 
 // To Limit Incomming request from same IP
 const limiter = rateLimit({
   windowMs: 60 * 1000, // 1 minute
-  max: 100 // limit each IP to 100 requests per windowMs
+  max: 100, // limit each IP to 100 requests per windowMs
 });
 
 //  apply to all requests
@@ -94,6 +91,7 @@ app.use((req, res, next) => {
 
 // CONTENT
 app.use(userRouter);
+app.use(userProfileRouter);
 app.use(tournamentRouter);
 
 app.use((req, res, next) => {
@@ -106,8 +104,8 @@ app.use((error, req, res, next) => {
   res.status(error.status || 500);
   res.json({
     error: {
-      message: error.message
-    }
+      message: error.message,
+    },
   });
 });
 
