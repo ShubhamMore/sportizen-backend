@@ -6,6 +6,7 @@ const newTournament = require('../handlers/tournament/newTournament');
 const getTournament = require('../handlers/tournament/getTournament');
 const getTournaments = require('../handlers/tournament/getTournaments');
 const getAllTournaments = require('../handlers/tournament/getAllTurnaments');
+const deleteTournament = require('../handlers/tournament/deleteTournament');
 const router = new express.Router();
 
 const MIME_TYPE_MAP = {
@@ -36,14 +37,13 @@ const storage = multer.diskStorage({
 
 router.post(
   '/newTournament',
-  auth,
   multer({ storage: storage }).array('tournamentImage'),
   async (req, res) => {
     await newTournament(req, res);
   }
 );
 
-router.get('/getTournaments', auth, async (req, res) => {
+router.get('/getTournaments', async (req, res) => {
   await getTournaments(req, res);
 });
 
@@ -53,6 +53,10 @@ router.get('/getAllTournaments', async (req, res) => {
 
 router.get('/getTournament', async (req, res) => {
   await getTournament(req, res);
+});
+
+router.delete('/deleteTournament', async (req, res) => {
+  await deleteTournament(req, res);
 });
 
 module.exports = router;
