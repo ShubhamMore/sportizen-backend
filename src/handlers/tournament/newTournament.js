@@ -49,7 +49,7 @@ const newTournament = async (req, res) => {
       winning_price: req.body.winning_price,
       fees: req.body.fees,
       images: images,
-      created_by: req.body.created_by | 'sportizen65@gmail.com',
+      created_by: req.body.created_by !== undefined ? req.body.created_by : 'sportizen65@gmail.com',
       created_at: Date.now(),
       modified_at: Date.now(),
     };
