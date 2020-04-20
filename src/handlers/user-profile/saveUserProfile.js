@@ -1,7 +1,6 @@
 const UserProfile = require('../../models/user-profile.model');
 const awsUploadFile = require('../../uploads/awsUploadFile');
 const awsRemoveFile = require('../../uploads/awsRemoveFile');
-const noUser = require('../../shared/user.image');
 const saveUserProfile = async (req, res) => {
   try {
     const file = req.file;
@@ -20,7 +19,7 @@ const saveUserProfile = async (req, res) => {
       const upload_res = upload_responce.upload_res;
 
       if (upload_res) {
-        if (profile_image.public_id !== noUser.public_id) {
+        if (profile_image.public_id !== undefined) {
           await awsRemoveFile(profile_image.public_id);
         }
 
@@ -33,13 +32,17 @@ const saveUserProfile = async (req, res) => {
       }
     }
 
-    await UserProfile.findByIdAndUpdate(userProfile._id, {
-      profileCompleted: '1',
-      birthDate: req.body.birthDate,
-      gender: req.body.gender,
-      sportsInterest: req.body.sportsInterest.split(','),
-      userImage: profile_image,
-    });
+    userProfile.profileCompleted = '1';
+    userProfile.birthDate = req.body.birthDate;
+    userProfile.gender = req.body.gender;
+    userProfile.sportsInterest = req.body.sportsInterest.split(',');
+    console.log(profile_image.secure_url !== undefined);
+    if (profile_image.secure_url !== undefined) {
+      userProfile.userImageURL = profile_image.secure_url;
+    }
+    userProfile.userImage = profile_image;
+
+    await UserProfile.findByIdAndUpdate(userProfile._id, userProfile);
 
     const updatedUserProfile = await UserProfile.findById(userProfile._id);
 

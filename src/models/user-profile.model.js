@@ -30,23 +30,27 @@ const userProfileSchema = new mongoose.Schema({
   gender: {
     type: String,
   },
+  userImageURL: {
+    type: String,
+    default: 'https://s3.ap-south-1.amazonaws.com/shubhammore.developer/shared/no_user.jpg',
+  },
   userImage: {
     image_name: {
       type: String,
-      required: true,
     },
     secure_url: {
       type: String,
-      required: true,
     },
     public_id: {
       type: String,
-      required: true,
     },
     created_at: {
       type: Date,
-      required: true,
     },
+  },
+  userProvicer: {
+    type: String,
+    required: true,
   },
 });
 

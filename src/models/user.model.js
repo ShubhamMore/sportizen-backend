@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
     },
     email: {
       type: String,
@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema(
         if (!validator.isEmail(value)) {
           throw new Error('Email is invalid');
         }
-      }
+      },
     },
     password: {
       type: String,
@@ -31,27 +31,27 @@ const userSchema = new mongoose.Schema(
         if (value.toLowerCase().includes('password')) {
           throw new Error('Password cannot contain "password"');
         }
-      }
+      },
     },
     userType: {
       type: String,
-      required: true
+      required: true,
     },
     tokens: [
       {
         token: {
           type: String,
-          required: true
-        }
-      }
-    ]
+          required: true,
+        },
+      },
+    ],
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
-userSchema.methods.toJSON = function() {
+userSchema.methods.toJSON = function () {
   const user = this;
   const userObject = user.toObject();
 
@@ -62,7 +62,7 @@ userSchema.methods.toJSON = function() {
   return userObject;
 };
 
-userSchema.methods.generateAuthToken = async function() {
+userSchema.methods.generateAuthToken = async function () {
   const user = this;
   const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
 
@@ -88,8 +88,18 @@ userSchema.statics.findByCredentials = async (email, password) => {
   return user;
 };
 
+userSchema.statics.findByEmail = async (email) => {
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    throw new Error('User does not found, Please Register');
+  }
+
+  return user;
+};
+
 // Hash the plain text password before saving
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   const user = this;
 
   if (user.isModified('password')) {

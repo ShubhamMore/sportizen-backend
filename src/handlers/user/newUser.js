@@ -8,6 +8,8 @@ const newUser = async (req, res) => {
       name: user.name,
       email: user.email,
       userImage: noUser,
+      userImageURL: noUser.secure_url,
+      userProvicer: 'SPORTIZEN',
     });
     await user.save();
     await userProfile.save();
