@@ -15,8 +15,8 @@ const newTournament = async (req, res) => {
         fileNames.push(file[i].filename);
       }
 
-      const cloudeDirectory = 'tournaments';
-      const upload_responce = await awsUploadFiles(filePaths, fileNames, cloudeDirectory);
+      const cloudDirectory = 'tournaments';
+      const upload_responce = await awsUploadFiles(filePaths, fileNames, cloudDirectory);
 
       const upload_res = upload_responce.upload_res;
       const upload_res_len = upload_res.length;

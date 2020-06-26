@@ -37,7 +37,7 @@ router.post('/getUserProfile', auth, async (req, res) => {
 router.post(
   '/saveUserProfile',
   auth,
-  multer({ storage: storage }).single('prifileImage'),
+  multer({ storage: storage }).single('profileImage'),
   async (req, res) => {
     await saveUserProfile(req, res);
   }

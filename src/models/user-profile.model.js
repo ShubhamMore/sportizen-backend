@@ -24,6 +24,8 @@ const userProfileSchema = new mongoose.Schema({
     default: '0',
   },
   sportsInterest: [String],
+  friends: [],
+  followers: [],
   birthDate: {
     type: String,
   },
@@ -48,7 +50,7 @@ const userProfileSchema = new mongoose.Schema({
       type: Date,
     },
   },
-  userProvicer: {
+  userProvider: {
     type: String,
     required: true,
   },
