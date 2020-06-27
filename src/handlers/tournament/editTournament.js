@@ -42,7 +42,9 @@ const editTournament = async (req, res) => {
     tournament.type = req.body.type;
     tournament.start_date = req.body.start_date;
     tournament.end_date = req.body.end_date;
-    tournament.time = req.body.time;
+    tournament.registerTill = req.body.registerTill;
+    tournament.players = req.body.players;
+    // tournament.time = req.body.time;
     tournament.description = req.body.description;
     tournament.winning_price = req.body.winning_price;
     tournament.fees = req.body.fees;
