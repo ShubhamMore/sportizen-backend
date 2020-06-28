@@ -52,6 +52,33 @@ const tournamentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  players: [
+    {
+      name: {
+        type: String,
+      },
+      contact: {
+        type: String,
+      },
+    },
+  ],
+  teams: [
+    {
+      teamName: {
+        type: String,
+      },
+      teamMembers: [
+        {
+          name: {
+            type: String,
+          },
+          contact: {
+            type: String,
+          },
+        },
+      ],
+    },
+  ],
   images: [
     {
       image_name: {
