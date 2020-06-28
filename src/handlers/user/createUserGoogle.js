@@ -18,7 +18,7 @@ const newGoogleUser = async (req, res) => {
         name: user.name,
         email: user.email,
         userImageURL: req.body.userImageURL,
-        userProvicer: 'GOOGLE',
+        userProvider: 'GOOGLE',
       });
       await user.save();
       await userProfile.save();
@@ -42,7 +42,7 @@ const newGoogleUser = async (req, res) => {
     }
 
     if (e.code == 11000) {
-      err = 'User alredy register, Please login';
+      err = 'User already register, Please login';
     }
 
     res.status(400).send(err.replace('Error: ', ''));

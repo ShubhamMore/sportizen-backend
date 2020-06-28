@@ -24,7 +24,15 @@ const tournamentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  time: {
+  registerTill: {
+    type: String,
+    required: true,
+  },
+  // time: {
+  //   type: String,
+  //   required: true,
+  // },
+  tournament: {
     type: String,
     required: true,
   },
