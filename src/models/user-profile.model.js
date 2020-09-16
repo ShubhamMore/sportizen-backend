@@ -23,6 +23,14 @@ const userProfileSchema = new mongoose.Schema({
     type: String,
     default: '0',
   },
+  phoneNo: {
+    type: String,
+    required: true,
+  },
+  story: {
+    type: String,
+    default: null,
+  },
   sportsInterest: [String],
   friends: [],
   followers: [],
