@@ -44,7 +44,39 @@ const userProfileSchema = new mongoose.Schema({
     type: String,
     default: 'https://s3.ap-south-1.amazonaws.com/shubhammore.developer/shared/no_user.jpg',
   },
+  userCoverImageURL: {
+    type: String,
+    default: 'https://s3.ap-south-1.amazonaws.com/shubhammore.developer/shared/no_user.jpg',
+  },
   userImage: {
+    image_name: {
+      type: String,
+    },
+    secure_url: {
+      type: String,
+    },
+    public_id: {
+      type: String,
+    },
+    created_at: {
+      type: Date,
+    },
+  },
+  userImage: {
+    image_name: {
+      type: String,
+    },
+    secure_url: {
+      type: String,
+    },
+    public_id: {
+      type: String,
+    },
+    created_at: {
+      type: Date,
+    },
+  },
+  userCoverImage: {
     image_name: {
       type: String,
     },

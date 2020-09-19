@@ -1,7 +1,7 @@
 const UserProfile = require('../../models/user-profile.model');
 const awsUploadFile = require('../../uploads/awsUploadFile');
 const awsRemoveFile = require('../../uploads/awsRemoveFile');
-const saveUserProfile = async (req, res) => {
+const saveUserProfileImage = async (req, res) => {
   try {
     const file = req.file;
 
@@ -32,18 +32,10 @@ const saveUserProfile = async (req, res) => {
       }
     }
 
-    userProfile.profileCompleted = '1';
-    userProfile.birthDate = req.body.birthDate;
-    userProfile.story = req.body.story;
-    userProfile.phoneNo = req.body.phoneNo;
-    userProfile.gender = req.body.gender;
-    userProfile.sportsInterest = req.body.sportsInterest.split(',');
-    if (profile_image.secure_url !== undefined) {
-      userProfile.userImageURL = profile_image.secure_url;
-    }
-    userProfile.userImage = profile_image;
-
-    await UserProfile.findByIdAndUpdate(userProfile._id, userProfile);
+    await UserProfile.findByIdAndUpdate(userProfile._id, {
+      userImageURL: profile_image.secure_url,
+      userImage: profile_image,
+    });
 
     const updatedUserProfile = await UserProfile.findById(userProfile._id);
 
@@ -54,4 +46,4 @@ const saveUserProfile = async (req, res) => {
   }
 };
 
-module.exports = saveUserProfile;
+module.exports = saveUserProfileImage;

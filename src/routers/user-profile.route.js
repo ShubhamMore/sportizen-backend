@@ -4,6 +4,9 @@ const multer = require('multer');
 const auth = require('../middleware/auth');
 const getUserProfile = require('../handlers/user-profile/getUserProfile');
 const saveUserProfile = require('../handlers/user-profile/saveUserProfile');
+const saveProfileImage = require('../handlers/user-profile/saveProfileImage');
+const saveCoverImage = require('../handlers/user-profile/saveCoverImage');
+const saveUserStory = require('../handlers/user-profile/saveUserStory');
 
 const router = new express.Router();
 
@@ -42,5 +45,27 @@ router.post(
     await saveUserProfile(req, res);
   }
 );
+
+router.post(
+  '/saveProfileImage',
+  auth,
+  multer({ storage: storage }).single('coverImage'),
+  async (req, res) => {
+    await saveProfileImage(req, res);
+  }
+);
+
+router.post(
+  '/saveCoverImage',
+  auth,
+  multer({ storage: storage }).single('profileImage'),
+  async (req, res) => {
+    await saveCoverImage(req, res);
+  }
+);
+
+router.post('/saveUserStory', auth, async (req, res) => {
+  await saveUserStory(req, res);
+});
 
 module.exports = router;
