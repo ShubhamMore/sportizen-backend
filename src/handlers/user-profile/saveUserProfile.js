@@ -5,6 +5,8 @@ const saveUserProfile = async (req, res) => {
   try {
     const file = req.file;
 
+    console.log(req.body);
+
     const userProfile = await UserProfile.findById(req.body._id);
 
     let profile_image = userProfile.userImage;
@@ -13,8 +15,8 @@ const saveUserProfile = async (req, res) => {
       const filePath = file.path;
       const fileName = file.filename;
 
-      const cloudeDirectory = 'profile_image';
-      const upload_responce = await awsUploadFile(filePath, fileName, cloudeDirectory);
+      const cloudDirectory = 'profile_image';
+      const upload_responce = await awsUploadFile(filePath, fileName, cloudDirectory);
 
       const upload_res = upload_responce.upload_res;
 
@@ -34,9 +36,10 @@ const saveUserProfile = async (req, res) => {
 
     userProfile.profileCompleted = '1';
     userProfile.birthDate = req.body.birthDate;
+    userProfile.story = req.body.story;
+    userProfile.phoneNo = req.body.phoneNo;
     userProfile.gender = req.body.gender;
     userProfile.sportsInterest = req.body.sportsInterest.split(',');
-    console.log(profile_image.secure_url !== undefined);
     if (profile_image.secure_url !== undefined) {
       userProfile.userImageURL = profile_image.secure_url;
     }
@@ -48,7 +51,6 @@ const saveUserProfile = async (req, res) => {
 
     res.send(updatedUserProfile);
   } catch (e) {
-    console.log(e);
     let err = '' + e;
     res.status(400).send(err.replace('Error: ', ''));
   }

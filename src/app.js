@@ -18,6 +18,7 @@ require('./database/mongoose');
 // MANAGEMENT
 const userRouter = require('./routers/user.route');
 const userProfileRouter = require('./routers/user-profile.route');
+const userConnectionRouter = require('./routers/user-connection.route');
 const tournamentRouter = require('./routers/tournament.route');
 
 const app = express();
@@ -92,6 +93,7 @@ app.use((req, res, next) => {
 // CONTENT
 app.use(userRouter);
 app.use(userProfileRouter);
+app.use(userConnectionRouter);
 app.use(tournamentRouter);
 
 app.use((req, res, next) => {

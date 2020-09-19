@@ -80,6 +80,14 @@ const userProfileSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  phoneNo: {
+    type: String,
+    required: true,
+  },
+  story: {
+    type: String,
+    default: null,
+  },
   sportsInterest: [String],
   
   gender: {
