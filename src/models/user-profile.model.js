@@ -2,33 +2,86 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 
 const userProfileSchema = new mongoose.Schema({
-  name: {
+  basicInfo:{
+    name: {
     type: String,
     required: true,
     trim: true,
-  },
-  email: {
-    type: String,
-    unique: true,
-    required: true,
-    trim: true,
-    lowercase: true,
-    validate(value) {
-      if (!validator.isEmail(value)) {
-        throw new Error('Email is invalid');
-      }
+    },
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+      trim: true,
+      lowercase: true,
+      validate(value) {
+        if (!validator.isEmail(value)) {
+          throw new Error('Email is invalid');
+        }
+      },
+    },
+    contact:{
+      type:String,
+      validate:/[0-9]/,
+      required:true
+    },
+    height:{
+      type:String,
+    },
+    heightType:{
+      type:String,
+    },
+    weight:{
+      type:String
+    },
+    weightType:{
+      type:String
+    },
+    birthDate: {
+      type: String,
     },
   },
+  location:{
+    homeLocation:{
+      latitude:{
+        type:Number
+      },
+      longitude:{
+        type:String
+      },
+      area:{
+        type:String
+      },
+      city:{
+        type:String
+      },
+      state:{
+        type:String
+      },
+      country:{
+        type:String
+      }
+    },
+    variableLocation:[
+      {
+        latitude:{
+          type:Number
+        },
+        longitude:{
+          type:String
+        },
+        date:{
+          type:Date
+        }, 
+      }
+    ]
+  },
   profileCompleted: {
-    type: String,
-    default: '0',
+    type: Boolean,
+    default: false,
   },
   sportsInterest: [String],
-  friends: [],
-  followers: [],
-  birthDate: {
-    type: String,
-  },
+  
   gender: {
     type: String,
   },
@@ -54,6 +107,17 @@ const userProfileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  userBio:{
+    type:String,
+  },
+  userAchievements:[
+    {
+      achievementType:{
+        type:String,
+      },
+
+    }
+  ]
 });
 
 const UserProfile = mongoose.model('UserProfile', userProfileSchema);
