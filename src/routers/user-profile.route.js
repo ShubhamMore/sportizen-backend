@@ -49,7 +49,7 @@ router.post(
 router.post(
   '/saveProfileImage',
   auth,
-  multer({ storage: storage }).single('coverImage'),
+  multer({ storage: storage }).single('profileImage'),
   async (req, res) => {
     await saveProfileImage(req, res);
   }
@@ -58,7 +58,7 @@ router.post(
 router.post(
   '/saveCoverImage',
   auth,
-  multer({ storage: storage }).single('profileImage'),
+  multer({ storage: storage }).single('coverImage'),
   async (req, res) => {
     await saveCoverImage(req, res);
   }
