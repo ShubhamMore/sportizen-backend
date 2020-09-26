@@ -1,12 +1,18 @@
 const express = require('express');
 
 const auth = require('../middleware/auth');
+
+const searchNewConnections = require('../handlers/user-connection/searchNewConnections');
 const changeUserStatus = require('../handlers/user-connection/changeUserStatus');
 const getMyConnections = require('../handlers/user-connection/getMyConnections');
 const getBlockedConnections = require('../handlers/user-connection/getBlockedConnections');
 const getConnectionRequests = require('../handlers/user-connection/getConnectionRequests');
 
 const router = new express.Router();
+
+router.post('/searchNewConnections', auth, async (req, res) => {
+  await searchNewConnections(req, res);
+});
 
 router.post('/changeUserConnectionStatus', auth, async (req, res) => {
   await changeUserStatus(req, res);
