@@ -7,6 +7,9 @@ const tournamentSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  eventType: {
+    type: String,
+  },
   sport: {
     type: String,
     required: true,
