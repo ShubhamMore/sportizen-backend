@@ -58,10 +58,13 @@ const newTournament = async (req, res) => {
 
     const tournament = new Tournament(tournamentData);
 
+    // console.log(tournament);
+
     await tournament.save();
 
     res.status(201).send(tournament);
   } catch (e) {
+    // console.log(e);
     let err = 'Something bad happend' + e;
     res.status(400).send(err);
   }

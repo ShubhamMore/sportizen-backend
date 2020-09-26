@@ -32,10 +32,6 @@ const tournamentSchema = new mongoose.Schema({
   //   type: String,
   //   required: true,
   // },
-  tournament: {
-    type: String,
-    required: true,
-  },
   lattitude: {
     type: String,
     required: true,
@@ -60,16 +56,9 @@ const tournamentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  players: [
-    {
-      name: {
-        type: String,
-      },
-      contact: {
-        type: String,
-      },
-    },
-  ],
+  players: {
+    type: String,
+  },
   teams: [
     {
       teamName: {
