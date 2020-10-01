@@ -3,7 +3,7 @@ const Event = require('../../models/event.model');
 const getEvents = async (req, res) => {
   try {
     let event;
-    if (req.body.eventType === 'team') {
+    if (req.body.registerType === 'team') {
       event = await Event.findOneAndUpdate(
         { _id: req.body._id },
         { $push: { teams: req.body.team } },
