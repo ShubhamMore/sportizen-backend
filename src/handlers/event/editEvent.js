@@ -1,13 +1,13 @@
-const Tournament = require('../../models/tournament.model');
+const Event = require('../../models/event.model');
 const awsUploadFiles = require('../../uploads/awsUploadFiles');
 
-const editTournament = async (req, res) => {
+const editEvent = async (req, res) => {
   try {
     const file = req.files;
 
-    const tournament = await Tournament.findById(req.body._id);
+    const event = await Event.findById(req.body._id);
 
-    const images = tournament.images;
+    const images = event.images;
 
     if (file !== undefined) {
       let filePaths = new Array();
@@ -18,7 +18,7 @@ const editTournament = async (req, res) => {
         fileNames.push(file[i].filename);
       }
 
-      const cloudeDirectory = 'tournaments';
+      const cloudeDirectory = 'events';
       const upload_responce = await awsUploadFiles(filePaths, fileNames, cloudeDirectory);
 
       const upload_res = upload_responce.upload_res;
@@ -37,26 +37,26 @@ const editTournament = async (req, res) => {
       }
     }
 
-    tournament.name = req.body.name;
-    tournament.sport = req.body.sport;
-    tournament.type = req.body.type;
-    tournament.start_date = req.body.start_date;
-    tournament.end_date = req.body.end_date;
-    tournament.registerTill = req.body.registerTill;
-    tournament.players = req.body.players;
-    // tournament.time = req.body.time;
-    tournament.description = req.body.description;
-    tournament.winning_price = req.body.winning_price;
-    tournament.fees = req.body.fees;
-    tournament.images = images;
-    tournament.modified_at = Date.now();
+    event.name = req.body.name;
+    event.sport = req.body.sport;
+    event.type = req.body.type;
+    event.start_date = req.body.start_date;
+    event.end_date = req.body.end_date;
+    event.registerTill = req.body.registerTill;
+    event.players = req.body.players;
+    // event.time = req.body.time;
+    event.description = req.body.description;
+    event.winning_price = req.body.winning_price;
+    event.fees = req.body.fees;
+    event.images = images;
+    event.modified_at = Date.now();
 
-    await Tournament.findByIdAndUpdate(tournament._id, tournament);
-    res.status(201).send(tournament);
+    await Event.findByIdAndUpdate(event._id, event);
+    res.status(201).send(event);
   } catch (e) {
     let err = 'Something bad happend' + e;
     res.status(400).send(err);
   }
 };
 
-module.exports = editTournament;
+module.exports = editEvent;

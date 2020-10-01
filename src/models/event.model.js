@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 
-const tournamentSchema = new mongoose.Schema({
+const eventSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -113,6 +113,6 @@ const tournamentSchema = new mongoose.Schema({
   },
 });
 
-const Tournament = mongoose.model('Tournament', tournamentSchema);
+const Event = mongoose.model('Event', eventSchema);
 
-module.exports = Tournament;
+module.exports = Event;

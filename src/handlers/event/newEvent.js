@@ -1,7 +1,7 @@
-const Tournament = require('../../models/tournament.model');
+const Event = require('../../models/event.model');
 const awsUploadFiles = require('../../uploads/awsUploadFiles');
 
-const newTournament = async (req, res) => {
+const newEvent = async (req, res) => {
   try {
     const file = req.files;
     const images = new Array();
@@ -15,7 +15,7 @@ const newTournament = async (req, res) => {
         fileNames.push(file[i].filename);
       }
 
-      const cloudDirectory = 'tournaments';
+      const cloudDirectory = 'events';
       const upload_responce = await awsUploadFiles(filePaths, fileNames, cloudDirectory);
 
       const upload_res = upload_responce.upload_res;
@@ -34,7 +34,7 @@ const newTournament = async (req, res) => {
       }
     }
 
-    const tournamentData = {
+    const eventData = {
       name: req.body.name,
       sport: req.body.sport,
       type: req.body.type,
@@ -56,13 +56,13 @@ const newTournament = async (req, res) => {
       modified_at: Date.now(),
     };
 
-    const tournament = new Tournament(tournamentData);
+    const event = new Event(eventData);
 
-    // console.log(tournament);
+    // console.log(event);
 
-    await tournament.save();
+    await event.save();
 
-    res.status(201).send(tournament);
+    res.status(201).send(event);
   } catch (e) {
     // console.log(e);
     let err = 'Something bad happend' + e;
@@ -70,4 +70,4 @@ const newTournament = async (req, res) => {
   }
 };
 
-module.exports = newTournament;
+module.exports = newEvent;

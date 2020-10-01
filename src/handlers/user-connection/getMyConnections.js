@@ -53,6 +53,7 @@ const getMyConnections = async (req, res) => {
     if (!userConnection) {
       throw new Error('');
     }
+    
     res.send(connData);
   } catch (e) {
     let err = '' + e;
