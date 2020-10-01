@@ -2,79 +2,76 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 
 const userProfileSchema = new mongoose.Schema({
-  basicInfo:{
-    name: {
+  name: {
     type: String,
     required: true,
     trim: true,
-    },
-    email: {
-      type: String,
-      unique: true,
-      required: true,
-      trim: true,
-      lowercase: true,
-      validate(value) {
-        if (!validator.isEmail(value)) {
-          throw new Error('Email is invalid');
-        }
-      },
-    },
-    contact:{
-      type:String,
-      validate:/[0-9]/,
-      required:true
-    },
-    height:{
-      type:String,
-    },
-    heightType:{
-      type:String,
-    },
-    weight:{
-      type:String
-    },
-    weightType:{
-      type:String
-    },
-    birthDate: {
-      type: String,
+  },
+  email: {
+    type: String,
+    unique: true,
+    required: true,
+    trim: true,
+    lowercase: true,
+    validate(value) {
+      if (!validator.isEmail(value)) {
+        throw new Error('Email is invalid');
+      }
     },
   },
-  location:{
-    homeLocation:{
-      latitude:{
-        type:Number
+  height: {
+    type: String,
+  },
+  heightType: {
+    type: String,
+  },
+  weight: {
+    type: String,
+  },
+  weightType: {
+    type: String,
+  },
+  birthDate: {
+    type: String,
+  },
+  profileViews: {
+    type: Number,
+    default: 0,
+  },
+  location: {
+    homeLocation: {
+      latitude: {
+        type: Number,
       },
-      longitude:{
-        type:String
+      longitude: {
+        type: String,
       },
-      area:{
-        type:String
+      area: {
+        type: String,
       },
-      city:{
-        type:String
+      city: {
+        type: String,
       },
-      state:{
-        type:String
+      state: {
+        type: String,
       },
-      country:{
-        type:String
-      }
+      country: {
+        type: String,
+      },
     },
-    variableLocation:[
+    variableLocation: [
       {
-        latitude:{
-          type:Number
+        latitude: {
+          type: Number,
         },
-        longitude:{
-          type:String
+        longitude: {
+          type: String,
         },
-        date:{
-          type:Date
-        }, 
-      }
-    ]
+        date: {
+          type: Date,
+        },
+      },
+    ],
   },
   profileCompleted: {
     type: Boolean,
@@ -82,6 +79,7 @@ const userProfileSchema = new mongoose.Schema({
   },
   phoneNo: {
     type: String,
+    validate: /[0-9]/,
     required: true,
   },
   story: {
@@ -89,7 +87,6 @@ const userProfileSchema = new mongoose.Schema({
     default: null,
   },
   sportsInterest: [String],
-  
   gender: {
     type: String,
   },
@@ -147,17 +144,13 @@ const userProfileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  userBio:{
-    type:String,
-  },
-  userAchievements:[
+  userAchievements: [
     {
-      achievementType:{
-        type:String,
+      achievementType: {
+        type: String,
       },
-
-    }
-  ]
+    },
+  ],
 });
 
 const UserProfile = mongoose.model('UserProfile', userProfileSchema);

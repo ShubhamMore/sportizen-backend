@@ -59,7 +59,17 @@ const eventSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  players: {
+  players: [
+    {
+      name: {
+        type: String,
+      },
+      contact: {
+        type: String,
+      },
+    },
+  ],
+  noOfPlayers: {
     type: String,
   },
   teams: [

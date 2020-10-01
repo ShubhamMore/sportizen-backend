@@ -3,6 +3,7 @@ const multer = require('multer');
 
 const auth = require('../middleware/auth');
 const getUserProfile = require('../handlers/user-profile/getUserProfile');
+const getMyProfile = require('../handlers/user-profile/getMyProfile');
 const saveUserProfile = require('../handlers/user-profile/saveUserProfile');
 const saveProfileImage = require('../handlers/user-profile/saveProfileImage');
 const saveCoverImage = require('../handlers/user-profile/saveCoverImage');
@@ -35,6 +36,10 @@ const storage = multer.diskStorage({
 
 router.post('/getUserProfile', auth, async (req, res) => {
   await getUserProfile(req, res);
+});
+
+router.post('/getMyProfile', auth, async (req, res) => {
+  await getMyProfile(req, res);
 });
 
 router.post(
