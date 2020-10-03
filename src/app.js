@@ -7,9 +7,10 @@ const fs = require('fs');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
+const morgan = require('morgan');
+
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const morgan = require('morgan');
 
 require('./database/mongoose');
 
@@ -34,6 +35,8 @@ app.use('/fileToUpload', express.static(path.join('fileToUpload')));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.use(morgan('tiny'));
 
 // NOSQL INJECTION
 app.use(mongoSanitize());

@@ -80,7 +80,6 @@ const userProfileSchema = new mongoose.Schema({
   phoneNo: {
     type: String,
     validate: /[0-9]/,
-    required: true,
   },
   story: {
     type: String,
