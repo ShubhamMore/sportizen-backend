@@ -85,6 +85,10 @@ const userProfileSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
+  accountType: {
+    type: String,
+    default: 'public', // public, private
+  },
   sportsInterest: [String],
   gender: {
     type: String,

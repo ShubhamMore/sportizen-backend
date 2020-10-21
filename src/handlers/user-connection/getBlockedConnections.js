@@ -4,7 +4,7 @@ const UserProfile = require('../../models/user-profile.model');
 const getBlockedConnections = async (req, res) => {
   try {
     const userConnection = await UserConnection.find({
-      $or: [{ firstUser: req.user._id }, { secondUser: req.user._id }],
+      primaryUser: req.user._id,
       status: 'blocked',
     });
 

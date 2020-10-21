@@ -2,21 +2,17 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 
 const userConnectionSchema = new mongoose.Schema({
-  firstUser: {
+  primaryUser: {
     type: String,
     required: true,
   },
-  secondUser: {
+  followedUser: {
     type: String,
     required: true,
   },
   status: {
-    type: String, // Requested, Canceled, Rejected, Blocked, Removed, Connected
+    type: String, // Requested, Canceled, Rejected, Blocked, Removed, Connected, Not-Connected
     require: true,
-  },
-  actionedUser: {
-    type: String,
-    required: true,
   },
 });
 

@@ -29,13 +29,11 @@ const socket = async (server) => {
     })
     .on('connection', (socket) => {
       new Sockets(socket.user._id, socket);
-
       socket.on('sendRequest', async (connectionReq) => {
         const newConnectionReq = new UserConnection({
-          firstUser: socket.user._id,
-          secondUser: connectionReq.connectionId,
+          primaryUser: socket.user._id,
+          followedUser: connectionReq.connectionId,
           status: connectionReq.status,
-          actionedUser: socket.user._id,
         });
 
         await newConnectionReq.save();

@@ -4,9 +4,10 @@ const changeUserStatus = async (req, res) => {
   try {
     const userConnection = await UserConnection.findOneAndUpdate(
       {
-        $or: [{ firstUser: req.user._id }, { secondUser: req.user._id }],
+        primaryUser: req.user._id,
+        followedUser: req.body.followedUser,
       },
-      { actionedUser: req.user._id, status: req.body.status }
+      { status: req.body.status }
     );
     if (!userConnection) {
       throw new Error('');
