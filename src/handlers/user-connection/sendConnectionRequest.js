@@ -7,7 +7,7 @@ const sendConnectionRequest = async (req, res) => {
 
     const status = 'following';
 
-    if (followedUser.accountType === 'private') {
+    if (followedUser && followedUser.accountType === 'private') {
       status = 'requested';
     }
 
