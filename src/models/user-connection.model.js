@@ -11,7 +11,7 @@ const userConnectionSchema = new mongoose.Schema({
     required: true,
   },
   status: {
-    type: String, // Requested, Canceled, Rejected, Blocked, Removed, Connected, Not-Connected
+    type: String, // Requested, Rejected, Blocked, Following
     require: true,
   },
 });

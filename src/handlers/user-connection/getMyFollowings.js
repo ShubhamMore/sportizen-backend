@@ -1,24 +1,27 @@
 const UserConnection = require('../../models/user-connection.model');
+const mongoose = require('mongoose');
 
-const getMyConnections = async (req, res) => {
+const getMyFollowings = async (req, res) => {
   try {
     const connData = await UserConnection.aggregate([
       {
         $match: {
           primaryUser: req.user._id,
-          status: 'connected',
+          status: 'following',
         },
       },
       {
         $addFields: {
-          searchUser: '$primaryUser',
+          searchUser: {
+            $toObjectId: '$followedUser',
+          },
         },
       },
       {
         $lookup: {
           from: 'userprofiles',
           localField: 'searchUser',
-          foreignField: 'email',
+          foreignField: '_id',
           as: 'connectionDetails',
         },
       },
@@ -38,4 +41,4 @@ const getMyConnections = async (req, res) => {
   }
 };
 
-module.exports = getMyConnections;
+module.exports = getMyFollowings;
