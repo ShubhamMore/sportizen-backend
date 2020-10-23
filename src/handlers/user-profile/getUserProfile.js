@@ -2,8 +2,7 @@ const UserProfile = require('../../models/user-profile.model');
 
 const getUserProfile = async (req, res) => {
   try {
-    const email = req.body.id;
-    const userProfile = await UserProfile.findOne({ email });
+    const userProfile = await UserProfile.findById(req.body.id);
     if (!userProfile) {
       throw new Error('');
     }
