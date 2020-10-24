@@ -2,7 +2,7 @@ const UserProfile = require('../../models/user-profile.model');
 
 const getUserProfile = async (req, res) => {
   try {
-    const userProfile = await UserProfile.findById(req.body.id);
+    const userProfile = await UserProfile.findById(req.user._id);
     if (!userProfile) {
       throw new Error('');
     }
