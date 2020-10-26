@@ -16,7 +16,7 @@ const auth = async (req, res, next) => {
 
     const userProfile = await UserProfile.findOne({ email: user.email });
 
-    data._id = userProfile._id;
+    user._id = userProfile._id;
 
     req.token = token;
     req.user = user;
