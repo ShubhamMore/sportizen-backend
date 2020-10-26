@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
+const UserProfile = require('../models/user-profile.model');
 
 const auth = async (req, res, next) => {
   try {
@@ -7,11 +8,16 @@ const auth = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findOne({
       _id: decoded._id,
-      'tokens.token': token
+      'tokens.token': token,
     });
     if (!user) {
       throw new Error();
     }
+
+    const userProfile = await UserProfile.findOne({ email: user.email });
+
+    data._id = userProfile._id;
+
     req.token = token;
     req.user = user;
     next();

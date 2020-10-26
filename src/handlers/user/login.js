@@ -1,4 +1,5 @@
 const User = require('../../models/user.model');
+const UserProfile = require('../../models/user-profile.model');
 
 const login = async (req, res) => {
   try {
@@ -13,6 +14,10 @@ const login = async (req, res) => {
       token,
       expiresIn: 3600,
     };
+
+    const userProfile = await UserProfile.findOne({ email: data.email });
+
+    data._id = userProfile._id;
 
     res.send(data);
   } catch (e) {

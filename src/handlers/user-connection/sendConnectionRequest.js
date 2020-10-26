@@ -13,7 +13,7 @@ const sendConnectionRequest = async (req, res) => {
 
     const newUserConnection = UserConnection({
       primaryUser: req.user._id,
-      followedUser: req.body.requestedUser,
+      followedUser: req.body.followedUser,
       status,
     });
 
@@ -21,6 +21,7 @@ const sendConnectionRequest = async (req, res) => {
 
     res.status(200).send({ status });
   } catch (e) {
+    console.log(e);
     res.status(400).send(e);
   }
 };
