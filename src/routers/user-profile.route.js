@@ -1,16 +1,6 @@
 const express = require('express');
 const multer = require('multer');
 
-const auth = require('../middleware/auth');
-const getUserProfile = require('../handlers/user-profile/getUserProfile');
-const getMyProfile = require('../handlers/user-profile/getMyProfile');
-const saveUserProfile = require('../handlers/user-profile/saveUserProfile');
-const saveProfileImage = require('../handlers/user-profile/saveProfileImage');
-const saveCoverImage = require('../handlers/user-profile/saveCoverImage');
-const saveUserStory = require('../handlers/user-profile/saveUserStory');
-
-const router = new express.Router();
-
 const MIME_TYPE_MAP = {
   // IMAGES
   'image/png': 'png',
@@ -33,6 +23,17 @@ const storage = multer.diskStorage({
     cb(null, name + '-' + Date.now() + '.' + ext);
   },
 });
+
+const auth = require('../middleware/auth');
+
+const getUserProfile = require('../controllers/user-profile-controller/getUserProfile');
+const getMyProfile = require('../controllers/user-profile-controller/getMyProfile');
+const saveUserProfile = require('../controllers/user-profile-controller/saveUserProfile');
+const saveProfileImage = require('../controllers/user-profile-controller/saveProfileImage');
+const saveCoverImage = require('../controllers/user-profile-controller/saveCoverImage');
+const saveUserStory = require('../controllers/user-profile-controller/saveUserStory');
+
+const router = new express.Router();
 
 router.post('/getUserProfile', auth, async (req, res) => {
   await getUserProfile(req, res);

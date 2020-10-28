@@ -14,10 +14,6 @@ const auth = async (req, res, next) => {
       throw new Error();
     }
 
-    const userProfile = await UserProfile.findOne({ email: user.email });
-
-    user._id = userProfile._id;
-
     req.token = token;
     req.user = user;
     next();

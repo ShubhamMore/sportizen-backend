@@ -19,6 +19,10 @@ const userProfileSchema = new mongoose.Schema({
       }
     },
   },
+  sportizenId: {
+    type: String,
+    required: true,
+  },
   height: {
     type: String,
   },

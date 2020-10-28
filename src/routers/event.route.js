@@ -1,15 +1,6 @@
 const express = require('express');
 
 const multer = require('multer');
-const auth = require('../middleware/auth');
-const newEvent = require('../handlers/event/newEvent');
-const editEvent = require('../handlers/event/editEvent');
-const getEvent = require('../handlers/event/getEvent');
-const getEvents = require('../handlers/event/getEvents');
-const getAllEvents = require('../handlers/event/getAllEvents');
-const deleteEvent = require('../handlers/event/deleteEvent');
-const deleteEventImage = require('../handlers/event/deleteEventImage');
-const router = new express.Router();
 
 const MIME_TYPE_MAP = {
   // IMAGES
@@ -33,6 +24,18 @@ const storage = multer.diskStorage({
     cb(null, 'event-' + name.substring(0, name.lastIndexOf('.')) + '-' + Date.now() + '.' + ext);
   },
 });
+
+const auth = require('../middleware/auth');
+
+const newEvent = require('../controllers/event-controller/newEvent');
+const editEvent = require('../controllers/event-controller/editEvent');
+const getEvent = require('../controllers/event-controller/getEvent');
+const getEvents = require('../controllers/event-controller/getEvents');
+const getAllEvents = require('../controllers/event-controller/getAllEvents');
+const deleteEvent = require('../controllers/event-controller/deleteEvent');
+const deleteEventImage = require('../controllers/event-controller/deleteEventImage');
+
+const router = new express.Router();
 
 router.post('/newEvent', multer({ storage: storage }).array('eventImage'), async (req, res) => {
   await newEvent(req, res);

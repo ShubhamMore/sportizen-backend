@@ -2,19 +2,19 @@ const express = require('express');
 
 const auth = require('../middleware/auth');
 
-const newUser = require('../handlers/user/newUser');
-const createUserGoogle = require('../handlers/user/createUserGoogle');
-const checkUser = require('../handlers/user/checkUser');
-const login = require('../handlers/user/login');
-const googleLogin = require('../handlers/user/googleLogin');
-const autoLogin = require('../handlers/user/autoLogin');
-const forgotPassword = require('../handlers/user/forgotPassword');
-const validateToken = require('../handlers/user/validateToken');
-const resetPassword = require('../handlers/user/resetPassword');
-const setPassword = require('../handlers/user/setPassword');
-const changePassword = require('../handlers/user/changePassword');
-const logout = require('../handlers/user/logout');
-const logoutAll = require('../handlers/user/logoutAll');
+const newUser = require('../controllers/user-controller/newUser');
+const createUserGoogle = require('../controllers/user-controller/createUserGoogle');
+const checkUser = require('../controllers/user-controller/checkUser');
+const login = require('../controllers/user-controller/login');
+const googleLogin = require('../controllers/user-controller/googleLogin');
+const autoLogin = require('../controllers/user-controller/autoLogin');
+const forgotPassword = require('../controllers/user-controller/forgotPassword');
+const validateToken = require('../controllers/user-controller/validateToken');
+const resetPassword = require('../controllers/user-controller/resetPassword');
+const setPassword = require('../controllers/user-controller/setPassword');
+const changePassword = require('../controllers/user-controller/changePassword');
+const logout = require('../controllers/user-controller/logout');
+const logoutAll = require('../controllers/user-controller/logoutAll');
 
 const router = new express.Router();
 

@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema(
         }
       },
     },
+    sportizenId: {
+      type: String,
+      required: true,
+    },
     userType: {
       type: String,
       required: true,

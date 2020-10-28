@@ -2,13 +2,13 @@ const express = require('express');
 
 const auth = require('../middleware/auth');
 
-const searchNewConnections = require('../handlers/user-connection/searchNewConnections');
-const changeUserStatus = require('../handlers/user-connection/changeUserStatus');
-const getMyFollowers = require('../handlers/user-connection/getMyFollowers');
-const getMyFollowings = require('../handlers/user-connection/getMyFollowings');
-const getBlockedConnections = require('../handlers/user-connection/getBlockedConnections');
-const getConnectionRequests = require('../handlers/user-connection/getConnectionRequests');
-const sendConnectionRequest = require('../handlers/user-connection/sendConnectionRequest');
+const searchNewConnections = require('../controllers/user-connection-controller/searchNewConnections');
+const changeUserStatus = require('../controllers/user-connection-controller/changeUserStatus');
+const getMyFollowers = require('../controllers/user-connection-controller/getMyFollowers');
+const getMyFollowings = require('../controllers/user-connection-controller/getMyFollowings');
+const getBlockedConnections = require('../controllers/user-connection-controller/getBlockedConnections');
+const getConnectionRequests = require('../controllers/user-connection-controller/getConnectionRequests');
+const sendConnectionRequest = require('../controllers/user-connection-controller/sendConnectionRequest');
 
 const router = new express.Router();
 
