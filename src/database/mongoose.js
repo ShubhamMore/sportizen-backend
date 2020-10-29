@@ -8,7 +8,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then((body) => {
-    console.log(connected);
+    console.log('connected');
   })
   .catch((e) => {
     console.log(e);
