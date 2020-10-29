@@ -25,18 +25,23 @@ const userProfileSchema = new mongoose.Schema({
   },
   height: {
     type: String,
+    default: null,
   },
   heightType: {
     type: String,
+    default: 'cm',
   },
   weight: {
     type: String,
+    default: null,
   },
   weightType: {
     type: String,
+    default: 'lbs',
   },
   birthDate: {
     type: String,
+    default: null,
   },
   profileViews: {
     type: Number,
@@ -96,6 +101,7 @@ const userProfileSchema = new mongoose.Schema({
   sportsInterest: [String],
   gender: {
     type: String,
+    default: null,
   },
   userImageURL: {
     type: String,
@@ -103,7 +109,7 @@ const userProfileSchema = new mongoose.Schema({
   },
   userCoverImageURL: {
     type: String,
-    default: 'https://s3.ap-south-1.amazonaws.com/shubhammore.developer/shared/no_user.jpg',
+    default: 'https://s3.ap-south-1.amazonaws.com/shubhammore.developer/shared/cover-image.jpg',
   },
   userImage: {
     image_name: {
