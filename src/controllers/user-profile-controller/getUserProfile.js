@@ -6,27 +6,42 @@ const responseHandler = require('../../handlers/response.handler');
 
 const getUserProfile = async (req, res) => {
   try {
+    // get Requested User Profile
+
     const userProfile = await UserProfile.findById(req.body.id);
 
     if (!userProfile) {
       throw new Error('User Not Found');
     }
 
-    let userConnection;
+    // get connection between me (primary User) and requested user
 
-    if (userProfile.accountType === 'private') {
-      userConnection = await UserConnection.findOne({ primaryUser: req.user._id });
-    }
+    const userConnection = await UserConnection.findOne({
+      primaryUser: req.user._id,
+      followedUser: req.body.id,
+    });
 
-    if (
-      !userConnection ||
-      userConnection.status !== 'following' ||
-      userProfile.accountType === 'private'
-    ) {
-      const message = { message: 'This Account is Private' };
-      responseHandler(message, 200, res);
+    const connection =
+      userConnection && userConnection.status ? userConnection.status : 'not-connected';
+
+    if (connection !== 'following' && userProfile.accountType === 'private') {
+      const privateUser = {
+        name: userProfile.name,
+        accountType: userProfile.accountType,
+        userImageURL: userProfile.userImageURL,
+        userCoverImageURL: userProfile.userCoverImageURL,
+        email: userProfile.email,
+        sportizenId: userProfile.sportizenId,
+        connection,
+      };
+      responseHandler(privateUser, 200, res);
     } else {
-      responseHandler(userProfile, 200, res);
+      const user = {
+        ...userProfile,
+        connection,
+      };
+
+      responseHandler(user, 200, res);
     }
   } catch (e) {
     errorHandler(e, 400, res);
