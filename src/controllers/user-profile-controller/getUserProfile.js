@@ -8,7 +8,7 @@ const getUserProfile = async (req, res) => {
   try {
     // get Requested User Profile
 
-    const userProfile = await UserProfile.findById(req.body.id);
+    const userProfile = await UserProfile.findById(req.body.sportizenId);
 
     if (!userProfile) {
       throw new Error('User Not Found');
@@ -17,8 +17,8 @@ const getUserProfile = async (req, res) => {
     // get connection between me (primary User) and requested user
 
     const userConnection = await UserConnection.findOne({
-      primaryUser: req.user._id,
-      followedUser: req.body.id,
+      primaryUser: req.user.sportizenId,
+      followedUser: req.body.sportizenId,
     });
 
     const connection =
