@@ -7,8 +7,7 @@ const responseHandler = require('../../handlers/response.handler');
 const getUserProfile = async (req, res) => {
   try {
     // get Requested User Profile
-
-    const userProfile = await UserProfile.findById(req.body.sportizenId);
+    const userProfile = await UserProfile.findOne({sportizenId:req.body.sportizenId});
 
     if (!userProfile) {
       throw new Error('User Not Found');
