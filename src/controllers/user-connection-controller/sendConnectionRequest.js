@@ -6,7 +6,10 @@ const responseHandler = require('../../handlers/response.handler');
 
 const sendConnectionRequest = async (req, res) => {
   try {
-    const followedUser = await UserProfile.findById(req.body.followedUser, { accountType: 1 });
+    const followedUser = await UserProfile.findOne(
+      { sportizenId: req.body.followedUser },
+      { accountType: 1 }
+    );
 
     const status = 'following';
 
