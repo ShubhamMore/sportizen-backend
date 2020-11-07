@@ -7,7 +7,7 @@ const responseHandler = require('../../handlers/response.handler');
 const getUserProfile = async (req, res) => {
   try {
     // get Requested User Profile
-    const userProfile = await UserProfile.findOne({sportizenId:req.body.sportizenId});
+    const userProfile = await UserProfile.findOne({ sportizenId: req.body.sportizenId });
 
     if (!userProfile) {
       throw new Error('User Not Found');
@@ -33,14 +33,22 @@ const getUserProfile = async (req, res) => {
         sportizenId: userProfile.sportizenId,
         connection,
       };
+
+      console.log(privateUser);
+
       responseHandler(privateUser, 200, res);
     } else {
-      const user = {
-        ...userProfile,
+      const publicUser = {
+        name: userProfile.name,
+        accountType: userProfile.accountType,
+        userImageURL: userProfile.userImageURL,
+        userCoverImageURL: userProfile.userCoverImageURL,
+        email: userProfile.email,
+        sportizenId: userProfile.sportizenId,
         connection,
       };
-
-      responseHandler(user, 200, res);
+      console.log(publicUser);
+      responseHandler(publicUser, 200, res);
     }
   } catch (e) {
     errorHandler(e, 400, res);
