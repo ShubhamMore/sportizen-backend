@@ -15,7 +15,7 @@ const sendConnectionRequest = async (req, res) => {
     }
 
     const newUserConnection = UserConnection({
-      primaryUser: req.user._id,
+      primaryUser: req.user.sportizenId,
       followedUser: req.body.followedUser,
       status,
     });

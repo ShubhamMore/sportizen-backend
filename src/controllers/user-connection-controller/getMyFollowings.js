@@ -10,7 +10,7 @@ const getMyFollowings = async (req, res) => {
     const myFollowings = await UserConnection.aggregate([
       {
         $match: {
-          primaryUser: req.user._id,
+          primaryUser: req.user.sportizenId,
           status: 'following',
         },
       },
@@ -25,7 +25,7 @@ const getMyFollowings = async (req, res) => {
         $lookup: {
           from: 'userprofiles',
           localField: 'searchUser',
-          foreignField: '_id',
+          foreignField: 'sportizenId',
           as: 'connectionDetails',
         },
       },

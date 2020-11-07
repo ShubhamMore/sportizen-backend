@@ -7,7 +7,7 @@ const changeUserStatus = async (req, res) => {
   try {
     const userConnection = await UserConnection.findOneAndUpdate(
       {
-        primaryUser: req.user._id,
+        primaryUser: req.user.sportizenId,
         followedUser: req.body.followedUser,
       },
       { status: req.body.status }

@@ -6,7 +6,7 @@ const responseHandler = require('../../handlers/response.handler');
 const getBlockedConnections = async (req, res) => {
   try {
     const userConnection = await UserConnection.find({
-      primaryUser: req.user._id,
+      primaryUser: req.user.sportizenId,
       status: 'blocked',
     });
 
