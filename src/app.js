@@ -23,6 +23,13 @@ const userConnectionRouter = require('./routers/user-connection.route');
 const eventRouter = require('./routers/event.route');
 const eventPlayerRegistrationRouter = require('./routers/event-player-registration.route');
 const eventTeamRegistrationRouter = require('./routers/event-team-registration.route');
+const commentLikeRouter = require('./routers/comment-like.route');
+const commentRouter = require('./routers/comment.route');
+const replyCommentLikeRouter = require('./routers/reply-comment-like.route');
+const replyCommentRouter = require('./routers/reply-comment.route');
+const PostLikeRouter = require('./routers/post-like.route');
+const postRouter = require('./routers/post.route');
+const savePostRouter = require('./routers/save-post.route');
 
 const app = express();
 
@@ -102,6 +109,13 @@ app.use(userConnectionRouter);
 app.use(eventRouter);
 app.use(eventPlayerRegistrationRouter);
 app.use(eventTeamRegistrationRouter);
+app.use(commentLikeRouter);
+app.use(commentRouter);
+app.use(replyCommentLikeRouter);
+app.use(replyCommentRouter);
+app.use(PostLikeRouter);
+app.use(postRouter);
+app.use(savePostRouter);
 
 app.use((req, res, next) => {
   const error = new Error('NOT FOUND');
