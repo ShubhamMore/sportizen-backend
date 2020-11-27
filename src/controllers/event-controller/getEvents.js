@@ -4,10 +4,7 @@ const responseHandler = require('../../handlers/response.handler');
 
 const getEvents = async (req, res) => {
   try {
-    // Search Data
-    const searchData = req.query;
-
-    const event = await Event.find(searchData);
+    const event = await Event.find(req.body);
 
     responseHandler(event, 200, res);
   } catch (e) {

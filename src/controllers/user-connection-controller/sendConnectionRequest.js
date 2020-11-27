@@ -11,7 +11,7 @@ const sendConnectionRequest = async (req, res) => {
       { accountType: 1 }
     );
 
-    const status = 'following';
+    let status = 'following';
 
     if (followedUser && followedUser.accountType === 'private') {
       status = 'requested';

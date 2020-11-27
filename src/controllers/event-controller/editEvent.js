@@ -17,43 +17,45 @@ const editEvent = async (req, res) => {
       let filePaths = new Array();
       let fileNames = new Array();
 
-      for (let i = 0; i < file.length; i++) {
+      const n = file.length;
+
+      for (let i = 0; i < n; i++) {
         filePaths.push(file[i].path);
         fileNames.push(file[i].filename);
       }
 
-      const cloudeDirectory = 'events';
-      const upload_responce = await awsUploadFiles(filePaths, fileNames, cloudeDirectory);
+      const cloudDirectory = 'events';
+      const uploadResponce = await awsUploadFiles(filePaths, fileNames, cloudDirectory);
 
-      const upload_res = upload_responce.upload_res;
-      const upload_res_len = upload_res.length;
+      const uploadRes = uploadResponce.upload_res;
+      const uploadResLen = uploadRes.length;
 
-      if (upload_res_len > 0) {
-        for (let i = 0; i < upload_res_len; i++) {
-          const image_data = {
-            image_name: upload_res[i].key,
-            secure_url: upload_res[i].Location,
-            public_id: upload_res[i].key,
-            created_at: Date.now(),
+      if (uploadResLen > 0) {
+        for (let i = 0; i < uploadResLen; i++) {
+          const image = {
+            imageName: uploadRes[i].key,
+            secureUrl: uploadRes[i].Location,
+            publicId: uploadRes[i].key,
+            createdAt: Date.now(),
           };
-          images.push(image_data);
+          images.push(image);
         }
       }
     }
 
     event.name = req.body.name;
     event.sport = req.body.sport;
-    event.type = req.body.type;
-    event.start_date = req.body.start_date;
-    event.end_date = req.body.end_date;
+    event.registrationType = req.body.registrationType;
+    event.startDate = req.body.startDate;
+    event.endDate = req.body.endDate;
     event.registerTill = req.body.registerTill;
     event.players = req.body.players;
     // event.time = req.body.time;
     event.description = req.body.description;
-    event.winning_price = req.body.winning_price;
+    event.winningPrice = req.body.winningPrice;
     event.fees = req.body.fees;
     event.images = images;
-    event.modified_at = Date.now();
+    event.modifiedAt = Date.now();
 
     await Event.findByIdAndUpdate(event._id, event);
 

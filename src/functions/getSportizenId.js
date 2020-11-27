@@ -1,5 +1,15 @@
 const SportizenId = require('../models/sportizen-id.model');
 
+const getRandomString = () => {
+  let randomString = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  for (let i = 0; i < 5; i++) {
+    randomString += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return randomString;
+};
+
 const getSportizenId = async (name) => {
   try {
     let sportizenId = await SportizenId.findOne();
@@ -13,15 +23,7 @@ const getSportizenId = async (name) => {
 
     await SportizenId.findByIdAndUpdate(sportizenId._id, { sportizen: id });
 
-    const padLength =
-      id.toString().length > 5
-        ? sportizenId
-        : !(5 - id.toString().length <= 0)
-        ? 5 - id.toString().length
-        : 0;
-
-    const newSportizenId =
-      name.toLowerCase().replace(' ', '') + id.toString().padStart(padLength, '0');
+    const newSportizenId = name.toLowerCase().replace(' ', '') + getRandomString() + id.toString();
 
     return newSportizenId;
   } catch (e) {

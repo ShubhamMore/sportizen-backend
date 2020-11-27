@@ -31,37 +31,52 @@ const newEvent = require('../controllers/event-controller/newEvent');
 const editEvent = require('../controllers/event-controller/editEvent');
 const getEvent = require('../controllers/event-controller/getEvent');
 const getEvents = require('../controllers/event-controller/getEvents');
+const getMyEvents = require('../controllers/event-controller/getMyEvents');
 const getAllEvents = require('../controllers/event-controller/getAllEvents');
 const deleteEvent = require('../controllers/event-controller/deleteEvent');
 const deleteEventImage = require('../controllers/event-controller/deleteEventImage');
 
 const router = new express.Router();
 
-router.post('/newEvent', multer({ storage: storage }).array('eventImage'), async (req, res) => {
-  await newEvent(req, res);
-});
+router.post(
+  '/newEvent',
+  auth,
+  multer({ storage: storage }).array('eventImage'),
+  async (req, res) => {
+    await newEvent(req, res);
+  }
+);
 
-router.post('/editEvent', multer({ storage: storage }).array('eventImage'), async (req, res) => {
-  await editEvent(req, res);
-});
+router.post(
+  '/editEvent',
+  auth,
+  multer({ storage: storage }).array('eventImage'),
+  async (req, res) => {
+    await editEvent(req, res);
+  }
+);
 
-router.get('/getEvents', async (req, res) => {
+router.post('/getEvents', auth, async (req, res) => {
   await getEvents(req, res);
 });
 
-router.get('/getAllEvents', async (req, res) => {
+router.post('/getMyEvents', auth, async (req, res) => {
+  await getMyEvents(req, res);
+});
+
+router.post('/getAllEvents', auth, async (req, res) => {
   await getAllEvents(req, res);
 });
 
-router.get('/getEvent', async (req, res) => {
+router.post('/getEvent', auth, async (req, res) => {
   await getEvent(req, res);
 });
 
-router.delete('/deleteEvent', async (req, res) => {
+router.post('/deleteEvent', auth, async (req, res) => {
   await deleteEvent(req, res);
 });
 
-router.delete('/deleteEventImage', async (req, res) => {
+router.post('/deleteEventImage', auth, async (req, res) => {
   await deleteEventImage(req, res);
 });
 

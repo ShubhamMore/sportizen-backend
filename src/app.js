@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const compression = require('compression');
-var cors = require('cors');
+const cors = require('cors');
 const fs = require('fs');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
@@ -21,6 +21,8 @@ const userRouter = require('./routers/user.route');
 const userProfileRouter = require('./routers/user-profile.route');
 const userConnectionRouter = require('./routers/user-connection.route');
 const eventRouter = require('./routers/event.route');
+const eventPlayerRegistrationRouter = require('./routers/event-player-registration.route');
+const eventTeamRegistrationRouter = require('./routers/event-team-registration.route');
 
 const app = express();
 
@@ -98,6 +100,8 @@ app.use(userRouter);
 app.use(userProfileRouter);
 app.use(userConnectionRouter);
 app.use(eventRouter);
+app.use(eventPlayerRegistrationRouter);
+app.use(eventTeamRegistrationRouter);
 
 app.use((req, res, next) => {
   const error = new Error('NOT FOUND');

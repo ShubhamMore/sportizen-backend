@@ -6,9 +6,9 @@ const responseHandler = require('../../handlers/response.handler');
 
 const deleteEventImage = async (req, res) => {
   try {
-    const id = req.query.id;
-    const image_id = req.query.image_id;
-    let i = req.query.index;
+    const id = req.body.id;
+    const imageId = req.body.imageId;
+    let i = req.body.index;
 
     const event = await Event.findById(id);
 
@@ -16,13 +16,13 @@ const deleteEventImage = async (req, res) => {
       throw new Error();
     }
 
-    if (event.images[i]._id != image_id) {
-      i = event.images.findIndex((image) => image._id == image_id);
+    if (event.images[i]._id != imageId) {
+      i = event.images.findIndex((image) => image._id == imageId);
     }
 
-    const public_id = event.images[i].public_id;
+    const publicId = event.images[i].publicId;
 
-    await awsRemoveFile(public_id);
+    await awsRemoveFile(publicId);
 
     event.images.splice(i, 1);
 

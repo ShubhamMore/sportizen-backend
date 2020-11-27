@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
 
 const userConnectionSchema = new mongoose.Schema({
   primaryUser: {
@@ -15,6 +14,15 @@ const userConnectionSchema = new mongoose.Schema({
     require: true,
   },
 });
+
+userConnectionSchema.methods.toJSON = function () {
+  const userConnection = this;
+  const userConnectionObject = userConnection.toObject();
+
+  delete userConnectionObject.__v;
+
+  return userConnectionObject;
+};
 
 const UserConnection = mongoose.model('UserConnection', userConnectionSchema);
 

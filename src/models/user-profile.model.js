@@ -50,7 +50,7 @@ const userProfileSchema = new mongoose.Schema({
   location: {
     homeLocation: {
       latitude: {
-        type: Number,
+        type: String,
       },
       longitude: {
         type: String,
@@ -71,7 +71,7 @@ const userProfileSchema = new mongoose.Schema({
     variableLocation: [
       {
         latitude: {
-          type: Number,
+          type: String,
         },
         longitude: {
           type: String,
@@ -81,10 +81,6 @@ const userProfileSchema = new mongoose.Schema({
         },
       },
     ],
-  },
-  profileCompleted: {
-    type: Boolean,
-    default: false,
   },
   phoneNo: {
     type: String,
@@ -100,7 +96,7 @@ const userProfileSchema = new mongoose.Schema({
   },
   sportsInterest: [String],
   gender: {
-    type: String,
+    type: String, // Male, Female, Transgender
     default: null,
   },
   userImageURL: {
@@ -112,59 +108,54 @@ const userProfileSchema = new mongoose.Schema({
     default: 'https://s3.ap-south-1.amazonaws.com/shubhammore.developer/shared/cover-image.jpg',
   },
   userImage: {
-    image_name: {
+    imageName: {
       type: String,
     },
-    secure_url: {
+    secureUrl: {
       type: String,
     },
-    public_id: {
+    publicId: {
       type: String,
     },
-    created_at: {
-      type: Date,
-    },
-  },
-  userImage: {
-    image_name: {
-      type: String,
-    },
-    secure_url: {
-      type: String,
-    },
-    public_id: {
-      type: String,
-    },
-    created_at: {
+    createdAt: {
       type: Date,
     },
   },
   userCoverImage: {
-    image_name: {
+    imageName: {
       type: String,
     },
-    secure_url: {
+    secureUrl: {
       type: String,
     },
-    public_id: {
+    publicUd: {
       type: String,
     },
-    created_at: {
+    createAt: {
       type: Date,
     },
   },
   userProvider: {
-    type: String,
+    type: String, // Google, Sportizen
     required: true,
   },
   userAchievements: [
     {
-      achievementType: {
+      achievement: {
         type: String,
       },
     },
   ],
 });
+
+userProfileSchema.methods.toJSON = function () {
+  const userProfile = this;
+  const userProfileObject = userProfile.toObject();
+
+  delete userProfileObject.__v;
+
+  return userProfileObject;
+};
 
 const UserProfile = mongoose.model('UserProfile', userProfileSchema);
 

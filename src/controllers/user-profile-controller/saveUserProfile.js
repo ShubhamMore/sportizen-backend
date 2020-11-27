@@ -12,27 +12,27 @@ const saveUserProfile = async (req, res) => {
 
     const userProfile = await UserProfile.findById(req.body._id);
 
-    let profile_image = userProfile.userImage;
+    let profileImage = userProfile.userImage;
 
     if (file !== undefined) {
       const filePath = file.path;
       const fileName = file.filename;
 
-      const cloudDirectory = 'profile_image';
-      const upload_responce = await awsUploadFile(filePath, fileName, cloudDirectory);
+      const cloudDirectory = 'profileImage';
+      const uploadResponce = await awsUploadFile(filePath, fileName, cloudDirectory);
 
-      const upload_res = upload_responce.upload_res;
+      const uploadRes = uploadResponce.uploadRes;
 
-      if (upload_res) {
-        if (profile_image.public_id !== undefined) {
-          await awsRemoveFile(profile_image.public_id);
+      if (uploadRes) {
+        if (profileImage.publicId !== undefined) {
+          await awsRemoveFile(profileImage.publicId);
         }
 
-        profile_image = {
-          image_name: upload_res.key,
-          secure_url: upload_res.Location,
-          public_id: upload_res.key,
-          created_at: Date.now(),
+        profileImage = {
+          imageName: uploadRes.key,
+          secureUrl: uploadRes.Location,
+          publicId: uploadRes.key,
+          createdAt: Date.now(),
         };
       }
     }
@@ -43,10 +43,10 @@ const saveUserProfile = async (req, res) => {
     userProfile.phoneNo = req.body.phoneNo;
     userProfile.gender = req.body.gender;
     userProfile.sportsInterest = req.body.sportsInterest.split(',');
-    if (profile_image.secure_url !== undefined) {
-      userProfile.userImageURL = profile_image.secure_url;
+    if (profileImage.secureUrl !== undefined) {
+      userProfile.userImageURL = profileImage.secureUrl;
     }
-    userProfile.userImage = profile_image;
+    userProfile.userImage = profileImage;
 
     await UserProfile.findByIdAndUpdate(userProfile._id, userProfile);
 

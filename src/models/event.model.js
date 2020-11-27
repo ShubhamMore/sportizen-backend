@@ -8,22 +8,22 @@ const eventSchema = new mongoose.Schema({
     trim: true,
   },
   eventType: {
-    type: String,
+    type: String, // Tournament, Podcast, Live
+    default: 'tournament',
   },
   sport: {
     type: String,
     required: true,
   },
-  type: {
+  registrationType: {
+    type: String, // Individual, Team
+    required: true,
+  },
+  startDate: {
     type: String,
     required: true,
   },
-  teams: [String],
-  start_date: {
-    type: String,
-    required: true,
-  },
-  end_date: {
+  endDate: {
     type: String,
     required: true,
   },
@@ -31,11 +31,11 @@ const eventSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // time: {
-  //   type: String,
-  //   required: true,
-  // },
-  lattitude: {
+  time: {
+    type: String,
+    default: null,
+  },
+  latitude: {
     type: String,
     required: true,
   },
@@ -51,7 +51,7 @@ const eventSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  winning_price: {
+  winningPrice: {
     type: String,
     required: true,
   },
@@ -59,65 +59,39 @@ const eventSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  players: [
-    {
-      name: {
-        type: String,
-      },
-      contact: {
-        type: String,
-      },
-    },
-  ],
   noOfPlayers: {
-    type: String,
+    type: Number,
+    required: true,
   },
-  teams: [
-    {
-      teamName: {
-        type: String,
-      },
-      teamMembers: [
-        {
-          name: {
-            type: String,
-          },
-          contact: {
-            type: String,
-          },
-        },
-      ],
-    },
-  ],
   images: [
     {
-      image_name: {
+      imageName: {
         type: String,
         required: true,
       },
-      secure_url: {
+      secureUrl: {
         type: String,
         required: true,
       },
-      public_id: {
+      publicId: {
         type: String,
         required: true,
       },
-      created_at: {
+      createdAt: {
         type: Date,
         required: true,
       },
     },
   ],
-  created_by: {
+  createdBy: {
     type: String,
     required: true,
   },
-  created_at: {
+  createdAt: {
     type: Date,
     required: true,
   },
-  modified_at: {
+  modifiedAt: {
     type: Date,
     required: true,
   },

@@ -34,8 +34,6 @@ const getUserProfile = async (req, res) => {
         connection,
       };
 
-      console.log(privateUser);
-
       responseHandler(privateUser, 200, res);
     } else {
       const publicUser = {
@@ -47,7 +45,7 @@ const getUserProfile = async (req, res) => {
         sportizenId: userProfile.sportizenId,
         connection,
       };
-      console.log(publicUser);
+
       responseHandler(publicUser, 200, res);
     }
   } catch (e) {
