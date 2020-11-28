@@ -36,7 +36,7 @@ const getPostReplyComments = async (req, res) => {
       },
       { $project: { users: 0 } },
       {
-        $addField: {
+        $addFields: {
           id: {
             $toString: '$_id',
           },
@@ -58,11 +58,17 @@ const getPostReplyComments = async (req, res) => {
                 },
               },
             },
-            { $count: 'replyCommentLikes' },
+            { $count: 'postReplyCommentLikes' },
           ],
           as: 'replyCommentLikes',
         },
       },
+      {
+        $replaceRoot: {
+          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$replyCommentLikes', 0] }, '$$ROOT'] },
+        },
+      },
+      { $project: { replyCommentLikes: 0, sportizenUser: 0, id: 0 } },
     ]);
 
     responseHandler(comments, 200, res);

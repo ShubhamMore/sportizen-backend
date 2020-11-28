@@ -8,7 +8,6 @@ const getSavedPosts = async (req, res) => {
     const savesPosts = await SavePost.aggregate([
       {
         $match: {
-          post: req.body.post,
           sportizenUser: req.user.sportizenId,
         },
       },
@@ -24,7 +23,7 @@ const getSavedPosts = async (req, res) => {
           pipeline: [
             { $match: { $expr: { $eq: ['$_id', '$$postId'] } } },
             {
-              $addField: {
+              $addFields: {
                 id: {
                   $toString: '$_id',
                 },
@@ -32,11 +31,11 @@ const getSavedPosts = async (req, res) => {
             },
             {
               $lookup: {
-                from: 'likes',
+                from: 'postlikes',
                 let: { postId: '$id' },
                 pipeline: [
                   { $match: { $expr: { $eq: ['$post', '$$postId'] } } },
-                  { $count: 'likes' },
+                  { $count: 'postLikes' },
                 ],
                 as: 'likes',
               },
@@ -44,10 +43,10 @@ const getSavedPosts = async (req, res) => {
             {
               $lookup: {
                 from: 'comments',
-                let: { post_id: '$postId' },
+                let: { postId: '$id' },
                 pipeline: [
                   { $match: { $expr: { $eq: ['$post', '$$postId'] } } },
-                  { $count: 'comments' },
+                  { $count: 'postComments' },
                 ],
                 as: 'comments',
               },
@@ -55,24 +54,48 @@ const getSavedPosts = async (req, res) => {
             {
               $lookup: {
                 from: 'replycomments',
-                let: { post_id: '$postId' },
+                let: { postId: '$id' },
                 pipeline: [
                   { $match: { $expr: { $eq: ['$post', '$$postId'] } } },
-                  { $count: 'replyComments' },
+                  { $count: 'postReplyComments' },
                 ],
                 as: 'replyComments',
               },
             },
+
+            {
+              $replaceRoot: {
+                newRoot: { $mergeObjects: [{ $arrayElemAt: ['$likes', 0] }, '$$ROOT'] },
+              },
+            },
+            {
+              $replaceRoot: {
+                newRoot: { $mergeObjects: [{ $arrayElemAt: ['$comments', 0] }, '$$ROOT'] },
+              },
+            },
+            {
+              $replaceRoot: {
+                newRoot: { $mergeObjects: [{ $arrayElemAt: ['$replyComments', 0] }, '$$ROOT'] },
+              },
+            },
+
+            { $project: { likes: 0, comments: 0, replyComments: 0 } },
           ],
           as: 'posts',
         },
       },
       {
         $project: {
+          _id: 0,
           posts: 1,
         },
       },
-      { $unwind: 'posts' },
+      {
+        $replaceRoot: {
+          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$posts', 0] }, '$$ROOT'] },
+        },
+      },
+      { $project: { posts: 0 } },
     ]);
 
     responseHandler(savesPosts, 200, res);

@@ -11,6 +11,7 @@ const getPostComments = async (req, res) => {
           post: req.body.post,
         },
       },
+
       {
         $lookup: {
           from: 'userprofiles',
@@ -35,7 +36,7 @@ const getPostComments = async (req, res) => {
       },
       { $project: { users: 0 } },
       {
-        $addField: {
+        $addFields: {
           id: {
             $toString: '$_id',
           },
@@ -53,11 +54,17 @@ const getPostComments = async (req, res) => {
                 },
               },
             },
-            { $count: 'commentLikes' },
+            { $count: 'postCommentLikes' },
           ],
           as: 'commentLikes',
         },
       },
+      {
+        $replaceRoot: {
+          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$commentLikes', 0] }, '$$ROOT'] },
+        },
+      },
+      { $project: { commentLikes: 0, sportizenUser: 0, id: 0 } },
     ]);
 
     responseHandler(comments, 200, res);

@@ -1,0 +1,38 @@
+POST
+createPost => postType, description, visibility, post as postFile(image or video)
+updatePost => postType, description, visibility, post as postFile(image or video)
+deletePost => postId as id
+getMyPosts => 
+getPost => postId as id
+getPosts =>
+getUserPosts => sportizenId as sportizenUser
+
+POST LIKES
+getPostLikes => postId as post
+likePost => postId as post
+unlikePost => postId as post
+
+POST COMMENTS
+addPostComment => postId as post, comment
+deletePostComment => commentId as id
+getPostComments => postId as post
+
+POST COMMENT LIKES
+getCommentLikes => postId as post, commentId as comment
+likeComment => postId as post, commentId as comment
+unlikeComment => postId as post, commentId as comment
+
+POST REPLY COMMENT
+addPostReplyComment => postId as post, commentId as comment, replyComment
+deletePostReplyComment => replyCommentId as id
+getPostReplyComments => postId as post, commentId as comment
+
+POST REPLY COMMENT LIKES
+getReplyCommentLikes => postId as post, commentId as comment, replyCommentId as replyComment
+likeReplyComment => postId as post, commentId as comment, replyCommentId as replyComment
+unlikeReplyComment => postId as post, commentId as comment, replyCommentId as replyComment
+
+SAVE POSTS
+getSavedPosts => postId as post
+savePost => postId as post
+unsavePost => postId as post

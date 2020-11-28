@@ -39,6 +39,7 @@ const getCommentLikes = async (req, res) => {
           commentLikeUsers: 0,
           post: 0,
           comment: 0,
+          sportizenUser: 0,
         },
       },
     ]);

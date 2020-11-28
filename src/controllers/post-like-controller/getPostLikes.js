@@ -12,11 +12,6 @@ const getPostLikes = async (req, res) => {
         },
       },
       {
-        $project: {
-          _id: 0,
-        },
-      },
-      {
         $lookup: {
           from: 'userprofiles',
           let: { user: '$sportizenUser' },
@@ -39,8 +34,11 @@ const getPostLikes = async (req, res) => {
         },
       },
       {
-        $unwind: 'postLikeUsers',
+        $replaceRoot: {
+          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$postLikeUsers', 0] }, '$$ROOT'] },
+        },
       },
+      { $project: { postLikeUsers: 0, sportizenUser: 0 } },
     ]);
 
     responseHandler(postLikes, 200, res);
