@@ -6,10 +6,9 @@ const responseHandler = require('../../handlers/response.handler');
 
 const deleteEvent = async (req, res) => {
   try {
-    const id = req.query.id;
-    const event = await Event.findByIdAndRemove(id);
+    const event = await Event.findByIdAndRemove(req.body.id);
     await event.images.forEach(async (image) => {
-      await awsRemoveFile(image.public_id);
+      await awsRemoveFile(image.publicId);
     });
 
     responseHandler({ success: true }, 200, res);

@@ -5,10 +5,10 @@ const getSportList = async (req, res) => {
     const sportList = await SportList.find({});
 
     if (sportList.length == 0) {
-      var successResponse = {
+      let successResponse = {
         code: 1,
         success: true,
-        message: 'Sportlist is empty',
+        message: 'Sport list is empty',
         data: sportList,
       };
     }

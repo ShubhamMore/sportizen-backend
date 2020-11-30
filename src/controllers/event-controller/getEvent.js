@@ -5,8 +5,7 @@ const responseHandler = require('../../handlers/response.handler');
 
 const getEvent = async (req, res) => {
   try {
-    const id = req.query.id;
-    const event = await Event.findById(id);
+    const event = await Event.findById(req.body.id);
 
     if (!event) {
       throw new Error('No Event Found..');

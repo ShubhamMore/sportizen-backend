@@ -12,34 +12,34 @@ const saveUserCoverImage = async (req, res) => {
 
     const userProfile = await UserProfile.findById(req.body._id);
 
-    let cover_image = userProfile.userCoverImage;
+    let coverImage = userProfile.userCoverImage;
 
     if (file !== undefined) {
       const filePath = file.path;
       const fileName = file.filename;
 
       const cloudDirectory = 'cover_image';
-      const upload_responce = await awsUploadFile(filePath, fileName, cloudDirectory);
+      const uploadResponce = await awsUploadFile(filePath, fileName, cloudDirectory);
 
-      const upload_res = upload_responce.upload_res;
+      const uploadRes = uploadResponce.upload_res;
 
-      if (upload_res) {
-        if (cover_image.public_id !== undefined) {
-          await awsRemoveFile(cover_image.public_id);
+      if (uploadRes) {
+        if (coverImage.publicId !== undefined) {
+          await awsRemoveFile(coverImage.publicId);
         }
 
-        cover_image = {
-          image_name: upload_res.key,
-          secure_url: upload_res.Location,
-          public_id: upload_res.key,
-          created_at: Date.now(),
+        coverImage = {
+          imageName: uploadRes.key,
+          secureUrl: uploadRes.Location,
+          publicId: uploadRes.key,
+          createdAt: Date.now(),
         };
       }
     }
 
     await UserProfile.findByIdAndUpdate(userProfile._id, {
-      userCoverImageURL: cover_image.secure_url,
-      userCoverImage: cover_image,
+      userCoverImageURL: coverImage.secureUrl,
+      userCoverImage: coverImage,
     });
 
     const updatedUserProfile = await UserProfile.findById(userProfile._id);

@@ -5,8 +5,8 @@ const responseHandler = require('../../handlers/response.handler');
 
 const getMyProfile = async (req, res) => {
   try {
-    const email = req.user.email;
-    const userProfile = await UserProfile.findOne({ email });
+    const userProfile = await UserProfile.findOne({ email: req.user.email });
+
     if (!userProfile) {
       throw new Error('Profile Not Found');
     }

@@ -6,16 +6,19 @@ const responseHandler = require('../../handlers/response.handler');
 
 const sendConnectionRequest = async (req, res) => {
   try {
-    const followedUser = await UserProfile.findById(req.body.followedUser, { accountType: 1 });
+    const followedUser = await UserProfile.findOne(
+      { sportizenId: req.body.followedUser },
+      { accountType: 1 }
+    );
 
-    const status = 'following';
+    let status = 'following';
 
     if (followedUser && followedUser.accountType === 'private') {
       status = 'requested';
     }
 
     const newUserConnection = UserConnection({
-      primaryUser: req.user._id,
+      primaryUser: req.user.sportizenId,
       followedUser: req.body.followedUser,
       status,
     });

@@ -2,13 +2,15 @@ const express = require('express');
 
 const auth = require('../middleware/auth');
 
-const searchNewConnections = require('../controllers/user-connection-controller/searchNewConnections');
 const changeUserStatus = require('../controllers/user-connection-controller/changeUserStatus');
-const getMyFollowers = require('../controllers/user-connection-controller/getMyFollowers');
-const getMyFollowings = require('../controllers/user-connection-controller/getMyFollowings');
 const getBlockedConnections = require('../controllers/user-connection-controller/getBlockedConnections');
 const getConnectionRequests = require('../controllers/user-connection-controller/getConnectionRequests');
+const getMyFollowers = require('../controllers/user-connection-controller/getMyFollowers');
+const getMyFollowings = require('../controllers/user-connection-controller/getMyFollowings');
+const searchNewConnections = require('../controllers/user-connection-controller/searchNewConnections');
 const sendConnectionRequest = require('../controllers/user-connection-controller/sendConnectionRequest');
+const removeFollowerConnection = require('../controllers/user-connection-controller/removeFollowerConnection');
+const unfollowConnection = require('../controllers/user-connection-controller/unfollowConnection');
 
 const router = new express.Router();
 
@@ -38,6 +40,14 @@ router.post('/getConnectionRequests', auth, async (req, res) => {
 
 router.post('/sendConnectionRequest', auth, async (req, res) => {
   await sendConnectionRequest(req, res);
+});
+
+router.post('/removeFollowerConnection', auth, async (req, res) => {
+  await removeFollowerConnection(req, res);
+});
+
+router.post('/unfollowConnection', auth, async (req, res) => {
+  await unfollowConnection(req, res);
 });
 
 module.exports = router;

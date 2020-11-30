@@ -20,7 +20,7 @@ const newUser = async (req, res) => {
       email: user.email,
       sportizenId: sportizenId,
       userImage: noUser,
-      userImageURL: noUser.secure_url,
+      userImageURL: noUser.secureUrl,
       userProvider: 'SPORTIZEN',
     });
 

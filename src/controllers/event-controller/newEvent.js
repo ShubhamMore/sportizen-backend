@@ -14,26 +14,28 @@ const newEvent = async (req, res) => {
       let filePaths = new Array();
       let fileNames = new Array();
 
-      for (let i = 0; i < file.length; i++) {
+      const n = file.length;
+
+      for (let i = 0; i < n; i++) {
         filePaths.push(file[i].path);
         fileNames.push(file[i].filename);
       }
 
       const cloudDirectory = 'events';
-      const upload_responce = await awsUploadFiles(filePaths, fileNames, cloudDirectory);
+      const uploadResponce = await awsUploadFiles(filePaths, fileNames, cloudDirectory);
 
-      const upload_res = upload_responce.upload_res;
-      const upload_res_len = upload_res.length;
+      const uploadRes = uploadResponce.upload_res;
+      const uploadResLen = uploadRes.length;
 
-      if (upload_res_len > 0) {
-        for (let i = 0; i < upload_res_len; i++) {
-          const image_data = {
-            image_name: upload_res[i].key,
-            secure_url: upload_res[i].Location,
-            public_id: upload_res[i].key,
-            created_at: Date.now(),
+      if (uploadResLen > 0) {
+        for (let i = 0; i < uploadResLen; i++) {
+          const image = {
+            imageName: uploadRes[i].key,
+            secureUrl: uploadRes[i].Location,
+            publicId: uploadRes[i].key,
+            createdAt: Date.now(),
           };
-          images.push(image_data);
+          images.push(image);
         }
       }
     }
@@ -41,23 +43,21 @@ const newEvent = async (req, res) => {
     const eventData = {
       name: req.body.name,
       sport: req.body.sport,
-      type: req.body.type,
-      teams: [],
-      start_date: req.body.start_date,
-      end_date: req.body.end_date,
+      registrationType: req.body.registrationType,
+      startDate: req.body.startDate,
+      endDate: req.body.endDate,
       registerTill: req.body.registerTill,
       noOfPlayers: req.body.noOfPlayers,
-      players: [],
-      lattitude: 'lattitude',
+      latitude: 'latitude',
       longitude: 'longitude',
       address: 'address',
       description: req.body.description,
-      winning_price: req.body.winning_price,
+      winningPrice: req.body.winningPrice,
       fees: req.body.fees,
       images: images,
-      created_by: req.body.created_by !== undefined ? req.body.created_by : 'sportizen65@gmail.com',
-      created_at: Date.now(),
-      modified_at: Date.now(),
+      createdBy: req.user.sportizenId,
+      createdAt: Date.now(),
+      modifiedAt: Date.now(),
     };
 
     const event = new Event(eventData);
@@ -67,6 +67,7 @@ const newEvent = async (req, res) => {
     await event.save();
     responseHandler(event, 200, res);
   } catch (e) {
+    console.log(e);
     errorHandler(e, 400, res);
   }
 };
