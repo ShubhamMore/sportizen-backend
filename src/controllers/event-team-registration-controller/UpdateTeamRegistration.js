@@ -6,7 +6,7 @@ const responseHandler = require('../../handlers/response.handler');
 const UpdateTeamRegistration = async (req, res) => {
   try {
     const eventTeamRegistration = await EventRegisteredTeam.findByIdAndUpdate(
-      req.body.id,
+      req.body._id,
       req.body
     );
 
