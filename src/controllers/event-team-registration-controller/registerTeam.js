@@ -12,7 +12,7 @@ const registerTeam = async (req, res) => {
 
     responseHandler(eventTeamRegistration, 200, res);
   } catch (e) {
-    console.log(e)
+    console.log(e);
     errorHandler(e, 400, res);
   }
 };

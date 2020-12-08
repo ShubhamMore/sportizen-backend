@@ -5,7 +5,7 @@ const removeCloudinaryFile = async (public_id, resource_type) => {
     const res = await cloudinary.v2.uploader.destroy(
       public_id,
       {
-        resource_type: resource_type
+        resource_type: resource_type,
       },
       (error, result) => {
         if (error) {

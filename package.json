@@ -36,13 +36,14 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.3",
-    "prettier": "2.0.4"
+    "prettier": "^2.0.4"
   },
   "scripts": {
     "start": "node sportizen.js",
     "dev": "env-cmd -f ./config/dev.env nodemon sportizen.js",
     "dev-prod": "env-cmd -f ./config/prod.env nodemon sportizen.js",
-    "prod": "env-cmd -f ./config/prod.env pm2 start sportizen.js"
+    "prod": "env-cmd -f ./config/prod.env pm2 start sportizen.js",
+    "pretty": "prettier --write \"./**/*.{js,jsx,json}\""
   },
   "author": "",
   "license": "ISC",

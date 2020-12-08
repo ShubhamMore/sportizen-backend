@@ -9,12 +9,12 @@ const oauth2Client = new OAuth2(
 );
 
 oauth2Client.setCredentials({
-  refresh_token: process.env.GMAIL_REFRESH_TOKEN
+  refresh_token: process.env.GMAIL_REFRESH_TOKEN,
 });
 
 const accessToken = oauth2Client.getAccessToken();
 
-const sendMail = async mail => {
+const sendMail = async (mail) => {
   // create reusable transporter object using the default SMTP transport
   const smtpTransport = nodemailer.createTransport({
     service: 'gmail',
@@ -25,8 +25,8 @@ const sendMail = async mail => {
       clientId: process.env.GMAIL_CLIENT_ID,
       clientSecret: process.env.GMAIL_CLIENT_SECRET,
       refreshToken: process.env.GMAIL_REFRESH_TOKEN,
-      accessToken: accessToken
-    }
+      accessToken: accessToken,
+    },
   });
 
   const mailOptions = {
@@ -34,7 +34,7 @@ const sendMail = async mail => {
     to: mail.to, // list of receivers
     subject: mail.subject, // Subject line
     generateTextFromHTML: true,
-    html: mail.html // html body
+    html: mail.html, // html body
   };
 
   // send mail with defined transport object

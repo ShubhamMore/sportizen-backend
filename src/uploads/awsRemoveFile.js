@@ -1,11 +1,11 @@
 const s3 = require('./awsConfig');
 
-const removeAWSFile = async key => {
+const removeAWSFile = async (key) => {
   try {
     // Setting up S3 delete parameters
     const params = {
       Bucket: process.env.AWS_BUCKET_NAME,
-      Key: key // File name you want to save as in S3
+      Key: key, // File name you want to save as in S3
     };
 
     // deleteing files to the bucket
