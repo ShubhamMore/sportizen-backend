@@ -3,7 +3,7 @@ const EventRegisteredTeam = require('../../models/event-registered-team.model');
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
 
-const UpdateTeamRegistration = async (req, res) => {
+const updateTeamRegistration = async (req, res) => {
   try {
     const eventTeamRegistration = await EventRegisteredTeam.findByIdAndUpdate(
       req.body._id,
@@ -20,4 +20,4 @@ const UpdateTeamRegistration = async (req, res) => {
   }
 };
 
-module.exports = UpdateTeamRegistration;
+module.exports = updateTeamRegistration;
