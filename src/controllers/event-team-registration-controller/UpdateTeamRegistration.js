@@ -10,6 +10,8 @@ const updateTeamRegistration = async (req, res) => {
       req.body
     );
 
+    //
+
     if (!eventTeamRegistration) {
       throw new Error('Invalid Team');
     }
