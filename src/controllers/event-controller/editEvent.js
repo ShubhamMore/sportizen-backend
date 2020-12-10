@@ -49,8 +49,15 @@ const editEvent = async (req, res) => {
     event.startDate = req.body.startDate;
     event.endDate = req.body.endDate;
     event.registerTill = req.body.registerTill;
-    event.players = req.body.players;
     // event.time = req.body.time;
+    event.noOfPlayers = req.body.noOfPlayers;
+    event.address = req.body.address;
+    event.state = req.body.state;
+    event.city = req.body.city;
+    event.location = {
+      type: 'Point',
+      coordinates: [+req.body.latitude, +req.body.longitude],
+    };
     event.description = req.body.description;
     event.winningPrice = req.body.winningPrice;
     event.fees = req.body.fees;

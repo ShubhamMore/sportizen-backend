@@ -14,7 +14,7 @@ const sendWishes = async () => {
       text: '',
       html: `<strong>Happy Birthday <em>${students[
         i
-      ].name.toUpperCase()}</em></strong><br><p>Wishing you happiness, good health and a great year ahead. Wishing you all the best that life has to offer on your birthday. May you always stay happy and blessed! May this day bring countless happiness and endless joy and live with peace and serenity.</p><br><p style="text-align: right;">From Way2Success</p>`
+      ].name.toUpperCase()}</em></strong><br><p>Wishing you happiness, good health and a great year ahead. Wishing you all the best that life has to offer on your birthday. May you always stay happy and blessed! May this day bring countless happiness and endless joy and live with peace and serenity.</p><br><p style="text-align: right;">From Way2Success</p>`,
     };
     await sendMail(mail);
   }

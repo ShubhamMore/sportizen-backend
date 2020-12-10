@@ -3,12 +3,7 @@ const fs = require('fs');
 
 const cloudinary = require('./cloudinaryConfig');
 
-const uploadFilesToCloudinary = async (
-  filePaths,
-  fileNames,
-  cloudeDirectory,
-  resourceType
-) => {
+const uploadFilesToCloudinary = async (filePaths, fileNames, cloudeDirectory, resourceType) => {
   try {
     let upload_len = filePaths.length;
     let upload_res = new Array();
@@ -23,11 +18,11 @@ const uploadFilesToCloudinary = async (
         {
           resource_type: resourceType,
           folder: cloudeDirectory,
-          public_id: fileName
+          public_id: fileName,
         },
         (error, responce) => {
           if (error) {
-            fs.unlink(path.join(__dirname, '../../', filePath), err => {
+            fs.unlink(path.join(__dirname, '../../', filePath), (err) => {
               if (err) {
                 file_err.push(err);
               }
@@ -35,7 +30,7 @@ const uploadFilesToCloudinary = async (
             upload_err.push(error);
           }
 
-          fs.unlink(path.join(__dirname, '../../', filePath), err => {
+          fs.unlink(path.join(__dirname, '../../', filePath), (err) => {
             if (err) {
               file_err.push(err);
             }

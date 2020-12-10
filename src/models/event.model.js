@@ -35,17 +35,24 @@ const eventSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
-  latitude: {
-    type: String,
-    required: true,
-  },
-  longitude: {
-    type: String,
-    required: true,
-  },
   address: {
     type: String,
     required: true,
+  },
+  state: {
+    type: String,
+    required: true,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  location: {
+    type: {
+      type: String,
+      default: 'Point',
+    },
+    coordinates: [Number],
   },
   description: {
     type: String,

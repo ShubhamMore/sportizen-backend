@@ -9,7 +9,7 @@ const SECRET = process.env.AWS_SECRET_ACCESS_KEY;
 const s3 = new AWS.S3({
   accessKeyId: ID,
   secretAccessKey: SECRET,
-  region: process.env.AWS_REGION
+  region: process.env.AWS_REGION,
 });
 
 module.exports = s3;

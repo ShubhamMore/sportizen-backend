@@ -18,7 +18,7 @@ const uploadFilesToAWS = async (filePath, fileName, cloudeDirectory) => {
         Bucket: process.env.AWS_BUCKET_NAME + '/' + cloudeDirectory,
         Key: fileName[i], // File name you want to save as in S3
         Body: fileContent,
-        ACL: 'public-read'
+        ACL: 'public-read',
       };
       // Uploading files to the bucket
       const res = await s3.upload(params).promise();
@@ -30,7 +30,7 @@ const uploadFilesToAWS = async (filePath, fileName, cloudeDirectory) => {
         upload_err.push(res);
       }
 
-      fs.unlink(path.join(__dirname, '../../', filePath[i]), err => {
+      fs.unlink(path.join(__dirname, '../../', filePath[i]), (err) => {
         if (err) {
           file_err.push(err);
         }
