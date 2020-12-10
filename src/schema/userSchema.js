@@ -7,12 +7,15 @@ const newUser = {
       type: 'string',
     },
     userType: {
-      type: 'string',
+      type: 'enum',
+      enum: ['user', 'admin'],
     },
     password: {
       type: 'string',
     },
   },
+  required: ['name', 'email', 'userType', 'password'],
+  addidtionalProperties: false,
 };
 
 const login = {
