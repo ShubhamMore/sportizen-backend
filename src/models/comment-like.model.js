@@ -18,6 +18,10 @@ const commentLikeSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  createdAt: {
+    type: Date,
+    default: new Date().toISOString(),
+  },
 });
 
 commentLikeSchema.methods.toJSON = function () {

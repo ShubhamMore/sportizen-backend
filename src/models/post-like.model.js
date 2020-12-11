@@ -14,6 +14,10 @@ const postLikeSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  createdAt: {
+    type: Date,
+    default: new Date().toISOString(),
+  },
 });
 
 postLikeSchema.methods.toJSON = function () {
