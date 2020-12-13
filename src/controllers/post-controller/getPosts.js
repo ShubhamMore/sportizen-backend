@@ -72,6 +72,25 @@ const getPosts = async (req, res) => {
         },
       },
       {
+        $lookup: {
+          from: 'userprofiles',
+          let: { sportizenUserId: '$sportizenUser' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [{ $eq: ['$sportizenId', '$$sportizenUserId'] }],
+                },
+              },
+            },
+            {
+              $project: { _id: 0, userName: '$name', userImageURL: 1 },
+            },
+          ],
+          as: 'postUser',
+        },
+      },
+      {
         $replaceRoot: {
           newRoot: { $mergeObjects: [{ $arrayElemAt: ['$likes', 0] }, '$$ROOT'] },
         },
@@ -91,7 +110,12 @@ const getPosts = async (req, res) => {
           newRoot: { $mergeObjects: [{ $arrayElemAt: ['$savePosts', 0] }, '$$ROOT'] },
         },
       },
-      { $project: { likes: 0, comments: 0, replyComments: 0, savePosts: 0 } },
+      {
+        $replaceRoot: {
+          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$postUser', 0] }, '$$ROOT'] },
+        },
+      },
+      { $project: { likes: 0, comments: 0, replyComments: 0, savePosts: 0, postUser: 0 } },
     ]);
 
     responseHandler(posts, 200, res);
