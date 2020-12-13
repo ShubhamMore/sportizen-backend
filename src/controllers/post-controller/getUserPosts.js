@@ -92,7 +92,10 @@ const getUserPosts = async (req, res) => {
               },
             },
             {
-              $project: { _id: 0, post: 0, sportizenUser: 0 },
+              $project: {
+                _id: 0,
+                alreadySaved: { $cond: [{ $eq: ['$savePost', true] }, true, false] },
+              },
             },
           ],
           as: 'savePosts',
