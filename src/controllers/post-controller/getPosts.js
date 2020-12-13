@@ -21,12 +21,38 @@ const getPosts = async (req, res) => {
           from: 'postlikes',
           let: { postId: '$id' },
           pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$post', '$$postId'] },
+                    { $eq: ['$sportizenUser', req.user.sportizenId] },
+                  ],
+                },
+              },
+            },
+            {
+              $project: {
+                _id: 0,
+                alreadyLiked: { $cond: [{ $eq: ['$postLike', true] }, true, false] },
+              },
+            },
+          ],
+          as: 'likeStatus',
+        },
+      },
+      {
+        $lookup: {
+          from: 'postlikes',
+          let: { postId: '$id' },
+          pipeline: [
             { $match: { $expr: { $eq: ['$post', '$$postId'] } } },
             { $count: 'postLikes' },
           ],
           as: 'likes',
         },
       },
+
       {
         $lookup: {
           from: 'comments',
@@ -92,6 +118,11 @@ const getPosts = async (req, res) => {
       },
       {
         $replaceRoot: {
+          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$likeStatus', 0] }, '$$ROOT'] },
+        },
+      },
+      {
+        $replaceRoot: {
           newRoot: { $mergeObjects: [{ $arrayElemAt: ['$likes', 0] }, '$$ROOT'] },
         },
       },
@@ -115,7 +146,16 @@ const getPosts = async (req, res) => {
           newRoot: { $mergeObjects: [{ $arrayElemAt: ['$postUser', 0] }, '$$ROOT'] },
         },
       },
-      { $project: { likes: 0, comments: 0, replyComments: 0, savePosts: 0, postUser: 0 } },
+      {
+        $project: {
+          likeStatus: 0,
+          likes: 0,
+          comments: 0,
+          replyComments: 0,
+          savePosts: 0,
+          postUser: 0,
+        },
+      },
     ]);
 
     responseHandler(posts, 200, res);
