@@ -56,6 +56,42 @@ const getUserPosts = async (req, res) => {
       },
       {
         $lookup: {
+          from: 'postviews',
+          let: { postId: '$id' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$post', '$$postId'] },
+                    { $eq: ['$sportizenUser', req.user.sportizenId] },
+                  ],
+                },
+              },
+            },
+            {
+              $project: {
+                _id: 0,
+                alreadyViewed: { $cond: [{ $eq: ['$postView', true] }, true, false] },
+              },
+            },
+          ],
+          as: 'viewStatus',
+        },
+      },
+      {
+        $lookup: {
+          from: 'postviews',
+          let: { postId: '$id' },
+          pipeline: [
+            { $match: { $expr: { $eq: ['$post', '$$postId'] } } },
+            { $count: 'postViews' },
+          ],
+          as: 'views',
+        },
+      },
+      {
+        $lookup: {
           from: 'comments',
           let: { postId: '$id' },
           pipeline: [
@@ -132,6 +168,16 @@ const getUserPosts = async (req, res) => {
       },
       {
         $replaceRoot: {
+          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$viewStatus', 0] }, '$$ROOT'] },
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$views', 0] }, '$$ROOT'] },
+        },
+      },
+      {
+        $replaceRoot: {
           newRoot: { $mergeObjects: [{ $arrayElemAt: ['$comments', 0] }, '$$ROOT'] },
         },
       },
@@ -154,11 +200,16 @@ const getUserPosts = async (req, res) => {
         $project: {
           likeStatus: 0,
           likes: 0,
+          viewStatus: 0,
+          views: 0,
           comments: 0,
           replyComments: 0,
           savePosts: 0,
           postUser: 0,
         },
+      },
+      {
+        $sort: { _id: -1 },
       },
     ]);
 
