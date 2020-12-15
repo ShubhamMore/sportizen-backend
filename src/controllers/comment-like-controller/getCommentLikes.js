@@ -22,7 +22,7 @@ const getCommentLikes = async (req, res) => {
               $project: {
                 name: 1,
                 sportizenId: 1,
-                profileImageUrl: 1,
+                userImageURL: 1,
               },
             },
           ],

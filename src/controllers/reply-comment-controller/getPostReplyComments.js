@@ -22,7 +22,7 @@ const getPostReplyComments = async (req, res) => {
               $project: {
                 name: 1,
                 sportizenId: 1,
-                profileImageUrl: 1,
+                userImageURL: 1,
               },
             },
           ],
@@ -68,7 +68,7 @@ const getPostReplyComments = async (req, res) => {
           newRoot: { $mergeObjects: [{ $arrayElemAt: ['$replyCommentLikes', 0] }, '$$ROOT'] },
         },
       },
-      { $project: { replyCommentLikes: 0, sportizenUser: 0, id: 0 } },
+      { $project: { replyCommentLikes: 0, sportizenUser: 0, id: 0, post: 0, comment: 0 } },
     ]);
 
     responseHandler(comments, 200, res);
