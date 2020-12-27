@@ -52,7 +52,7 @@ const getPostComments = async (req, res) => {
                   $and: [
                     { $eq: ['$post', req.body.post] },
                     { $eq: ['$comment', '$$commentId'] },
-                    { $eq: ['$sportizenUser', 'req.user.sportizenId'] },
+                    { $eq: ['$sportizenUser', req.user.sportizenId] },
                   ],
                 },
               },
