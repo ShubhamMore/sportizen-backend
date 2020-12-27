@@ -9,6 +9,7 @@ const addPostComment = async (req, res) => {
       post: req.body.post,
       sportizenUser: req.user.sportizenId,
       comment: req.body.comment,
+      createdAt: new Date().toISOString(),
     });
 
     await comment.save();
