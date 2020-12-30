@@ -1,14 +1,19 @@
 const Post = require('../../models/post.model');
 
 const awsUploadFile = require('../../uploads/awsUploadFile');
-
+const postSchema = require('../../schema/postSchema');
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
+const Ajv = require('ajv');
+const ajv = new Ajv();
 
 const createPost = async (req, res) => {
   try {
     const file = req.file;
-
+    const valid = ajv.validate(postSchema.createPostfile, { file: req.file, ...req.body });
+    if (!valid) {
+      throw new Error(ajv.errors[0].message);
+    }
     const postFile = {
       fileName: null,
       secureUrl: null,

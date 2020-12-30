@@ -29,7 +29,56 @@ const login = {
   },
 };
 
+const checkUser = {
+  properties: {
+    email: {
+      type: 'string',
+    },
+  },
+  required: ['email'],
+};
+
+const forgotPassword = {
+  properties: {
+    email: {
+      type: 'string',
+    },
+  },
+  required: ['email'],
+};
+
+const setPassword = {
+  properties: {
+    email: {
+      type: 'string',
+    },
+    password: {
+      type: 'string',
+    },
+  },
+  required: ['email', 'password'],
+};
+
+const changePassword = {
+  properties: {
+    email: {
+      type: 'string',
+    },
+    password: {
+      type: 'string',
+    },
+    newPassword: {
+      type: 'string',
+    },
+  },
+  required: ['email'],
+};
+
 module.exports = {
   NewUserSchema: newUser,
   LoginSchema: login,
+  CheckUserSchema: checkUser,
+  ForgotPasswordSchema: forgotPassword,
+  SetPasswordSchema: setPassword,
+  ChangePasswordSchema: changePassword,
 };
