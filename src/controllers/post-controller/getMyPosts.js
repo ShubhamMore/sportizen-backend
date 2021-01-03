@@ -11,7 +11,31 @@ const getMyPosts = async (req, res) => {
           sportizenUser: req.user.sportizenId,
         },
       },
-
+      {
+        $lookup: {
+          from: 'postlikes',
+          let: { postId: '$id' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$post', '$$postId'] },
+                    { $eq: ['$sportizenUser', req.user.sportizenId] },
+                  ],
+                },
+              },
+            },
+            {
+              $project: {
+                _id: 0,
+                alreadyLiked: { $cond: [{ $eq: ['$postLike', true] }, true, false] },
+              },
+            },
+          ],
+          as: 'likeStatus',
+        },
+      },
       {
         $addFields: {
           id: {
@@ -28,6 +52,42 @@ const getMyPosts = async (req, res) => {
             { $count: 'postLikes' },
           ],
           as: 'likes',
+        },
+      },
+      {
+        $lookup: {
+          from: 'postviews',
+          let: { postId: '$id' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$post', '$$postId'] },
+                    { $eq: ['$sportizenUser', req.user.sportizenId] },
+                  ],
+                },
+              },
+            },
+            {
+              $project: {
+                _id: 0,
+                alreadyViewed: { $cond: [{ $eq: ['$postView', true] }, true, false] },
+              },
+            },
+          ],
+          as: 'viewStatus',
+        },
+      },
+      {
+        $lookup: {
+          from: 'postviews',
+          let: { postId: '$id' },
+          pipeline: [
+            { $match: { $expr: { $eq: ['$post', '$$postId'] } } },
+            { $count: 'postViews' },
+          ],
+          as: 'views',
         },
       },
       {
@@ -68,15 +128,52 @@ const getMyPosts = async (req, res) => {
               },
             },
             {
-              $project: { _id: 0, post: 0, sportizenUser: 0 },
+              $project: {
+                _id: 0,
+                alreadySaved: { $cond: [{ $eq: ['$savePost', true] }, true, false] },
+              },
             },
           ],
           as: 'savePosts',
         },
       },
       {
+        $lookup: {
+          from: 'userprofiles',
+          let: { sportizenUserId: '$sportizenUser' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [{ $eq: ['$sportizenId', '$$sportizenUserId'] }],
+                },
+              },
+            },
+            {
+              $project: { _id: 0, userName: '$name', userImageURL: 1 },
+            },
+          ],
+          as: 'postUser',
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$likeStatus', 0] }, '$$ROOT'] },
+        },
+      },
+      {
         $replaceRoot: {
           newRoot: { $mergeObjects: [{ $arrayElemAt: ['$likes', 0] }, '$$ROOT'] },
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$viewStatus', 0] }, '$$ROOT'] },
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$views', 0] }, '$$ROOT'] },
         },
       },
       {
@@ -94,7 +191,26 @@ const getMyPosts = async (req, res) => {
           newRoot: { $mergeObjects: [{ $arrayElemAt: ['$savePosts', 0] }, '$$ROOT'] },
         },
       },
-      { $project: { likes: 0, comments: 0, replyComments: 0, savePosts: 0 } },
+      {
+        $replaceRoot: {
+          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$postUser', 0] }, '$$ROOT'] },
+        },
+      },
+      {
+        $project: {
+          likeStatus: 0,
+          likes: 0,
+          viewStatus: 0,
+          views: 0,
+          comments: 0,
+          replyComments: 0,
+          savePosts: 0,
+          postUser: 0,
+        },
+      },
+      {
+        $sort: { _id: -1 },
+      },
     ]);
 
     responseHandler(posts, 200, res);

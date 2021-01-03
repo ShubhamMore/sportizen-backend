@@ -37,6 +37,8 @@ const createPost = async (req, res) => {
       secureUrl: postFile.secureUrl,
       publicId: postFile.publicId,
       visibility: req.body.visibility,
+      createdAt: new Date().toISOString(),
+      modifiedAt: new Date().toISOString(),
     };
 
     const post = new Post(newPost);

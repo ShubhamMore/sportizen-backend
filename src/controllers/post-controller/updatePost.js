@@ -48,8 +48,8 @@ const updatePost = async (req, res) => {
       filename: postFile.fileName,
       secureUrl: postFile.secureUrl,
       publicId: postFile.publicId,
-      modifiedAt: new Date().toISOString(),
       visibility: req.body.visibility,
+      modifiedAt: new Date().toISOString(),
     };
 
     await Post.findByIdAndUpdate(req.body._id, updatedPost);

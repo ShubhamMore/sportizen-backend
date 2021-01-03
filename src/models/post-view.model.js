@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 
-const postLikeSchema = new mongoose.Schema({
+const postViewSchema = new mongoose.Schema({
   post: {
     type: String,
     required: true,
@@ -10,7 +10,7 @@ const postLikeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  postLike: {
+  postView: {
     type: Boolean,
     default: true,
   },
@@ -20,15 +20,15 @@ const postLikeSchema = new mongoose.Schema({
   },
 });
 
-postLikeSchema.methods.toJSON = function () {
-  const postLike = this;
-  const postLikeObject = postLike.toObject();
+postViewSchema.methods.toJSON = function () {
+  const postView = this;
+  const postViewObject = postView.toObject();
 
-  delete postLikeObject.__v;
+  delete postViewObject.__v;
 
-  return postLikeObject;
+  return postViewObject;
 };
 
-const PostLike = mongoose.model('PostLike', postLikeSchema);
+const PostView = mongoose.model('PostView', postViewSchema);
 
-module.exports = PostLike;
+module.exports = PostView;

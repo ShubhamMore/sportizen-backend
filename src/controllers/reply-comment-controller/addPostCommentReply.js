@@ -10,6 +10,7 @@ const addPostCommentReply = async (req, res) => {
       sportizenUser: req.user.sportizenId,
       comment: req.body.comment,
       replyComment: req.body.replyComment,
+      createdAt: new Date().toISOString(),
     });
 
     await replyComment.save();

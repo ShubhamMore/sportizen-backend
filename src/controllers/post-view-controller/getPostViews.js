@@ -1,15 +1,14 @@
-const CommentLike = require('../../models/comment-like.model');
+const PostView = require('../../models/post-view.model');
 
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
 
-const getCommentLikes = async (req, res) => {
+const getPostViews = async (req, res) => {
   try {
-    const commentLikes = await CommentLike.aggregate([
+    const postViews = await PostView.aggregate([
       {
         $match: {
           post: req.body.post,
-          comment: req.body.comment,
         },
       },
       {
@@ -26,28 +25,26 @@ const getCommentLikes = async (req, res) => {
               },
             },
           ],
-          as: 'commentLikeUsers',
-        },
-      },
-      {
-        $replaceRoot: {
-          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$commentLikeUsers', 0] }, '$$ROOT'] },
+          as: 'postViewUsers',
         },
       },
       {
         $project: {
-          commentLikeUsers: 0,
           post: 0,
-          comment: 0,
-          sportizenUser: 0,
         },
       },
+      {
+        $replaceRoot: {
+          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$postViewUsers', 0] }, '$$ROOT'] },
+        },
+      },
+      { $project: { postViewUsers: 0, sportizenUser: 0 } },
     ]);
 
-    responseHandler(commentLikes, 200, res);
+    responseHandler(postViews, 200, res);
   } catch (e) {
     errorHandler(e, 400, res);
   }
 };
 
-module.exports = getCommentLikes;
+module.exports = getPostViews;

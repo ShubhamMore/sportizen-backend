@@ -28,6 +28,7 @@ const commentRouter = require('./routers/comment.route');
 const replyCommentLikeRouter = require('./routers/reply-comment-like.route');
 const replyCommentRouter = require('./routers/reply-comment.route');
 const PostLikeRouter = require('./routers/post-like.route');
+const PostViewRouter = require('./routers/post-view.route');
 const postRouter = require('./routers/post.route');
 const savePostRouter = require('./routers/save-post.route');
 
@@ -114,6 +115,7 @@ app.use(commentRouter);
 app.use(replyCommentLikeRouter);
 app.use(replyCommentRouter);
 app.use(PostLikeRouter);
+app.use(PostViewRouter);
 app.use(postRouter);
 app.use(savePostRouter);
 

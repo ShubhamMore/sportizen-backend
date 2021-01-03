@@ -3,7 +3,7 @@ const auth = require('../middleware/auth');
 
 const getSavedPosts = require('../controllers/save-post-controller/getSavedPosts');
 const savePost = require('../controllers/save-post-controller/savePost');
-const unlikePost = require('../controllers/save-post-controller/unsavePost');
+const unsavePost = require('../controllers/save-post-controller/unsavePost');
 
 const router = new express.Router();
 
@@ -15,8 +15,8 @@ router.post('/savePost', auth, async (req, res) => {
   await savePost(req, res);
 });
 
-router.post('/unlikePost', auth, async (req, res) => {
-  await unlikePost(req, res);
+router.post('/unsavePost', auth, async (req, res) => {
+  await unsavePost(req, res);
 });
 
 module.exports = router;
