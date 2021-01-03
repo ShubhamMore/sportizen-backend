@@ -31,6 +31,7 @@ const PostLikeRouter = require('./routers/post-like.route');
 const PostViewRouter = require('./routers/post-view.route');
 const postRouter = require('./routers/post.route');
 const savePostRouter = require('./routers/save-post.route');
+const blogRouter = require('./routers/blog-route');
 
 const app = express();
 
@@ -118,6 +119,7 @@ app.use(PostLikeRouter);
 app.use(PostViewRouter);
 app.use(postRouter);
 app.use(savePostRouter);
+app.use(blogRouter);
 
 app.use((req, res, next) => {
   const error = new Error('NOT FOUND');

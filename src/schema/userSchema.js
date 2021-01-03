@@ -7,7 +7,7 @@ const newUser = {
       type: 'string',
     },
     userType: {
-      type: 'enum',
+      type: 'string',
       enum: ['user', 'admin'],
     },
     password: {
