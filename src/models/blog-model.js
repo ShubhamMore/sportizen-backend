@@ -65,16 +65,18 @@ const blogSchema = new mongoose.Schema({
     },
   ],
 });
+
 function arrayLimit(val) {
   return val.length <= 5;
 }
+
 blogSchema.methods.toJSON = function () {
-  const post = this;
-  const postObject = post.toObject();
+  const blog = this;
+  const blogObject = blog.toObject();
 
-  delete postObject.__v;
+  delete blogObject.__v;
 
-  return postObject;
+  return blogObject;
 };
 
 const Blog = mongoose.model('Blog', blogSchema);
