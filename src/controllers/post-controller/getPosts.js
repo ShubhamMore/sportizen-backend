@@ -1,3 +1,4 @@
+const UserConnection = require('../../models/user-connection.model');
 const Post = require('../../models/post.model');
 
 const errorHandler = require('../../handlers/error.handler');
@@ -5,9 +6,29 @@ const responseHandler = require('../../handlers/response.handler');
 
 const getPosts = async (req, res) => {
   try {
+    const connections = await UserConnection.aggregate([
+      {
+        $match: {
+          primaryUser: req.user.sportizenId,
+          status: 'following',
+        },
+      },
+      { $project: { _id: 0, followedUser: 1 } },
+    ]);
+
+    const userConnections = new Array();
+
+    userConnections.push(req.user.sportizenId);
+
+    for (const connection of connections) {
+      userConnections.push(connection.followedUser);
+    }
+
     const posts = await Post.aggregate([
       {
-        $match: {},
+        $match: {
+          sportizenUser: { $in: userConnections },
+        },
       },
       {
         $addFields: {
