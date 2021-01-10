@@ -5,7 +5,7 @@ const responseHandler = require('../../handlers/response.handler');
 
 const searchNewConnections = async (req, res) => {
   try {
-    const name = new RegExp('.*' + req.body.searchName + '.*');
+    const name = new RegExp('^' + req.body.searchName + '.*');
     const userConnections = await UserProfile.aggregate([{ $match: { name } }]);
     // const userConnections = await UserProfile.aggregate([
     //   {
