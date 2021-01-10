@@ -32,7 +32,7 @@ const createPost = async (req, res) => {
     const newPost = {
       sportizenUser: req.user.sportizenId,
       postType: req.body.postType,
-      description: req.body.description,
+      description: req.body.description ? req.body.description : null,
       filename: postFile.fileName,
       secureUrl: postFile.secureUrl,
       publicId: postFile.publicId,
