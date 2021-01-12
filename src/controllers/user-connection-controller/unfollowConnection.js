@@ -17,7 +17,7 @@ const unfollowConnection = async (req, res) => {
       throw new Error('You never followed this user');
     }
 
-    responseHandler(myFollower, 200, res);
+    responseHandler({ success: true }, 200, res);
   } catch (e) {
     errorHandler(e, 400, res);
   }
