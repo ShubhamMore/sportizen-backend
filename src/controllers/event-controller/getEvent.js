@@ -87,6 +87,7 @@ const getEvent = async (req, res) => {
           createdUser: '$sportizenUser.name',
         },
       },
+
       {
         $project: {
           sportizenUser: 0,
