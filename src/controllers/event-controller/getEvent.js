@@ -69,11 +69,31 @@ const getEvent = async (req, res) => {
           },
         },
       },
-
+      {
+        $lookup: {
+          from: 'userprofiles',
+          localField: 'createdBy',
+          foreignField: 'sportizenId',
+          as: 'sportizenUsers',
+        },
+      },
+      {
+        $addFields: {
+          sportizenUser: { $arrayElemAt: ['$sportizenUsers', 0] },
+        },
+      },
+      {
+        $addFields: {
+          createdUser: '$sportizenUser.name',
+        },
+      },
       {
         $project: {
+          sportizenUser: 0,
+          sportizenUsers: 0,
           teams: 0,
           players: 0,
+          registered: 0,
         },
       },
     ]);

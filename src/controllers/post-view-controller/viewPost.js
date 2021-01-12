@@ -14,6 +14,7 @@ const viewPost = async (req, res) => {
       postView = new PostView({
         post: req.body.post,
         sportizenUser: req.user.sportizenId,
+        createdAt: new Date().toISOString(),
       });
 
       await postView.save();

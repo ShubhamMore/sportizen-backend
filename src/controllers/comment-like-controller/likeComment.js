@@ -16,6 +16,7 @@ const likeComment = async (req, res) => {
         post: req.body.post,
         comment: req.body.comment,
         sportizenUser: req.user.sportizenId,
+        createdAt: new Date().toISOString(),
       });
 
       await commentLike.save();

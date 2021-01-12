@@ -14,6 +14,7 @@ const likePost = async (req, res) => {
       postLike = new PostLike({
         post: req.body.post,
         sportizenUser: req.user.sportizenId,
+        createdAt: new Date().toISOString(),
       });
 
       await postLike.save();
