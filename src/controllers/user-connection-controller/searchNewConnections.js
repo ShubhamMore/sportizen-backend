@@ -27,7 +27,7 @@ const searchNewConnections = async (req, res) => {
                 $expr: {
                   $and: [
                     {
-                      $eq: ['$primaryUser', 'shubhammore53YgL1'],
+                      $eq: ['$primaryUser', req.user.sportizenId],
                     },
                     {
                       $eq: ['$followedUser', '$$connectionId'],
