@@ -31,7 +31,7 @@ const createPost = async (req, res) => {
 
     const newPost = {
       sportizenUser: req.user.sportizenId,
-      postType: req.body.postType,
+      postType: req.body.postType.toLowerCase(),
       description: req.body.description ? req.body.description : null,
       filename: postFile.fileName,
       secureUrl: postFile.secureUrl,

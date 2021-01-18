@@ -7,12 +7,16 @@ const postSchema = new mongoose.Schema({
     required: true,
   },
   postType: {
-    type: String, // Text, Image, Video
+    type: String, // Text, Image, Video, shared
     required: true,
+  },
+  sharedPost: {
+    type: String,
+    default: null,
   },
   description: {
     type: String,
-    required: true,
+    default: null,
   },
   fileName: {
     type: String, // for image & video

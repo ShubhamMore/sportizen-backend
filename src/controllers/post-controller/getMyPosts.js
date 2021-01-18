@@ -12,6 +12,67 @@ const getMyPosts = async (req, res) => {
         },
       },
       {
+        $addFields: {
+          id: {
+            $toString: '$_id',
+          },
+          sharedPost: {
+            $toObjectId: '$sharedPost',
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: 'posts',
+          let: { postId: '$sharedPost' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [{ $eq: ['$_id', '$$postId'] }],
+                },
+              },
+            },
+            {
+              $lookup: {
+                from: 'userprofiles',
+                let: { sportizenUserId: '$sportizenUser' },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [{ $eq: ['$sportizenId', '$$sportizenUserId'] }],
+                      },
+                    },
+                  },
+                  {
+                    $project: { _id: 0, userName: '$name', userImageURL: 1 },
+                  },
+                ],
+                as: 'postUser',
+              },
+            },
+            {
+              $replaceRoot: {
+                newRoot: { $mergeObjects: [{ $arrayElemAt: ['$postUser', 0] }, '$$ROOT'] },
+              },
+            },
+            {
+              $project: {
+                postUser: 0,
+                __v: 0,
+              },
+            },
+          ],
+          as: 'posts',
+        },
+      },
+      {
+        $addFields: {
+          sharedPost: { $arrayElemAt: ['$posts', 0] },
+        },
+      },
+      {
         $lookup: {
           from: 'postlikes',
           let: { postId: '$id' },
@@ -198,6 +259,7 @@ const getMyPosts = async (req, res) => {
       },
       {
         $project: {
+          posts: 0,
           likeStatus: 0,
           likes: 0,
           viewStatus: 0,
@@ -206,6 +268,7 @@ const getMyPosts = async (req, res) => {
           replyComments: 0,
           savePosts: 0,
           postUser: 0,
+          __v: 0,
         },
       },
       {

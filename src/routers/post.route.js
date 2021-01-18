@@ -30,6 +30,7 @@ const auth = require('../middleware/auth');
 
 const createPost = require('../controllers/post-controller/createPost');
 const updatePost = require('../controllers/post-controller/updatePost');
+const sharePost = require('../controllers/post-controller/share-post');
 const deletePost = require('../controllers/post-controller/deletePost');
 const getMyPosts = require('../controllers/post-controller/getMyPosts');
 const getPost = require('../controllers/post-controller/getPost');
@@ -44,6 +45,10 @@ router.post('/createPost', auth, multer({ storage: storage }).single('post'), as
 
 router.post('/updatePost', auth, multer({ storage: storage }).single('post'), async (req, res) => {
   await updatePost(req, res);
+});
+
+router.post('/sharePost', auth, async (req, res) => {
+  await sharePost(req, res);
 });
 
 router.post('/deletePost', auth, async (req, res) => {
