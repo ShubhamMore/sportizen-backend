@@ -1,4 +1,4 @@
-const SportList = require('../../models/sports-list.model');
+const SportList = require('../../models/sport-model/sport.model');
 
 const getSportList = async (req, res) => {
   try {

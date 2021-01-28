@@ -1,16 +1,16 @@
 const express = require('express');
 
-const auth = require('../middleware/auth');
+const auth = require('../../middleware/auth');
 
-const changeUserStatus = require('../controllers/user-connection-controller/changeUserStatus');
-const getBlockedConnections = require('../controllers/user-connection-controller/getBlockedConnections');
-const getConnectionRequests = require('../controllers/user-connection-controller/getConnectionRequests');
-const getMyFollowers = require('../controllers/user-connection-controller/getMyFollowers');
-const getMyFollowings = require('../controllers/user-connection-controller/getMyFollowings');
-const searchNewConnections = require('../controllers/user-connection-controller/searchNewConnections');
-const sendConnectionRequest = require('../controllers/user-connection-controller/sendConnectionRequest');
-const removeFollowerConnection = require('../controllers/user-connection-controller/removeFollowerConnection');
-const unfollowConnection = require('../controllers/user-connection-controller/unfollowConnection');
+const changeUserStatus = require('../../controllers/user-connection-controller/changeUserStatus');
+const getBlockedConnections = require('../../controllers/user-connection-controller/getBlockedConnections');
+const getConnectionRequests = require('../../controllers/user-connection-controller/getConnectionRequests');
+const getMyFollowers = require('../../controllers/user-connection-controller/getMyFollowers');
+const getMyFollowings = require('../../controllers/user-connection-controller/getMyFollowings');
+const searchNewConnections = require('../../controllers/user-connection-controller/searchNewConnections');
+const sendConnectionRequest = require('../../controllers/user-connection-controller/sendConnectionRequest');
+const removeFollowerConnection = require('../../controllers/user-connection-controller/removeFollowerConnection');
+const unfollowConnection = require('../../controllers/user-connection-controller/unfollowConnection');
 
 const router = new express.Router();
 

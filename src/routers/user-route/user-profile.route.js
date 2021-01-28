@@ -24,14 +24,14 @@ const storage = multer.diskStorage({
   },
 });
 
-const auth = require('../middleware/auth');
+const auth = require('../../middleware/auth');
 
-const getUserProfile = require('../controllers/user-profile-controller/getUserProfile');
-const getMyProfile = require('../controllers/user-profile-controller/getMyProfile');
-const saveUserProfile = require('../controllers/user-profile-controller/saveUserProfile');
-const saveProfileImage = require('../controllers/user-profile-controller/saveProfileImage');
-const saveCoverImage = require('../controllers/user-profile-controller/saveCoverImage');
-const saveUserStory = require('../controllers/user-profile-controller/saveUserStory');
+const getUserProfile = require('../../controllers/user-profile-controller/getUserProfile');
+const getMyProfile = require('../../controllers/user-profile-controller/getMyProfile');
+const saveUserProfile = require('../../controllers/user-profile-controller/saveUserProfile');
+const saveProfileImage = require('../../controllers/user-profile-controller/saveProfileImage');
+const saveCoverImage = require('../../controllers/user-profile-controller/saveCoverImage');
+const saveUserStory = require('../../controllers/user-profile-controller/saveUserStory');
 
 const router = new express.Router();
 

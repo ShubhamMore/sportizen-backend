@@ -25,11 +25,11 @@ const storage = multer.diskStorage({
   },
 });
 
-const auth = require('../middleware/auth');
+const auth = require('../../middleware/auth');
 
-const createBlog = require('../controllers/blog-controller/create-blog');
-const getMyblog = require('../controllers/blog-controller/get-my-blogs');
-const viewBlog = require('../controllers/blog-controller/view-blog');
+const createBlog = require('../../controllers/blog-controller/create-blog');
+const getMyblog = require('../../controllers/blog-controller/get-my-blogs');
+const viewBlog = require('../../controllers/blog-controller/view-blog');
 const router = new express.Router();
 
 router.post(

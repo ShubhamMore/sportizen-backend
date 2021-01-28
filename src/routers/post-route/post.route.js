@@ -26,16 +26,16 @@ const storage = multer.diskStorage({
   },
 });
 
-const auth = require('../middleware/auth');
+const auth = require('../../middleware/auth');
 
-const createPost = require('../controllers/post-controller/createPost');
-const updatePost = require('../controllers/post-controller/updatePost');
-const sharePost = require('../controllers/post-controller/share-post');
-const deletePost = require('../controllers/post-controller/deletePost');
-const getMyPosts = require('../controllers/post-controller/getMyPosts');
-const getPost = require('../controllers/post-controller/getPost');
-const getPosts = require('../controllers/post-controller/getPosts');
-const getUserPosts = require('../controllers/post-controller/getUserPosts');
+const createPost = require('../../controllers/post-controller/createPost');
+const updatePost = require('../../controllers/post-controller/updatePost');
+const sharePost = require('../../controllers/post-controller/share-post');
+const deletePost = require('../../controllers/post-controller/deletePost');
+const getMyPosts = require('../../controllers/post-controller/getMyPosts');
+const getPost = require('../../controllers/post-controller/getPost');
+const getPosts = require('../../controllers/post-controller/getPosts');
+const getUserPosts = require('../../controllers/post-controller/getUserPosts');
 
 const router = new express.Router();
 

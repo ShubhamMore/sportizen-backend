@@ -1,4 +1,4 @@
-const SavePost = require('../../models/save-post.model');
+const SavePost = require('../../models/post-model/save-post.model');
 
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');

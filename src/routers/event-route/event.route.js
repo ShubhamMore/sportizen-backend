@@ -25,16 +25,16 @@ const storage = multer.diskStorage({
   },
 });
 
-const auth = require('../middleware/auth');
+const auth = require('../../middleware/auth');
 
-const newEvent = require('../controllers/event-controller/newEvent');
-const editEvent = require('../controllers/event-controller/editEvent');
-const getEvent = require('../controllers/event-controller/getEvent');
-const getEvents = require('../controllers/event-controller/getEvents');
-const getMyEvents = require('../controllers/event-controller/getMyEvents');
-const getAllEvents = require('../controllers/event-controller/getAllEvents');
-const deleteEvent = require('../controllers/event-controller/deleteEvent');
-const deleteEventImage = require('../controllers/event-controller/deleteEventImage');
+const newEvent = require('../../controllers/event-controller/newEvent');
+const editEvent = require('../../controllers/event-controller/editEvent');
+const getEvent = require('../../controllers/event-controller/getEvent');
+const getEvents = require('../../controllers/event-controller/getEvents');
+const getMyEvents = require('../../controllers/event-controller/getMyEvents');
+const getAllEvents = require('../../controllers/event-controller/getAllEvents');
+const deleteEvent = require('../../controllers/event-controller/deleteEvent');
+const deleteEventImage = require('../../controllers/event-controller/deleteEventImage');
 
 const router = new express.Router();
 

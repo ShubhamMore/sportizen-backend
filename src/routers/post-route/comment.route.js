@@ -1,9 +1,9 @@
 const express = require('express');
-const auth = require('../middleware/auth');
+const auth = require('../../middleware/auth');
 
-const addPostComment = require('../controllers/comment-controller/addPostComment');
-const deletePostComment = require('../controllers/comment-controller/deletePostComment');
-const getPostComments = require('../controllers/comment-controller/getPostComments');
+const addPostComment = require('../../controllers/comment-controller/addPostComment');
+const deletePostComment = require('../../controllers/comment-controller/deletePostComment');
+const getPostComments = require('../../controllers/comment-controller/getPostComments');
 
 const router = new express.Router();
 

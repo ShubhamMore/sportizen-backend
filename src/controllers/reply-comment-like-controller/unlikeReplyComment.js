@@ -1,4 +1,4 @@
-const ReplyCommentLike = require('../../models/reply-comment-like.model');
+const ReplyCommentLike = require('../../models/post-model/reply-comment-like.model');
 
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');

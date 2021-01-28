@@ -1,4 +1,4 @@
-const User = require('../../models/user.model');
+const User = require('../../models/user-model/user.model');
 
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');

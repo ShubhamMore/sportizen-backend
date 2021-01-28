@@ -1,8 +1,8 @@
 const express = require('express');
-const auth = require('../middleware/auth');
+const auth = require('../../middleware/auth');
 
-const getPostViews = require('../controllers/post-view-controller/getPostViews');
-const viewPost = require('../controllers/post-view-controller/viewPost');
+const getPostViews = require('../../controllers/post-view-controller/getPostViews');
+const viewPost = require('../../controllers/post-view-controller/viewPost');
 
 const router = new express.Router();
 

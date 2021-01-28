@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/user.model');
+const User = require('../models/user-model/user.model');
 const Sockets = require('./sockets');
-const UserConnection = require('../models/user-connection.model');
+const UserConnection = require('../models/user-connection-model/user-connection.model');
 
 const socket = async (server) => {
   const io = require('socket.io')(server);

@@ -1,20 +1,20 @@
 const express = require('express');
 
-const auth = require('../middleware/auth');
+const auth = require('../../middleware/auth');
 
-const newUser = require('../controllers/user-controller/newUser');
-const createUserGoogle = require('../controllers/user-controller/createUserGoogle');
-const checkUser = require('../controllers/user-controller/checkUser');
-const login = require('../controllers/user-controller/login');
-const googleLogin = require('../controllers/user-controller/googleLogin');
-const autoLogin = require('../controllers/user-controller/autoLogin');
-const forgotPassword = require('../controllers/user-controller/forgotPassword');
-const validateToken = require('../controllers/user-controller/validateToken');
-const resetPassword = require('../controllers/user-controller/resetPassword');
-const setPassword = require('../controllers/user-controller/setPassword');
-const changePassword = require('../controllers/user-controller/changePassword');
-const logout = require('../controllers/user-controller/logout');
-const logoutAll = require('../controllers/user-controller/logoutAll');
+const newUser = require('../../controllers/user-controller/newUser');
+const createUserGoogle = require('../../controllers/user-controller/createUserGoogle');
+const checkUser = require('../../controllers/user-controller/checkUser');
+const login = require('../../controllers/user-controller/login');
+const googleLogin = require('../../controllers/user-controller/googleLogin');
+const autoLogin = require('../../controllers/user-controller/autoLogin');
+const forgotPassword = require('../../controllers/user-controller/forgotPassword');
+const validateToken = require('../../controllers/user-controller/validateToken');
+const resetPassword = require('../../controllers/user-controller/resetPassword');
+const setPassword = require('../../controllers/user-controller/setPassword');
+const changePassword = require('../../controllers/user-controller/changePassword');
+const logout = require('../../controllers/user-controller/logout');
+const logoutAll = require('../../controllers/user-controller/logoutAll');
 
 const router = new express.Router();
 

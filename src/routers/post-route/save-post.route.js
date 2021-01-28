@@ -1,9 +1,9 @@
 const express = require('express');
-const auth = require('../middleware/auth');
+const auth = require('../../middleware/auth');
 
-const getSavedPosts = require('../controllers/save-post-controller/getSavedPosts');
-const savePost = require('../controllers/save-post-controller/savePost');
-const unsavePost = require('../controllers/save-post-controller/unsavePost');
+const getSavedPosts = require('../../controllers/save-post-controller/getSavedPosts');
+const savePost = require('../../controllers/save-post-controller/savePost');
+const unsavePost = require('../../controllers/save-post-controller/unsavePost');
 
 const router = new express.Router();
 

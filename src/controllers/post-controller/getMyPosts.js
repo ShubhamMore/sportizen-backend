@@ -1,4 +1,4 @@
-const Post = require('../../models/post.model');
+const Post = require('../../models/post-model/post.model');
 
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');

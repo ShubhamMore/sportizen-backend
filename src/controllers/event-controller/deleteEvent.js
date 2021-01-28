@@ -1,6 +1,6 @@
-const Event = require('../../models/event.model');
-const EventRegisteredPlayer = require('../../models/event-registered-player.model');
-const EventRegisteredTeam = require('../../models/event-registered-team.model');
+const Event = require('../../models/event-model/event.model');
+const EventRegisteredPlayer = require('../../models/event-model/event-registered-player.model');
+const EventRegisteredTeam = require('../../models/event-model/event-registered-team.model');
 
 const awsRemoveFile = require('../../uploads/awsRemoveFile');
 

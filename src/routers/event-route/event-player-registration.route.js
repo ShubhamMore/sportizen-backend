@@ -1,11 +1,11 @@
 const express = require('express');
-const auth = require('../middleware/auth');
+const auth = require('../../middleware/auth');
 
-const registerPlayer = require('../controllers/event-player-registration-controller/registerPlayer');
-const getEventPlayer = require('../controllers/event-player-registration-controller/getEventPlayer');
-const getEventPlayers = require('../controllers/event-player-registration-controller/getEventPlayers');
-const updatePlayerRegistration = require('../controllers/event-player-registration-controller/updatePlayerRegistration');
-const deletePlayerRegistration = require('../controllers/event-player-registration-controller/deletePlayerRegistration');
+const registerPlayer = require('../../controllers/event-player-registration-controller/registerPlayer');
+const getEventPlayer = require('../../controllers/event-player-registration-controller/getEventPlayer');
+const getEventPlayers = require('../../controllers/event-player-registration-controller/getEventPlayers');
+const updatePlayerRegistration = require('../../controllers/event-player-registration-controller/updatePlayerRegistration');
+const deletePlayerRegistration = require('../../controllers/event-player-registration-controller/deletePlayerRegistration');
 
 const router = new express.Router();
 

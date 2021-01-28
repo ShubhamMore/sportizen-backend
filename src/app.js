@@ -17,21 +17,21 @@ require('./database/mongoose');
 // const birthDayWishes = require('./functions/birthDayWishes');
 
 // MANAGEMENT
-const userRouter = require('./routers/user.route');
-const userProfileRouter = require('./routers/user-profile.route');
-const userConnectionRouter = require('./routers/user-connection.route');
-const eventRouter = require('./routers/event.route');
-const eventPlayerRegistrationRouter = require('./routers/event-player-registration.route');
-const eventTeamRegistrationRouter = require('./routers/event-team-registration.route');
-const commentLikeRouter = require('./routers/comment-like.route');
-const commentRouter = require('./routers/comment.route');
-const replyCommentLikeRouter = require('./routers/reply-comment-like.route');
-const replyCommentRouter = require('./routers/reply-comment.route');
-const PostLikeRouter = require('./routers/post-like.route');
-const PostViewRouter = require('./routers/post-view.route');
-const postRouter = require('./routers/post.route');
-const savePostRouter = require('./routers/save-post.route');
-const blogRouter = require('./routers/blog-route');
+const userRouter = require('./routers/user-route/user.route');
+const userProfileRouter = require('./routers/user-route/user-profile.route');
+const userConnectionRouter = require('./routers/user-connection-route/user-connection.route');
+const eventRouter = require('./routers/event-route/event.route');
+const eventPlayerRegistrationRouter = require('./routers/event-route/event-player-registration.route');
+const eventTeamRegistrationRouter = require('./routers/event-route/event-team-registration.route');
+const commentLikeRouter = require('./routers/post-route/comment-like.route');
+const commentRouter = require('./routers/post-route/comment.route');
+const replyCommentLikeRouter = require('./routers/post-route/reply-comment-like.route');
+const replyCommentRouter = require('./routers/post-route/reply-comment.route');
+const PostLikeRouter = require('./routers/post-route/post-like.route');
+const PostViewRouter = require('./routers/post-route/post-view.route');
+const postRouter = require('./routers/post-route/post.route');
+const savePostRouter = require('./routers/post-route/save-post.route');
+const blogRouter = require('./routers/blog-route/blog-route');
 
 const app = express();
 

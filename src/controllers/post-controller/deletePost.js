@@ -1,11 +1,11 @@
-const Post = require('../../models/post.model');
-const PostLike = require('../../models/post-like.model');
-const PostView = require('../../models/post-view.model');
-const SavePost = require('../../models/save-post.model');
-const Comment = require('../../models/comment.model');
-const CommentLike = require('../../models/comment-like.model');
-const ReplyComment = require('../../models/reply-comment.model');
-const ReplyCommentLike = require('../../models/reply-comment-like.model');
+const Post = require('../../models/post-model/post.model');
+const PostLike = require('../../models/post-model/post-like.model');
+const PostView = require('../../models/post-model/post-view.model');
+const SavePost = require('../../models/post-model/save-post.model');
+const Comment = require('../../models/post-model/comment.model');
+const CommentLike = require('../../models/post-model/comment-like.model');
+const ReplyComment = require('../../models/post-model/reply-comment.model');
+const ReplyCommentLike = require('../../models/post-model/reply-comment-like.model');
 
 const awsRemoveFile = require('../../uploads/awsRemoveFile');
 

@@ -1,5 +1,5 @@
-const UserProfile = require('../../models/user-profile.model');
-const UserConnection = require('../../models/user-connection.model');
+const UserProfile = require('../../models/user-model/user-profile.model');
+const UserConnection = require('../../models/user-connection-model/user-connection.model');
 
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');

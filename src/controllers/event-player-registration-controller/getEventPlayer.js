@@ -1,4 +1,4 @@
-const EventRegisteredPlayer = require('../../models/event-registered-player.model');
+const EventRegisteredPlayer = require('../../models/event-model/event-registered-player.model');
 
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
