@@ -6,6 +6,30 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  description: {
+    type: String,
+    required: true,
+  },
+  images: [
+    {
+      imageName: {
+        type: String,
+        required: true,
+      },
+      secureUrl: {
+        type: String,
+        required: true,
+      },
+      publicId: {
+        type: String,
+        required: true,
+      },
+      createdAt: {
+        type: Date,
+        required: true,
+      },
+    },
+  ],
   price: {
     type: Number,
     required: true,
