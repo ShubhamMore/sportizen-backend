@@ -17,6 +17,7 @@ const blogSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
   images: [
     {
       imageName: {
@@ -35,19 +36,26 @@ const blogSchema = new mongoose.Schema({
         type: Date,
         default: new Date().toISOString(),
       },
+      position: {
+        type: Number,
+        required: true,
+      },
     },
   ],
+
   tags: [{ type: Array, validate: [arrayLimit, 'length of tag exceeds 5'] }],
   viewTime: {
     type: Number,
     required: true,
   },
+
   views: {
     type: Number,
     required: true,
     default: true,
   },
   likes: [{ type: String }],
+
   comments: [
     {
       commentedBy: {
@@ -64,10 +72,18 @@ const blogSchema = new mongoose.Schema({
       },
     },
   ],
+
+  bookmarkUser: [
+    {
+      type: Array,
+    },
+  ],
 });
+
 function arrayLimit(val) {
   return val.length <= 5;
 }
+
 blogSchema.methods.toJSON = function () {
   const post = this;
   const postObject = post.toObject();

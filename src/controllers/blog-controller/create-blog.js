@@ -33,6 +33,7 @@ const createBlog = async (req, res) => {
             imageName: uploadRes[i].key,
             secureUrl: uploadRes[i].Location,
             publicId: uploadRes[i].key,
+            position: file[i].position,
             createdAt: Date.now(),
           };
           images.push(image);

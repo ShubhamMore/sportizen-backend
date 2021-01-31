@@ -2,7 +2,7 @@ const Blog = require('../../models/blog-model');
 const responseHandler = require('../../handlers/response.handler');
 const errorHandler = require('../../handlers/error.handler');
 
-const getMyBlog = async (req, res) => {
+const getMyBlogs = async (req, res) => {
   try {
     const myBlogs = await Blog.find({
       sportizenUser: req.user.sportizenId,
@@ -14,4 +14,4 @@ const getMyBlog = async (req, res) => {
   }
 };
 
-module.exports = getMyBlog;
+module.exports = getMyBlogs;

@@ -4,10 +4,10 @@ const errorHandler = require('../../handlers/error.handler');
 
 const likeBlog = async (req, res) => {
   try {
-    const blockExists = await Blog.findOne({
+    const blogExists = await Blog.findOne({
       _id: req.body.blogId,
     });
-    if (!blockExists) {
+    if (!blogExists) {
       throw new Error('Blog doesnt Exists');
     }
 

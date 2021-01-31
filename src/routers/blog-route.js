@@ -30,6 +30,8 @@ const auth = require('../middleware/auth');
 const createBlog = require('../controllers/blog-controller/create-blog');
 const getMyblog = require('../controllers/blog-controller/get-my-blogs');
 const viewBlog = require('../controllers/blog-controller/view-blog');
+const deleteBlog = require('../controllers/blog-controller/delete-blog');
+const likeBlog = require('../controllers/blog-controller/like-blog');
 const router = new express.Router();
 
 router.post(
@@ -48,11 +50,21 @@ router.post('/get-my-blog', auth, async (req, res) => {
 router.post('/view-blog', auth, async (req, res) => {
   await viewBlog(req, res);
 });
+
 router.post('/update-blog');
-router.post('/like-blog');
+
+router.post('/like-blog', auth, async (req, res) => {
+  await likeBlog(req, res);
+});
+
 router.post('/unlike-blog');
+
 router.post('/comment-blog');
-router.post('/delete-blog');
-router.post('/search-blogs');
+
+router.post('/delete-blog', auth, async (req, res) => {
+  await deleteBlog(req, res);
+});
+
+router.post('/search-blogs', async (req, res) => {});
 
 module.exports = router;
