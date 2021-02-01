@@ -44,7 +44,6 @@ const createPost = async (req, res) => {
     };
 
     const post = new Post(newPost);
-
     await post.save();
 
     const responsePost = await Post.aggregate([
