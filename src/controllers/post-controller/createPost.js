@@ -22,7 +22,6 @@ const createPost = async (req, res) => {
       const fileName = file.filename;
 
       const cloudDirectory = 'post';
-
       const uploadResponce = await awsUploadFile(filePath, fileName, cloudDirectory);
 
       const uploadRes = uploadResponce.upload_res;
@@ -254,7 +253,7 @@ const createPost = async (req, res) => {
       },
     ]);
 
-    responseHandler(responsePost ? responsePost : post, 200, res);
+    responseHandler(responsePost ? responsePost[0] : post, 200, res);
   } catch (e) {
     errorHandler(e, 400, res);
   }
