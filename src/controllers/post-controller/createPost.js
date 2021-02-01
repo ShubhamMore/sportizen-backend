@@ -22,6 +22,7 @@ const createPost = async (req, res) => {
       const fileName = file.filename;
 
       const cloudDirectory = 'post';
+
       const uploadResponce = await awsUploadFile(filePath, fileName, cloudDirectory);
 
       const uploadRes = uploadResponce.upload_res;
