@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 
 const getUserPosts = async (req, res) => {
   try {
-    const posts = await Post.aggregate([
+    const post = await Post.aggregate([
       {
         $match: {
           _id: mongoose.Types.ObjectId(req.body.post),
@@ -213,7 +213,7 @@ const getUserPosts = async (req, res) => {
       },
     ]);
 
-    responseHandler(posts, 200, res);
+    responseHandler(post, 200, res);
   } catch (e) {
     errorHandler(e, 400, res);
   }
