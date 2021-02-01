@@ -27,17 +27,12 @@ const storage = multer.diskStorage({
 
 const auth = require('../../middleware/auth');
 
-<<<<<<< HEAD:src/routers/blog-route/blog-route.js
 const createBlog = require('../../controllers/blog-controller/create-blog');
-const getMyblog = require('../../controllers/blog-controller/get-my-blogs');
+const getMyBlog = require('../../controllers/blog-controller/get-my-blogs');
 const viewBlog = require('../../controllers/blog-controller/view-blog');
-=======
-const createBlog = require('../controllers/blog-controller/create-blog');
-const getMyblog = require('../controllers/blog-controller/get-my-blogs');
-const viewBlog = require('../controllers/blog-controller/view-blog');
-const deleteBlog = require('../controllers/blog-controller/delete-blog');
-const likeBlog = require('../controllers/blog-controller/like-blog');
->>>>>>> 80dd7b769ed244447ad858ae8457b4bce5d98e2d:src/routers/blog-route.js
+const deleteBlog = require('../../controllers/blog-controller/delete-blog');
+const likeBlog = require('../../controllers/blog-controller/like-blog');
+
 const router = new express.Router();
 
 router.post(
@@ -50,27 +45,35 @@ router.post(
 );
 
 router.post('/get-my-blog', auth, async (req, res) => {
-  await getMyblog(req, res);
+  await getMyBlog(req, res);
 });
 
 router.post('/view-blog', auth, async (req, res) => {
   await viewBlog(req, res);
 });
 
-router.post('/update-blog');
+router.post('/update-blog', auth, async (req, res) => {
+  // await viewBlog(req, res);
+});
 
 router.post('/like-blog', auth, async (req, res) => {
   await likeBlog(req, res);
 });
 
-router.post('/unlike-blog');
+router.post('/unlike-blog', auth, async (req, res) => {
+  // await viewBlog(req, res);
+});
 
-router.post('/comment-blog');
+router.post('/comment-blog', auth, async (req, res) => {
+  // await viewBlog(req, res);
+});
 
 router.post('/delete-blog', auth, async (req, res) => {
   await deleteBlog(req, res);
 });
 
-router.post('/search-blogs', async (req, res) => {});
+router.post('/search-blogs', async (req, res) => {
+  // await deleteBlog(req, res);
+});
 
 module.exports = router;
