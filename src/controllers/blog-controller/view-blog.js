@@ -5,7 +5,12 @@ const errorHandler = require('../../handlers/error.handler');
 //const awsUploadFiles = require('../../uploads/awsUploadFiles');
 const viewBlog = async (req, res) => {
   try {
-    const blog = await Blog.findOne({ _id: req.body.blogId });
+    const blog = await Blog.findById(req.body.blog);
+
+    if (!blog) {
+      throw new Error("Blog doesn't Exists");
+    }
+
     responseHandler(blog, 200, res);
   } catch (error) {
     console.log(error);

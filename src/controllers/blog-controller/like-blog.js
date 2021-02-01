@@ -4,25 +4,19 @@ const errorHandler = require('../../handlers/error.handler');
 
 const likeBlog = async (req, res) => {
   try {
-    const blockExists = await Blog.findOne({
-      _id: req.body.blogId,
-    });
-    if (!blockExists) {
-      throw new Error('Blog doesnt Exists');
+    const blog = await Blog.findById(req.body.blogId);
+
+    if (!blog) {
+      throw new Error("Blog doesn't Exists");
     }
 
-    const blogUpdate = await Blog.update(
-      {
-        _id: req.body.blogId,
+    await Blog.findByIdAndUpdate(req.body.blog, {
+      $addToSet: {
+        likedBy: req.user.sportizenId,
       },
-      {
-        $addToSet: {
-          likedBy: req.user.sportizenId,
-        },
-      }
-    );
+    });
 
-    responseHandler(blogUpdate, 200, res);
+    responseHandler({ success: true }, 200, res);
   } catch (error) {
     console.log(error);
     errorHandler(error, 400, res);

@@ -7,6 +7,7 @@ const getMyBlog = async (req, res) => {
     const myBlogs = await Blog.find({
       sportizenUser: req.user.sportizenId,
     });
+
     responseHandler(myBlogs, 200, res);
   } catch (error) {
     console.log(error);
