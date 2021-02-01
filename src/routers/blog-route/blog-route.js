@@ -53,7 +53,7 @@ router.post('/view-blog', auth, async (req, res) => {
 });
 
 router.post('/update-blog', auth, async (req, res) => {
-  // await viewBlog(req, res);
+  // await updateBlog(req, res);
 });
 
 router.post('/like-blog', auth, async (req, res) => {
@@ -61,11 +61,11 @@ router.post('/like-blog', auth, async (req, res) => {
 });
 
 router.post('/unlike-blog', auth, async (req, res) => {
-  // await viewBlog(req, res);
+  // await unlikeBlog(req, res);
 });
 
 router.post('/comment-blog', auth, async (req, res) => {
-  // await viewBlog(req, res);
+  // await commentBlog(req, res);
 });
 
 router.post('/delete-blog', auth, async (req, res) => {
