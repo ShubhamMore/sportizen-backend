@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 
 const billingDetailsSchema = new mongoose.Schema({
-  sportizenId: {
+  sportizenUser: {
     type: String,
     required: true,
   },
@@ -31,7 +31,6 @@ const billingDetailsSchema = new mongoose.Schema({
       type: String,
       // required: true,
     },
-
     city: {
       type: String,
       required: true,

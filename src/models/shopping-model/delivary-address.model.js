@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 
 const deliveryAddressSchema = new mongoose.Schema({
-  sportizenId: {
+  sportizenUser: {
     type: String,
     required: true,
   },
