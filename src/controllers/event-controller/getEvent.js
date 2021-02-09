@@ -24,6 +24,124 @@ const getEvent = async (req, res) => {
             {
               $match: {
                 $expr: {
+                  $eq: ['$event', '$$eventId'],
+                },
+              },
+            },
+            {
+              $lookup: {
+                from: 'userprofiles',
+                let: { sportizenUser: '$sportizenUser' },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: ['$sportizenId', '$$sportizenUser'],
+                      },
+                    },
+                  },
+                  {
+                    $project: {
+                      userImageURL: 1,
+                      name: 1,
+                      sportizenId: 1,
+                    },
+                  },
+                ],
+                as: 'players',
+              },
+            },
+
+            {
+              $project: {
+                _id: 0,
+                players: 1,
+              },
+            },
+            {
+              $replaceRoot: {
+                newRoot: { $mergeObjects: [{ $arrayElemAt: ['$players', 0] }, '$$ROOT'] },
+              },
+            },
+            {
+              $project: {
+                players: 0,
+              },
+            },
+          ],
+          as: 'registeredPlayers',
+        },
+      },
+      {
+        $lookup: {
+          from: 'eventregisteredteams',
+          let: { eventId: '$event' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ['$event', '$$eventId'],
+                },
+              },
+            },
+            {
+              $lookup: {
+                from: 'userprofiles',
+                let: { sportizenUser: '$sportizenUser' },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: ['$sportizenId', '$$sportizenUser'],
+                      },
+                    },
+                  },
+                  {
+                    $project: {
+                      userImageURL: 1,
+                      name: 1,
+                      sportizenId: 1,
+                    },
+                  },
+                ],
+                as: 'teams',
+              },
+            },
+            {
+              $project: {
+                _id: 0,
+                teams: 1,
+              },
+            },
+            {
+              $replaceRoot: {
+                newRoot: { $mergeObjects: [{ $arrayElemAt: ['$teams', 0] }, '$$ROOT'] },
+              },
+            },
+            {
+              $project: {
+                teams: 0,
+              },
+            },
+          ],
+          as: 'registeredTeams',
+        },
+      },
+      {
+        $addFields: {
+          registrations: {
+            $setUnion: ['$registeredPlayers', '$registeredTeams'],
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: 'eventregisteredplayers',
+          let: { eventId: '$event' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
                   $and: [
                     {
                       $eq: ['$event', '$$eventId'],
@@ -92,6 +210,8 @@ const getEvent = async (req, res) => {
         $project: {
           sportizenUser: 0,
           sportizenUsers: 0,
+          registeredTeams: 0,
+          registeredPlayers: 0,
           teams: 0,
           players: 0,
           registered: 0,

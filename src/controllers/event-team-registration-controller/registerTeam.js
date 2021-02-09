@@ -6,11 +6,21 @@ const responseHandler = require('../../handlers/response.handler');
 const registerTeam = async (req, res) => {
   try {
     req.body.sportizenUser = req.user.sportizenId;
-    const eventTeamRegistration = new EventRegisteredTeam(req.body);
 
-    await eventTeamRegistration.save();
+    const eventTeamRegistration = await EventRegisteredTeam.findOne({
+      event: req.body.event,
+      sportizenUser: req.user.sportizenUser,
+    });
 
-    responseHandler(eventTeamRegistration, 200, res);
+    if (eventTeamRegistration) {
+      throw new Error('Already Registered to this Event');
+    }
+
+    const newEventTeamRegistration = new EventRegisteredTeam(req.body);
+
+    await newEventTeamRegistration.save();
+
+    responseHandler(newEventTeamRegistration, 200, res);
   } catch (e) {
     console.log(e);
     errorHandler(e, 400, res);
