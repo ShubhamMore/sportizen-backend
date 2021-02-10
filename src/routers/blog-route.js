@@ -32,6 +32,8 @@ const getMyblog = require('../controllers/blog-controller/get-my-blogs');
 const viewBlog = require('../controllers/blog-controller/view-blog');
 const deleteBlog = require('../controllers/blog-controller/delete-blog');
 const likeBlog = require('../controllers/blog-controller/like-blog');
+const addBookmark = require('../controllers/blog-controller/add-bookmark-blog');
+const updateMyBlog = require('../controllers/blog-controller/update-my-blog');
 const router = new express.Router();
 
 router.post(
@@ -51,7 +53,9 @@ router.post('/view-blog', auth, async (req, res) => {
   await viewBlog(req, res);
 });
 
-router.post('/update-blog');
+router.post('/update-blog', auth, async (req, res) => {
+  await updateMyBlog(req, res);
+});
 
 router.post('/like-blog', auth, async (req, res) => {
   await likeBlog(req, res);
@@ -59,12 +63,16 @@ router.post('/like-blog', auth, async (req, res) => {
 
 router.post('/unlike-blog');
 
-router.post('/comment-blog');
+router.post('/comment-blog', auth, async (req, res) => {});
 
 router.post('/delete-blog', auth, async (req, res) => {
   await deleteBlog(req, res);
 });
 
 router.post('/search-blogs', async (req, res) => {});
+
+router.post('/add-bookmark', async (req, res) => {
+  await addBookmark(req, res);
+});
 
 module.exports = router;

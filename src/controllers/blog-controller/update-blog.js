@@ -8,7 +8,7 @@ const updateBlog = async (req, res) => {
     if (!blog) {
       throw new Error('Blog Not Found');
     }
-    await Blog.update(
+    await Blog.updateOne(
       {
         _id: req.body.blogId,
       },
@@ -23,3 +23,5 @@ const updateBlog = async (req, res) => {
     errorHandler(error, 400, res);
   }
 };
+
+module.exports = updateBlog;

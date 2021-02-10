@@ -67,8 +67,8 @@ const blogSchema = new mongoose.Schema({
         required: true,
       },
       commentedAt: {
-        type: String,
-        required: true,
+        type: Date,
+        required: new Date().toISOString(),
       },
     },
   ],

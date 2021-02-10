@@ -17,7 +17,7 @@ const likeBlog = async (req, res) => {
       },
       {
         $addToSet: {
-          likedBy: req.user.sportizenId,
+          likes: req.user.sportizenId,
         },
       }
     );

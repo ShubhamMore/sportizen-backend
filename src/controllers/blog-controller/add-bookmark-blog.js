@@ -8,7 +8,7 @@ const addBookmark = async (req, res) => {
       { _id: req.body.blogId },
       {
         $addToSet: {
-          bookmark: req.body.sportizenId,
+          bookmark: req.user.sportizenId,
         },
       }
     );
