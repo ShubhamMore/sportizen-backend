@@ -1,4 +1,4 @@
-const Post = require('../../models/post.model');
+const Post = require('../../models/post-model/post.model');
 
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
@@ -7,10 +7,10 @@ const mongoose = require('mongoose');
 
 const getUserPosts = async (req, res) => {
   try {
-    const posts = await Post.db.getCollection('posts').aggregate([
+    const posts = await Post.aggregate([
       {
         $match: {
-          _id: mongoose.Types.ObjectId(req.user.post),
+          _id: mongoose.Types.ObjectId(req.body.post),
         },
       },
       {
@@ -208,6 +208,7 @@ const getUserPosts = async (req, res) => {
           replyComments: 0,
           savePosts: 0,
           postUser: 0,
+          __v: 0,
         },
       },
     ]);

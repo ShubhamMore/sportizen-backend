@@ -1,4 +1,4 @@
-const PostView = require('../../models/post-view.model');
+const PostView = require('../../models/post-model/post-view.model');
 
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
@@ -14,6 +14,7 @@ const viewPost = async (req, res) => {
       postView = new PostView({
         post: req.body.post,
         sportizenUser: req.user.sportizenId,
+        createdAt: new Date().toISOString(),
       });
 
       await postView.save();

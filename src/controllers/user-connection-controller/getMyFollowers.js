@@ -1,4 +1,4 @@
-const UserConnection = require('../../models/user-connection.model');
+const UserConnection = require('../../models/user-connection-model/user-connection.model');
 
 const mongoose = require('mongoose');
 

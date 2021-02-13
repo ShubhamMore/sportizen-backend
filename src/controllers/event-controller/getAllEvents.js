@@ -1,4 +1,4 @@
-const Event = require('../../models/event.model');
+const Event = require('../../models/event-model/event.model');
 
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
@@ -74,14 +74,33 @@ const getAllEvents = async (req, res) => {
           registered: { $setUnion: ['$players', '$teams'] },
         },
       },
-
       {
         $addFields: {
           isRegistered: { $cond: { if: { $eq: ['$registered', []] }, then: false, else: true } },
         },
       },
       {
+        $lookup: {
+          from: 'userprofiles',
+          localField: 'createdBy',
+          foreignField: 'sportizenId',
+          as: 'sportizenUsers',
+        },
+      },
+      {
+        $addFields: {
+          sportizenUser: { $arrayElemAt: ['$sportizenUsers', 0] },
+        },
+      },
+      {
+        $addFields: {
+          createdUser: '$sportizenUser.name',
+        },
+      },
+      {
         $project: {
+          sportizenUser: 0,
+          sportizenUsers: 0,
           teams: 0,
           players: 0,
           registered: 0,

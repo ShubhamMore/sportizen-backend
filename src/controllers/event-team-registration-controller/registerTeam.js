@@ -1,4 +1,4 @@
-const EventRegisteredTeam = require('../../models/event-registered-team.model');
+const EventRegisteredTeam = require('../../models/event-model/event-registered-team.model');
 
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');

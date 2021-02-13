@@ -1,4 +1,5 @@
-const ReplyComment = require('../../models/reply-comment.model');
+const ReplyComment = require('../../models/post-model/reply-comment.model');
+const ReplyCommentLike = require('../../models/post-model/reply-comment-like.model');
 
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
@@ -10,6 +11,8 @@ const deleteReplyComment = async (req, res) => {
     if (!replyComment) {
       throw new Error('Reply Comment not Found');
     }
+
+    await ReplyCommentLike.deleteMany({ replyComment: req.body.id });
 
     responseHandler({ success: true }, 200, res);
   } catch (e) {

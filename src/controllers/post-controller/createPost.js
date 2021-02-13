@@ -1,4 +1,4 @@
-const Post = require('../../models/post.model');
+const Post = require('../../models/post-model/post.model');
 
 const awsUploadFile = require('../../uploads/awsUploadFile');
 
@@ -31,8 +31,8 @@ const createPost = async (req, res) => {
 
     const newPost = {
       sportizenUser: req.user.sportizenId,
-      postType: req.body.postType,
-      description: req.body.description,
+      postType: req.body.postType.toLowerCase(),
+      description: req.body.description ? req.body.description : null,
       filename: postFile.fileName,
       secureUrl: postFile.secureUrl,
       publicId: postFile.publicId,

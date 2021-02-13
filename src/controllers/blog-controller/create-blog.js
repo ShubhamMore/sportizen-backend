@@ -1,4 +1,4 @@
-const Blog = require('../../models/blog-model');
+const Blog = require('../../models/blog-model/blog-model');
 const responseHandler = require('../../handlers/response.handler');
 const errorHandler = require('../../handlers/error.handler');
 
@@ -6,7 +6,6 @@ const awsUploadFiles = require('../../uploads/awsUploadFiles');
 
 const createBlog = async (req, res) => {
   try {
-    console.log('in here');
     const file = req.files;
     const images = new Array();
 
@@ -40,7 +39,7 @@ const createBlog = async (req, res) => {
         }
       }
     }
-    console.log(images);
+
     const blogData = {
       sportizenUser: req.user.sportizenId,
       blogTitle: req.body.blogTitle,
@@ -52,11 +51,13 @@ const createBlog = async (req, res) => {
     };
 
     const blog = new Blog(blogData);
+
     await blog.save();
+
     responseHandler(blog, 200, res);
   } catch (error) {
-    console.log(error);
     errorHandler(error, 400, res);
   }
 };
+
 module.exports = createBlog;

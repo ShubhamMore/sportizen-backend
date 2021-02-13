@@ -1,4 +1,4 @@
-const ReplyCommentLike = require('../../models/reply-comment-like.model');
+const ReplyCommentLike = require('../../models/post-model/reply-comment-like.model');
 
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
@@ -18,6 +18,7 @@ const likeReplyComment = async (req, res) => {
         comment: req.body.comment,
         replyComment: req.body.replyComment,
         sportizenUser: req.user.sportizenId,
+        createdAt: new Date().toISOString(),
       });
 
       await replyCommentLike.save();

@@ -1,4 +1,4 @@
-const SportizenId = require('../models/sportizen-id.model');
+const SportizenId = require('../models/user-model/sportizen-id.model');
 
 const getRandomString = () => {
   let randomString = '';

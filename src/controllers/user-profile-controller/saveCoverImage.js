@@ -1,4 +1,4 @@
-const UserProfile = require('../../models/user-profile.model');
+const UserProfile = require('../../models/user-model/user-profile.model');
 
 const awsUploadFile = require('../../uploads/awsUploadFile');
 const awsRemoveFile = require('../../uploads/awsRemoveFile');

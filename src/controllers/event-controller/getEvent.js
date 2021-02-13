@@ -1,4 +1,4 @@
-const Event = require('../../models/event.model');
+const Event = require('../../models/event-model/event.model');
 const mongoose = require('mongoose');
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
@@ -69,11 +69,32 @@ const getEvent = async (req, res) => {
           },
         },
       },
+      {
+        $lookup: {
+          from: 'userprofiles',
+          localField: 'createdBy',
+          foreignField: 'sportizenId',
+          as: 'sportizenUsers',
+        },
+      },
+      {
+        $addFields: {
+          sportizenUser: { $arrayElemAt: ['$sportizenUsers', 0] },
+        },
+      },
+      {
+        $addFields: {
+          createdUser: '$sportizenUser.name',
+        },
+      },
 
       {
         $project: {
+          sportizenUser: 0,
+          sportizenUsers: 0,
           teams: 0,
           players: 0,
+          registered: 0,
         },
       },
     ]);

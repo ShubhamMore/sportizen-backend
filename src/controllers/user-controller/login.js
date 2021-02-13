@@ -1,5 +1,5 @@
-const User = require('../../models/user.model');
-const UserProfile = require('../../models/user-profile.model');
+const User = require('../../models/user-model/user.model');
+const UserProfile = require('../../models/user-model/user-profile.model');
 
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');

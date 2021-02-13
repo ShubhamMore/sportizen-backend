@@ -1,4 +1,4 @@
-const Post = require('../../models/post.model');
+const Post = require('../../models/post-model/post.model');
 
 const awsUploadFile = require('../../uploads/awsUploadFile');
 const awsRemoveFile = require('../../uploads/awsRemoveFile');

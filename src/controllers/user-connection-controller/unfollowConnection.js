@@ -1,4 +1,4 @@
-const UserConnection = require('../../models/user-connection.model');
+const UserConnection = require('../../models/user-connection-model/user-connection.model');
 
 const mongoose = require('mongoose');
 
@@ -7,13 +7,17 @@ const responseHandler = require('../../handlers/response.handler');
 
 const unfollowConnection = async (req, res) => {
   try {
-    const myFollower = await UserConnection.deleteOne({
+    const myFollower = await UserConnection.findOneAndDelete({
       primaryUser: req.user.sportizenId,
       followedUser: req.body.followedUser,
       status: 'following',
     });
 
-    responseHandler(myFollower, 200, res);
+    if (!myFollower) {
+      throw new Error('You never followed this user');
+    }
+
+    responseHandler({ success: true }, 200, res);
   } catch (e) {
     errorHandler(e, 400, res);
   }

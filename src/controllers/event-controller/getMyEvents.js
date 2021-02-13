@@ -1,4 +1,4 @@
-const Event = require('../../models/event.model');
+const Event = require('../../models/event-model/event.model');
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
 

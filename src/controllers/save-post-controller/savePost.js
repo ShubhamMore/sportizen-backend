@@ -1,4 +1,4 @@
-const SavePost = require('../../models/save-post.model');
+const SavePost = require('../../models/post-model/save-post.model');
 
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
@@ -14,6 +14,7 @@ const savePost = async (req, res) => {
       savePost = new SavePost({
         post: req.body.post,
         sportizenUser: req.user.sportizenId,
+        createdAt: new Date().toISOString(),
       });
 
       await savePost.save();
