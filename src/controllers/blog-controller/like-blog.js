@@ -11,22 +11,9 @@ const likeBlog = async (req, res) => {
       },
     });
 
-<<<<<<< HEAD
-    const blogUpdate = await Blog.update(
-      {
-        _id: req.body.blogId,
-      },
-      {
-        $addToSet: {
-          likes: req.user.sportizenId,
-        },
-      }
-    );
-=======
     if (!blog) {
       throw new Error("Blog doesn't Exists");
     }
->>>>>>> 4a55c482a9d9067cff35dcf2cd1c1a13c0a6c15b
 
     responseHandler({ success: true }, 200, res);
   } catch (error) {
