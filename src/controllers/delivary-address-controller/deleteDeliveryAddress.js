@@ -1,13 +1,13 @@
-const BillingDetails = require('../../models/shopping-model/billing-details.model');
+const DeliveryAddress = require('../../models/shopping-model/delivery-address.model');
 
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
 
-const deleteBillingDetails = async (req, res) => {
+const deleteDeliveryAddress = async (req, res) => {
   try {
-    const billingDetails = await BillingDetails.findByIdAndDelete(req.body.id);
+    const deliveryAddress = await DeliveryAddress.findByIdAndDelete(req.body.id);
 
-    if (!billingDetails) {
+    if (!deliveryAddress) {
       throw new Error('Billing Details Not Found');
     }
 
@@ -17,4 +17,4 @@ const deleteBillingDetails = async (req, res) => {
   }
 };
 
-module.exports = deleteBillingDetails;
+module.exports = deleteDeliveryAddress;

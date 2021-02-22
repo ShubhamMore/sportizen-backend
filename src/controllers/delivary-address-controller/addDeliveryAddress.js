@@ -3,13 +3,13 @@ const DeliveryAddress = require('../../models/shopping-model/delivery-address.mo
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
 
-const getDeliveryAddress = async (req, res) => {
+const addDeliveryAddress = async (req, res) => {
   try {
-    const deliveryAddress = await DeliveryAddress.findById(req.body.id);
+    req.body.sportizenUser = req.user.sportizenId;
 
-    if (!deliveryAddress) {
-      throw new Error('Delivery Address Not Found');
-    }
+    const deliveryAddress = new DeliveryAddress(req.body);
+
+    await deliveryAddress.save();
 
     responseHandler(deliveryAddress, 200, res);
   } catch (e) {
@@ -17,4 +17,4 @@ const getDeliveryAddress = async (req, res) => {
   }
 };
 
-module.exports = getDeliveryAddress;
+module.exports = addDeliveryAddress;

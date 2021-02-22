@@ -32,6 +32,8 @@ const PostViewRouter = require('./routers/post-route/post-view.route');
 const postRouter = require('./routers/post-route/post.route');
 const savePostRouter = require('./routers/post-route/save-post.route');
 const blogRouter = require('./routers/blog-route/blog-route');
+const productRouter = require('./routers/shopping-route/product.route');
+const shoppingCartRouter = require('./routers/shopping-route/shopping-cart.route');
 
 const app = express();
 
@@ -120,6 +122,8 @@ app.use(PostViewRouter);
 app.use(postRouter);
 app.use(savePostRouter);
 app.use(blogRouter);
+app.use(productRouter);
+app.use(shoppingCartRouter);
 
 app.use((req, res, next) => {
   const error = new Error('NOT FOUND');

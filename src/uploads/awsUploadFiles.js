@@ -3,19 +3,19 @@ const getImageSize = require('../functions/getImageSize');
 const fs = require('fs').promises;
 const s3 = require('./awsConfig');
 
-const uploadFilesToAWS = async (filePath, fileName, cloudeDirectory) => {
+const uploadFilesToAWS = async (filePath, fileName, cloudDirectory) => {
   try {
-    let upload_len = filePath.length;
-    let upload_res = new Array();
-    let upload_err = new Array();
-    let file_err = new Array();
+    let uploadLen = filePath.length;
+    let uploadRes = new Array();
+    let uploadErr = new Array();
+    let fileErr = new Array();
 
-    for (let i = 0; i < upload_len; i++) {
+    for (let i = 0; i < uploadLen; i++) {
       const fileContent = await fs.readFile(filePath[i]);
 
       // Setting up S3 upload parameters
       const params = {
-        Bucket: process.env.AWS_BUCKET_NAME + '/' + cloudeDirectory,
+        Bucket: process.env.AWS_BUCKET_NAME + '/' + cloudDirectory,
         Key: fileName[i], // File name you want to save as in S3
         Body: fileContent,
         ACL: 'public-read',
@@ -25,19 +25,19 @@ const uploadFilesToAWS = async (filePath, fileName, cloudeDirectory) => {
 
       if (res.Location) {
         res.size = await getImageSize(path.join(__dirname, '../../', filePath[i]));
-        upload_res.push(res);
+        uploadRes.push(res);
       } else {
-        upload_err.push(res);
+        uploadErr.push(res);
       }
 
       fs.unlink(path.join(__dirname, '../../', filePath[i]), (err) => {
         if (err) {
-          file_err.push(err);
+          fileErr.push(err);
         }
       });
     }
 
-    return { upload_res, upload_err, file_err };
+    return { uploadRes, uploadErr, fileErr };
   } catch (e) {
     const err = 'Something bad happen while uploading files, ' + e;
     throw new Error(err.replace('Error: ', ''));

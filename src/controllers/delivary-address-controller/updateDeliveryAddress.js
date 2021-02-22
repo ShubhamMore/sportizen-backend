@@ -3,18 +3,18 @@ const DeliveryAddress = require('../../models/shopping-model/delivery-address.mo
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
 
-const getDeliveryAddress = async (req, res) => {
+const updateDeliveryAddress = async (req, res) => {
   try {
-    const deliveryAddress = await DeliveryAddress.findById(req.body.id);
+    const deliveryAddress = await DeliveryAddress.findByIdAndUpdate(req.body.id, req.body);
 
     if (!deliveryAddress) {
       throw new Error('Delivery Address Not Found');
     }
 
-    responseHandler(deliveryAddress, 200, res);
+    responseHandler({ success: true }, 200, res);
   } catch (e) {
     errorHandler(e, 400, res);
   }
 };
 
-module.exports = getDeliveryAddress;
+module.exports = updateDeliveryAddress;
