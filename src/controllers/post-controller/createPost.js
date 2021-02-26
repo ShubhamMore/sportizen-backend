@@ -84,7 +84,7 @@ const createPost = async (req, res) => {
       },
     ]);
 
-    responseHandler(responsePost ? responsePost[0] : post, 200, res);
+    responseHandler(responsePost.length > 0 ? responsePost[0] : post, 200, res);
   } catch (e) {
     errorHandler(e, 400, res);
   }

@@ -14,12 +14,21 @@ const responseHandler = require('../../handlers/response.handler');
 
 const deletePost = async (req, res) => {
   try {
-    const post = await Post.findByIdAndDelete(req.body.id);
+    const post = await Post.findById(req.body.id);
+
+    if (!post) {
+      throw new Error('Post Not Found');
+    }
+
+    if (post.sportizenUser !== req.user.sportizenId) {
+      throw new Error('You are not authorized user to delete this Post');
+    }
 
     if (post.publicId) {
       await awsRemoveFile(post.publicId);
     }
 
+    const deletePost = Post.findByIdAndDelete(req.body.id);
     const postLike = PostLike.deleteMany({ post: req.body.id });
     const postView = PostView.deleteMany({ post: req.body.id });
     const savePost = SavePost.deleteMany({ post: req.body.id });
@@ -30,6 +39,7 @@ const deletePost = async (req, res) => {
 
     try {
       Promise.all([
+        deletePost,
         postLike,
         postView,
         savePost,
