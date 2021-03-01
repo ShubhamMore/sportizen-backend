@@ -4,6 +4,8 @@ const Post = require('../../models/post-model/post.model');
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
 
+const mongoose = require('mongoose');
+
 const getPosts = async (req, res) => {
   try {
     const connections = await UserConnection.aggregate([
@@ -27,6 +29,7 @@ const getPosts = async (req, res) => {
     const posts = await Post.aggregate([
       {
         $match: {
+          // _id: mongoose.Types.ObjectId('5fd8f2997cafe35d194ba8c5'),
           sportizenUser: { $in: userConnections },
         },
       },

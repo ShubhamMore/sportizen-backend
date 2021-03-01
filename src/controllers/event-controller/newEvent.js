@@ -10,7 +10,7 @@ const newEvent = async (req, res) => {
     const file = req.files;
     const images = new Array();
 
-    if (file !== undefined) {
+    if (file.length > 0 && file !== undefined) {
       let filePaths = new Array();
       let fileNames = new Array();
 
@@ -24,7 +24,7 @@ const newEvent = async (req, res) => {
       const cloudDirectory = 'events';
       const uploadResponce = await awsUploadFiles(filePaths, fileNames, cloudDirectory);
 
-      const uploadRes = uploadResponce.upload_res;
+      const uploadRes = uploadResponce.uploadRes;
       const uploadResLen = uploadRes.length;
 
       if (uploadResLen > 0) {

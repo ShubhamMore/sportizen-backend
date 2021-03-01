@@ -13,7 +13,7 @@ const editEvent = async (req, res) => {
 
     const images = event.images;
 
-    if (file !== undefined) {
+    if (file.length > 0 && file !== undefined) {
       let filePaths = new Array();
       let fileNames = new Array();
 
@@ -27,7 +27,7 @@ const editEvent = async (req, res) => {
       const cloudDirectory = 'events';
       const uploadResponce = await awsUploadFiles(filePaths, fileNames, cloudDirectory);
 
-      const uploadRes = uploadResponce.upload_res;
+      const uploadRes = uploadResponce.uploadRes;
       const uploadResLen = uploadRes.length;
 
       if (uploadResLen > 0) {
@@ -68,6 +68,7 @@ const editEvent = async (req, res) => {
 
     responseHandler(event, 200, res);
   } catch (e) {
+    console.log(e);
     errorHandler(e, 400, res);
   }
 };

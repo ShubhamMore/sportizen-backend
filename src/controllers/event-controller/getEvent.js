@@ -202,6 +202,7 @@ const getEvent = async (req, res) => {
       },
       {
         $addFields: {
+          createdUserImage: '$sportizenUser.userImageURL',
           createdUser: '$sportizenUser.name',
         },
       },
