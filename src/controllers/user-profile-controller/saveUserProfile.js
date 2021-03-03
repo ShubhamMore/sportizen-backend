@@ -38,14 +38,17 @@ const saveUserProfile = async (req, res) => {
     }
 
     userProfile.profileCompleted = '1';
+    userProfile.name = req.body.name;
     userProfile.birthDate = req.body.birthDate;
     userProfile.story = req.body.story;
     userProfile.phoneNo = req.body.phoneNo;
     userProfile.gender = req.body.gender;
     userProfile.sportsInterest = req.body.sportsInterest.split(',');
+
     if (profileImage.secureUrl !== undefined) {
       userProfile.userImageURL = profileImage.secureUrl;
     }
+
     userProfile.userImage = profileImage;
 
     await UserProfile.findByIdAndUpdate(userProfile._id, userProfile);
