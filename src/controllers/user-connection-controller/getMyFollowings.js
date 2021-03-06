@@ -10,22 +10,54 @@ const getMyFollowings = async (req, res) => {
     const myFollowings = await UserConnection.aggregate([
       {
         $match: {
-          primaryUser: req.user.sportizenId,
+          followedUser: req.user.sportizenId,
           status: 'following',
-        },
-      },
-      {
-        $addFields: {
-          searchUser: {
-            $toObjectId: '$followedUser',
-          },
         },
       },
       {
         $lookup: {
           from: 'userprofiles',
-          localField: 'searchUser',
-          foreignField: 'sportizenId',
+          let: { searchUser: '$followedUser' },
+          pipeline: [
+            { $match: { $expr: { $eq: ['$sportizenId', '$$searchUser'] } } },
+            {
+              $lookup: {
+                from: 'userconnections',
+                let: { searchUser: '$$searchUser' },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $or: [
+                          {
+                            $and: [
+                              { $eq: ['$primaryUser', '$$searchUser'] },
+                              { $eq: ['$followedUser', req.user.sportizenId] },
+                              { $eq: ['$status', 'following'] },
+                            ],
+                          },
+                          {
+                            $and: [
+                              { $eq: ['$followedUser', '$$searchUser'] },
+                              { $eq: ['$primaryUser', req.user.sportizenId] },
+                              { $eq: ['$status', 'following'] },
+                            ],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                  { $count: 'mutuleConnections' },
+                ],
+                as: 'followers',
+              },
+            },
+            {
+              $replaceRoot: {
+                newRoot: { $mergeObjects: [{ $arrayElemAt: ['$followers', 0] }, '$$ROOT'] },
+              },
+            },
+          ],
           as: 'connectionDetails',
         },
       },
@@ -34,8 +66,8 @@ const getMyFollowings = async (req, res) => {
           newRoot: { $mergeObjects: [{ $arrayElemAt: ['$connectionDetails', 0] }, '$$ROOT'] },
         },
       },
-      { $project: { connectionDetails: 0 } },
-      { $project: { _id: 1, email: 1, name: 1, userImageURL: 1, userCoverImageURL: 1 } },
+      { $project: { connectionDetails: 0, followers: 0 } },
+      { $project: { _id: 1, email: 1, name: 1, userImageURL: 1, mutuleConnections: 1 } },
     ]);
 
     responseHandler(myFollowings, 200, res);
