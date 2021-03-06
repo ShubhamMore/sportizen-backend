@@ -7,6 +7,8 @@ const getBlockedConnections = require('../../controllers/user-connection-control
 const getConnectionRequests = require('../../controllers/user-connection-controller/getConnectionRequests');
 const getMyFollowers = require('../../controllers/user-connection-controller/getMyFollowers');
 const getMyFollowings = require('../../controllers/user-connection-controller/getMyFollowings');
+const getUserFollowers = require('../../controllers/user-connection-controller/getUserFollowers');
+const getUserFollowings = require('../../controllers/user-connection-controller/getUserFollowings');
 const searchNewConnections = require('../../controllers/user-connection-controller/searchNewConnections');
 const sendConnectionRequest = require('../../controllers/user-connection-controller/sendConnectionRequest');
 const removeFollowerConnection = require('../../controllers/user-connection-controller/removeFollowerConnection');
@@ -28,6 +30,14 @@ router.post('/getMyFollowers', auth, async (req, res) => {
 
 router.post('/getMyFollowings', auth, async (req, res) => {
   await getMyFollowings(req, res);
+});
+
+router.post('/getUserFollowers', auth, async (req, res) => {
+  await getUserFollowers(req, res);
+});
+
+router.post('/getUserFollowings', auth, async (req, res) => {
+  await getUserFollowings(req, res);
 });
 
 router.post('/getBlockedConnections', auth, async (req, res) => {

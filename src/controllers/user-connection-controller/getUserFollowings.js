@@ -5,12 +5,12 @@ const mongoose = require('mongoose');
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
 
-const getMyFollowings = async (req, res) => {
+const getUserFollowings = async (req, res) => {
   try {
-    const myFollowings = await UserConnection.aggregate([
+    const userFollowings = await UserConnection.aggregate([
       {
         $match: {
-          primaryUser: req.user.sportizenId,
+          primaryUser: req.user.body,
           status: 'following',
         },
       },
@@ -32,14 +32,14 @@ const getMyFollowings = async (req, res) => {
                           {
                             $and: [
                               { $eq: ['$primaryUser', '$$searchUser'] },
-                              { $eq: ['$followedUser', req.user.sportizenId] },
+                              { $eq: ['$followedUser', req.user.body] },
                               { $eq: ['$status', 'following'] },
                             ],
                           },
                           {
                             $and: [
                               { $eq: ['$followedUser', '$$searchUser'] },
-                              { $eq: ['$primaryUser', req.user.sportizenId] },
+                              { $eq: ['$primaryUser', req.user.body] },
                               { $eq: ['$status', 'following'] },
                             ],
                           },
@@ -79,10 +79,10 @@ const getMyFollowings = async (req, res) => {
       },
     ]);
 
-    responseHandler(myFollowings, 200, res);
+    responseHandler(userFollowings, 200, res);
   } catch (e) {
     errorHandler(e, 400, res);
   }
 };
 
-module.exports = getMyFollowings;
+module.exports = getUserFollowings;

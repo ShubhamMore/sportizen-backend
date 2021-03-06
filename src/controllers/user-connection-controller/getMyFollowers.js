@@ -10,7 +10,7 @@ const getMyFollowers = async (req, res) => {
     const myFollowers = await UserConnection.aggregate([
       {
         $match: {
-          primaryUser: req.user.sportizenId,
+          followedUser: req.user.sportizenId,
           status: 'following',
         },
       },
@@ -67,7 +67,16 @@ const getMyFollowers = async (req, res) => {
         },
       },
       { $project: { connectionDetails: 0, followers: 0 } },
-      { $project: { _id: 1, email: 1, name: 1, userImageURL: 1, mutuleConnections: 1 } },
+      {
+        $project: {
+          _id: 1,
+          email: 1,
+          name: 1,
+          sportizenId: 1,
+          userImageURL: 1,
+          mutuleConnections: 1,
+        },
+      },
     ]);
 
     responseHandler(myFollowers, 200, res);
