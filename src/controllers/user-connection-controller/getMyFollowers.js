@@ -7,17 +7,25 @@ const responseHandler = require('../../handlers/response.handler');
 
 const getMyFollowers = async (req, res) => {
   try {
-    const myFollowers = await UserConnection.aggregate([
+    const query = [
       {
         $match: {
           followedUser: req.user.sportizenId,
           status: 'following',
         },
       },
+    ];
+
+    if (req.body.limit) {
+      query.push({ limit: req.body.limit });
+    }
+
+    const myFollowers = await UserConnection.aggregate([
+      ...query,
       {
         $lookup: {
           from: 'userprofiles',
-          let: { searchUser: '$followedUser' },
+          let: { searchUser: '$primaryUser' },
           pipeline: [
             { $match: { $expr: { $eq: ['$sportizenId', '$$searchUser'] } } },
             {

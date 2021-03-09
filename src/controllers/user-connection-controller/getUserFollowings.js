@@ -4,16 +4,25 @@ const mongoose = require('mongoose');
 
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
+const { query } = require('express');
 
 const getUserFollowings = async (req, res) => {
   try {
-    const userFollowings = await UserConnection.aggregate([
+    const query = [
       {
         $match: {
-          primaryUser: req.user.body,
+          primaryUser: req.body.user,
           status: 'following',
         },
       },
+    ];
+
+    if (req.body.limit) {
+      query.push({ limit: req.body.limit });
+    }
+
+    const userFollowings = await UserConnection.aggregate([
+      ...query,
       {
         $lookup: {
           from: 'userprofiles',
