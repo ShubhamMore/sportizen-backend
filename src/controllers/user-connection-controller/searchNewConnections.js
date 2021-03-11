@@ -5,16 +5,30 @@ const responseHandler = require('../../handlers/response.handler');
 
 const searchNewConnections = async (req, res) => {
   try {
-    const name = new RegExp('^' + req.body.searchName.toLowerCase() + '.*');
+    console.log(req.body.searchName);
+
+    const searchName = req.body.searchName ? req.body.searchName.toLowerCase() : '';
+
+    const name = new RegExp('^' + searchName + '.*');
 
     // const userConnections = await UserProfile.aggregate([{ $match: { name } }]);
 
-    const userConnections = await UserProfile.aggregate([
+    const query = [
       {
         $match: {
           name,
         },
       },
+    ];
+
+    if (req.body.limit) {
+      query.push({
+        $limit: 6,
+      });
+    }
+
+    const userConnections = await UserProfile.aggregate([
+      ...query,
       { $project: { _id: 1, name: 1, email: 1, userImageURL: 1, sportizenId: 1 } },
       { $addFields: { connectionId: { $toString: '$sportizenId' } } },
       {
@@ -61,6 +75,7 @@ const searchNewConnections = async (req, res) => {
 
     responseHandler(userConnections, 200, res);
   } catch (e) {
+    console.log(e);
     errorHandler(e, 400, res);
   }
 };
