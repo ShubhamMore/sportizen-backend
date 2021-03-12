@@ -24,6 +24,9 @@ const getUserFollowings = async (req, res) => {
     const userFollowings = await UserConnection.aggregate([
       ...query,
       {
+        $project: { status: 0 },
+      },
+      {
         $lookup: {
           from: 'userprofiles',
           let: { searchUser: '$followedUser' },
@@ -119,6 +122,11 @@ const getUserFollowings = async (req, res) => {
           userImageURL: 1,
           mutuleConnections: 1,
           connectionStatus: '$status',
+        },
+      },
+      {
+        $sort: {
+          connectionStatus: -1,
         },
       },
     ]);

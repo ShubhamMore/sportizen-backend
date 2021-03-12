@@ -10,7 +10,7 @@ const getMyFollowers = async (req, res) => {
     const query = [
       {
         $match: {
-          followedUser: req.user.sportizenId,
+          primaryUser: req.user.sportizenId,
           status: 'following',
         },
       },
@@ -20,12 +20,12 @@ const getMyFollowers = async (req, res) => {
       query.push({ limit: req.body.limit });
     }
 
-    const myFollowers = await UserConnection.aggregate([
+    const myFollowings = await UserConnection.aggregate([
       ...query,
       {
         $lookup: {
           from: 'userprofiles',
-          let: { searchUser: '$primaryUser' },
+          let: { searchUser: '$followedUser' },
           pipeline: [
             { $match: { $expr: { $eq: ['$sportizenId', '$$searchUser'] } } },
             {
@@ -61,42 +61,8 @@ const getMyFollowers = async (req, res) => {
               },
             },
             {
-              $lookup: {
-                from: 'userconnections',
-                let: { searchUser: '$sportizenId' },
-                pipeline: [
-                  {
-                    $match: {
-                      $expr: {
-                        $and: [
-                          {
-                            $eq: ['$primaryUser', req.user.sportizenId],
-                          },
-                          {
-                            $eq: ['$followedUser', '$$searchUser'],
-                          },
-                        ],
-                      },
-                    },
-                  },
-                  {
-                    $project: {
-                      _id: 0,
-                      status: 1,
-                    },
-                  },
-                ],
-                as: 'connectionStatus',
-              },
-            },
-            {
               $replaceRoot: {
                 newRoot: { $mergeObjects: [{ $arrayElemAt: ['$followers', 0] }, '$$ROOT'] },
-              },
-            },
-            {
-              $replaceRoot: {
-                newRoot: { $mergeObjects: [{ $arrayElemAt: ['$connectionStatus', 0] }, '$$ROOT'] },
               },
             },
           ],
@@ -108,7 +74,7 @@ const getMyFollowers = async (req, res) => {
           newRoot: { $mergeObjects: [{ $arrayElemAt: ['$connectionDetails', 0] }, '$$ROOT'] },
         },
       },
-      { $project: { connectionDetails: 0, followers: 0, connectionStatus: 0 } },
+      { $project: { connectionDetails: 0, followers: 0 } },
       {
         $project: {
           _id: 1,
@@ -122,7 +88,7 @@ const getMyFollowers = async (req, res) => {
       },
     ]);
 
-    responseHandler(myFollowers, 200, res);
+    responseHandler(myFollowings, 200, res);
   } catch (e) {
     errorHandler(e, 400, res);
   }
