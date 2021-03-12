@@ -5,8 +5,6 @@ const responseHandler = require('../../handlers/response.handler');
 
 const searchNewConnections = async (req, res) => {
   try {
-    console.log(req.body.searchName);
-
     const searchName = req.body.searchName ? req.body.searchName.toLowerCase() : '';
 
     const name = new RegExp('^' + searchName + '.*');
@@ -17,6 +15,7 @@ const searchNewConnections = async (req, res) => {
       {
         $match: {
           name,
+          sportizenId: { $ne: req.user.sportizenId },
         },
       },
     ];
@@ -30,11 +29,42 @@ const searchNewConnections = async (req, res) => {
     const userConnections = await UserProfile.aggregate([
       ...query,
       { $project: { _id: 1, name: 1, email: 1, userImageURL: 1, sportizenId: 1 } },
-      { $addFields: { connectionId: { $toString: '$sportizenId' } } },
       {
         $lookup: {
           from: 'userconnections',
-          let: { connectionId: '$connectionId' },
+          let: { searchUser: '$sportizenId' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $or: [
+                    {
+                      $and: [
+                        { $eq: ['$primaryUser', '$$searchUser'] },
+                        { $eq: ['$followedUser', req.user.sportizenId] },
+                        { $eq: ['$status', 'following'] },
+                      ],
+                    },
+                    {
+                      $and: [
+                        { $eq: ['$followedUser', '$$searchUser'] },
+                        { $eq: ['$primaryUser', req.user.sportizenId] },
+                        { $eq: ['$status', 'following'] },
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
+            { $count: 'mutuleConnections' },
+          ],
+          as: 'followers',
+        },
+      },
+      {
+        $lookup: {
+          from: 'userconnections',
+          let: { searchUser: '$sportizenId' },
           pipeline: [
             {
               $match: {
@@ -44,7 +74,7 @@ const searchNewConnections = async (req, res) => {
                       $eq: ['$primaryUser', req.user.sportizenId],
                     },
                     {
-                      $eq: ['$followedUser', '$$connectionId'],
+                      $eq: ['$followedUser', '$$searchUser'],
                     },
                   ],
                 },
@@ -57,12 +87,17 @@ const searchNewConnections = async (req, res) => {
               },
             },
           ],
-          as: 'connection',
+          as: 'connectionStatus',
         },
       },
       {
         $replaceRoot: {
-          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$connection', 0] }, '$$ROOT'] },
+          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$followers', 0] }, '$$ROOT'] },
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$connectionStatus', 0] }, '$$ROOT'] },
         },
       },
       {
@@ -70,12 +105,11 @@ const searchNewConnections = async (req, res) => {
           connectionStatus: '$status',
         },
       },
-      { $project: { connection: 0, status: 0 } },
+      { $project: { followers: 0, status: 0 } },
     ]);
 
     responseHandler(userConnections, 200, res);
   } catch (e) {
-    console.log(e);
     errorHandler(e, 400, res);
   }
 };

@@ -7,13 +7,17 @@ const responseHandler = require('../../handlers/response.handler');
 
 const removeFollowerConnection = async (req, res) => {
   try {
-    const myFollower = await UserConnection.deleteOne({
-      primaryUser: req.body.followedUser,
+    const myFollower = await UserConnection.findOneAndDelete({
+      primaryUser: req.body.primaryUser,
       followedUser: req.user.sportizenId,
       status: 'following',
     });
 
-    responseHandler(myFollower, 200, res);
+    if (!myFollower) {
+      throw new Error('The User never followed You');
+    }
+
+    responseHandler({ success: true }, 200, res);
   } catch (e) {
     errorHandler(e, 400, res);
   }

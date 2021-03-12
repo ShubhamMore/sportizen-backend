@@ -61,8 +61,42 @@ const getMyFollowings = async (req, res) => {
               },
             },
             {
+              $lookup: {
+                from: 'userconnections',
+                let: { searchUser: '$sportizenId' },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          {
+                            $eq: ['$primaryUser', req.user.sportizenId],
+                          },
+                          {
+                            $eq: ['$followedUser', '$$searchUser'],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                  {
+                    $project: {
+                      _id: 0,
+                      status: 1,
+                    },
+                  },
+                ],
+                as: 'connectionStatus',
+              },
+            },
+            {
               $replaceRoot: {
                 newRoot: { $mergeObjects: [{ $arrayElemAt: ['$followers', 0] }, '$$ROOT'] },
+              },
+            },
+            {
+              $replaceRoot: {
+                newRoot: { $mergeObjects: [{ $arrayElemAt: ['$connectionStatus', 0] }, '$$ROOT'] },
               },
             },
           ],
@@ -74,7 +108,7 @@ const getMyFollowings = async (req, res) => {
           newRoot: { $mergeObjects: [{ $arrayElemAt: ['$connectionDetails', 0] }, '$$ROOT'] },
         },
       },
-      { $project: { connectionDetails: 0, followers: 0 } },
+      { $project: { connectionDetails: 0, followers: 0, connectionStatus: 0 } },
       {
         $project: {
           _id: 1,
@@ -83,6 +117,7 @@ const getMyFollowings = async (req, res) => {
           sportizenId: 1,
           userImageURL: 1,
           mutuleConnections: 1,
+          connectionStatus: '$status',
         },
       },
     ]);
