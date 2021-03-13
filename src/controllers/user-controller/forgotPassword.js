@@ -15,7 +15,7 @@ const forgotPassword = async (req, res) => {
 
     const token = await user.generateAuthToken();
 
-    const link = process.env.MAIL_URI + '/#/resetPassword?key=' + token;
+    const link = process.env.MAIL_URI + '/#/reset-password?key=' + token;
 
     const mail = {
       to: user.email,
