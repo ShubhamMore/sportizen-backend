@@ -35,7 +35,7 @@ const createPost = async (req, res) => {
       sportizenUser: req.user.sportizenId,
       postType: req.body.postType.toLowerCase(),
       description: req.body.description ? req.body.description : '',
-      filename: postFile.fileName,
+      fileName: postFile.fileName,
       secureUrl: postFile.secureUrl,
       publicId: postFile.publicId,
       visibility: req.body.visibility,

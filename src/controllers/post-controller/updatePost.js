@@ -45,7 +45,7 @@ const updatePost = async (req, res) => {
       sportizenUser: req.user.sportizenId,
       postType: req.body.postType,
       description: req.body.description,
-      filename: postFile.fileName,
+      fileName: postFile.fileName,
       secureUrl: postFile.secureUrl,
       publicId: postFile.publicId,
       visibility: req.body.visibility,
