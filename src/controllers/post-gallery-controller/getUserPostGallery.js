@@ -27,8 +27,6 @@ const getUserPostGallery = async (req, res) => {
       },
     ]);
 
-    console.log(postGallery);
-
     responseHandler(postGallery, 200, res);
   } catch (e) {
     errorHandler(e, 400, res);

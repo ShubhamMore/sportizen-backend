@@ -28,7 +28,31 @@ const searchNewConnections = async (req, res) => {
 
     const userConnections = await UserProfile.aggregate([
       ...query,
-      { $project: { _id: 1, name: 1, email: 1, userImageURL: 1, sportizenId: 1 } },
+      {
+        $lookup: {
+          from: 'userconnections',
+          let: {},
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$primaryUser', req.user.sportizenId] },
+                    { $eq: ['$status', 'following'] },
+                  ],
+                },
+              },
+            },
+            {
+              $project: {
+                _id: 0,
+                searchUser: '$followedUser',
+              },
+            },
+          ],
+          as: 'myFollowings',
+        },
+      },
       {
         $lookup: {
           from: 'userconnections',
@@ -37,28 +61,26 @@ const searchNewConnections = async (req, res) => {
             {
               $match: {
                 $expr: {
-                  $or: [
-                    {
-                      $and: [
-                        { $eq: ['$primaryUser', '$$searchUser'] },
-                        { $eq: ['$followedUser', req.user.sportizenId] },
-                        { $eq: ['$status', 'following'] },
-                      ],
-                    },
-                    {
-                      $and: [
-                        { $eq: ['$followedUser', '$$searchUser'] },
-                        { $eq: ['$primaryUser', req.user.sportizenId] },
-                        { $eq: ['$status', 'following'] },
-                      ],
-                    },
+                  $and: [
+                    { $eq: ['$followedUser', '$$searchUser'] },
+                    { $eq: ['$status', 'following'] },
                   ],
                 },
               },
             },
-            { $count: 'mutuleConnections' },
+            {
+              $project: {
+                _id: 0,
+                searchUser: '$primaryUser',
+              },
+            },
           ],
-          as: 'followers',
+          as: 'userFollowers',
+        },
+      },
+      {
+        $addFields: {
+          connections: { $setIntersection: ['$myFollowings', '$userFollowers'] },
         },
       },
       {
@@ -92,20 +114,20 @@ const searchNewConnections = async (req, res) => {
       },
       {
         $replaceRoot: {
-          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$followers', 0] }, '$$ROOT'] },
-        },
-      },
-      {
-        $replaceRoot: {
           newRoot: { $mergeObjects: [{ $arrayElemAt: ['$connectionStatus', 0] }, '$$ROOT'] },
         },
       },
       {
-        $addFields: {
+        $project: {
+          name: 1,
+          sportizenId: 1,
+          userImageURL: 1,
+          mutuleConnections: {
+            $size: '$connections',
+          },
           connectionStatus: '$status',
         },
       },
-      { $project: { followers: 0, status: 0 } },
     ]);
 
     responseHandler(userConnections, 200, res);

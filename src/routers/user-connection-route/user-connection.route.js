@@ -5,6 +5,7 @@ const auth = require('../../middleware/auth');
 const changeUserStatus = require('../../controllers/user-connection-controller/changeUserStatus');
 const getBlockedConnections = require('../../controllers/user-connection-controller/getBlockedConnections');
 const getConnectionRequests = require('../../controllers/user-connection-controller/getConnectionRequests');
+const getMyConnections = require('../../controllers/user-connection-controller/getMyConnections');
 const getMyFollowers = require('../../controllers/user-connection-controller/getMyFollowers');
 const getMyFollowings = require('../../controllers/user-connection-controller/getMyFollowings');
 const getUserFollowers = require('../../controllers/user-connection-controller/getUserFollowers');
@@ -22,6 +23,10 @@ router.post('/searchNewConnections', auth, async (req, res) => {
 
 router.post('/changeUserConnectionStatus', auth, async (req, res) => {
   await changeUserStatus(req, res);
+});
+
+router.post('/getMyConnections', auth, async (req, res) => {
+  await getMyConnections(req, res);
 });
 
 router.post('/getMyFollowers', auth, async (req, res) => {

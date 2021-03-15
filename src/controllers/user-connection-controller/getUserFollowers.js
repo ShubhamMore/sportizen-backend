@@ -1,7 +1,5 @@
 const UserConnection = require('../../models/user-connection-model/user-connection.model');
 
-const mongoose = require('mongoose');
-
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
 
@@ -34,33 +32,56 @@ const getUserFollowers = async (req, res) => {
             {
               $lookup: {
                 from: 'userconnections',
+                let: {},
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          { $eq: ['$primaryUser', req.user.sportizenId] },
+                          { $eq: ['$status', 'following'] },
+                        ],
+                      },
+                    },
+                  },
+                  {
+                    $project: {
+                      _id: 0,
+                      searchUser: '$followedUser',
+                    },
+                  },
+                ],
+                as: 'myFollowings',
+              },
+            },
+            {
+              $lookup: {
+                from: 'userconnections',
                 let: { searchUser: '$$searchUser' },
                 pipeline: [
                   {
                     $match: {
                       $expr: {
-                        $or: [
-                          {
-                            $and: [
-                              { $eq: ['$primaryUser', '$$searchUser'] },
-                              { $eq: ['$followedUser', req.body.user] },
-                              { $eq: ['$status', 'following'] },
-                            ],
-                          },
-                          {
-                            $and: [
-                              { $eq: ['$followedUser', '$$searchUser'] },
-                              { $eq: ['$primaryUser', req.body.user] },
-                              { $eq: ['$status', 'following'] },
-                            ],
-                          },
+                        $and: [
+                          { $eq: ['$followedUser', '$$searchUser'] },
+                          { $eq: ['$status', 'following'] },
                         ],
                       },
                     },
                   },
-                  { $count: 'mutuleConnections' },
+                  {
+                    $project: {
+                      _id: 0,
+                      searchUser: '$primaryUser',
+                    },
+                  },
                 ],
-                as: 'followers',
+                as: 'userFollowers',
+              },
+            },
+            {
+              $addFields: {
+                connections: { $setIntersection: ['$myFollowings', '$userFollowers'] },
               },
             },
             {
@@ -94,33 +115,34 @@ const getUserFollowers = async (req, res) => {
             },
             {
               $replaceRoot: {
-                newRoot: { $mergeObjects: [{ $arrayElemAt: ['$followers', 0] }, '$$ROOT'] },
+                newRoot: { $mergeObjects: [{ $arrayElemAt: ['$connectionStatus', 0] }, '$$ROOT'] },
               },
             },
             {
-              $replaceRoot: {
-                newRoot: { $mergeObjects: [{ $arrayElemAt: ['$connectionStatus', 0] }, '$$ROOT'] },
+              $project: {
+                name: 1,
+                sportizenId: 1,
+                userImageURL: 1,
+                mutuleConnections: {
+                  $size: '$connections',
+                },
+                connectionStatus: '$status',
               },
             },
           ],
           as: 'connectionDetails',
         },
       },
+      { $project: { _id: 0, connectionDetails: 1 } },
+
       {
         $replaceRoot: {
           newRoot: { $mergeObjects: [{ $arrayElemAt: ['$connectionDetails', 0] }, '$$ROOT'] },
         },
       },
-      { $project: { connectionDetails: 0, followers: 0, connectionStatus: 0 } },
       {
         $project: {
-          _id: 1,
-          email: 1,
-          name: 1,
-          sportizenId: 1,
-          userImageURL: 1,
-          mutuleConnections: 1,
-          connectionStatus: '$status',
+          connectionDetails: 0,
         },
       },
       {
