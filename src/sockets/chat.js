@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user-model/user.model');
-const ChatSockets = require('./sockets');
+const Socket = require('./sockets');
 const Chat = require('../models/chat-model/chat.model');
 
 const chatting = async (server) => {
@@ -28,42 +28,33 @@ const chatting = async (server) => {
       }
     })
     .on('connection', (socket) => {
-      new ChatSockets(socket.user.sportizenId, socket);
+      new Socket(socket.user.sportizenId, socket);
+      io.emit('isOnline', { sportizenUser: socket.user.sportizenId, isOnline: false });
 
       socket.on('message', async (message) => {
         const chatMessage = {
           senderId: socket.user.sportizenId,
+          receiverId: message.receiverId,
           message: message.message,
+          date: Date.now(),
         };
 
-        await Chat.updateOne(
-          { sportizenId: message.receiverId },
-          { $push: { chats: chatMessage } },
-          { upsert: true }
-        );
+        const newMessage = new Chat(chatMessage);
 
-        const replyMessageEvent = {
-          receiverId: socket.user.sportizenId,
-          msg: {
-            text: message.message,
-            date: Date.now(),
-            reply: false,
-            user: {
-              name: socket.user.name,
-            },
-          },
-        };
-        const receiver = ChatSockets.getSocket(message.receiverId);
+        await newMessage.save();
+
+        const receiver = Socket.getSocket(message.receiverId);
+
         if (receiver) {
-          receiver.emit('message', replyMessageEvent);
+          receiver.emit('message', newMessage);
         }
-        replyMessageEvent.receiverId = message.receiverId;
-        replyMessageEvent.msg.reply = true;
-        socket.emit('message', replyMessageEvent);
+
+        socket.emit('message', newMessage);
       });
 
       socket.on('disconnect', () => {
-        ChatSockets.deleteSocket(socket.user.sportizenId);
+        io.emit('isOnline', { sportizenUser: socket.user.sportizenId, isOnline: false });
+        Socket.deleteSocket(socket.user.sportizenId);
       });
     });
 };

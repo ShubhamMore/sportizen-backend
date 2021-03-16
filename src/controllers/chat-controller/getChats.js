@@ -10,27 +10,17 @@ const getChats = async (req, res) => {
         $match: {
           $or: [
             {
-              $and: [
-                { sportizenId: req.user.sportizenId },
-                {
-                  'chats.senderId': req.body.receiverId,
-                },
-              ],
+              $and: [{ senderId: req.user.sportizenId }, { receiverId: req.body.receiverId }],
             },
             {
-              $and: [
-                { sportizenId: req.body.receiverId },
-                {
-                  'chats.senderId': req.user.sportizenId,
-                },
-              ],
+              $and: [{ senderId: req.body.receiverId }, { receiverId: req.user.sportizenId }],
             },
           ],
         },
       },
       {
         $sort: {
-          _id: -1,
+          _id: 1,
         },
       },
     ]);

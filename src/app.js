@@ -20,6 +20,7 @@ require('./database/mongoose');
 const userRouter = require('./routers/user-route/user.route');
 const userProfileRouter = require('./routers/user-route/user-profile.route');
 const userConnectionRouter = require('./routers/user-connection-route/user-connection.route');
+const chatRouter = require('./routers/chat-route/chat.route');
 const eventRouter = require('./routers/event-route/event.route');
 const eventPlayerRegistrationRouter = require('./routers/event-route/event-player-registration.route');
 const eventTeamRegistrationRouter = require('./routers/event-route/event-team-registration.route');
@@ -111,6 +112,7 @@ app.use((req, res, next) => {
 app.use(userRouter);
 app.use(userProfileRouter);
 app.use(userConnectionRouter);
+app.use(chatRouter);
 app.use(eventRouter);
 app.use(eventPlayerRegistrationRouter);
 app.use(eventTeamRegistrationRouter);
