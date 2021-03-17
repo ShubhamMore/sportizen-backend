@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user-model/user.model');
-const Socket = require('./sockets');
+const Socket = require('./socket');
 const Chat = require('../models/chat-model/chat.model');
 
 const chatting = async (server) => {

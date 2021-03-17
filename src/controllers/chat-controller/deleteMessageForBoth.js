@@ -1,4 +1,5 @@
 const Chat = require('../../models/chat-model/chat.model');
+const Socket = require('../../sockets/socket');
 
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
@@ -12,10 +13,15 @@ const deleteMessageForBoth = async (req, res) => {
       },
     });
 
-    if (!chatMessage) {
+    if (chatMessage) {
+      const receiver = Socket.getSocket(req.body.receiver);
+
+      if (receiver) {
+        receiver.emit('deleteMessage', { ...req.body });
+      }
     }
 
-    responseHandler(chatMessage, 200, res);
+    responseHandler({ success: true }, 200, res);
   } catch (e) {
     errorHandler(e, 400, res);
   }
