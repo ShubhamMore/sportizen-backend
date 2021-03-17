@@ -10,10 +10,18 @@ const getChats = async (req, res) => {
         $match: {
           $or: [
             {
-              $and: [{ senderId: req.user.sportizenId }, { receiverId: req.body.receiverId }],
+              $and: [
+                { senderId: req.user.sportizenId },
+                { receiverId: req.body.receiverId },
+                { senderDelete: false },
+              ],
             },
             {
-              $and: [{ senderId: req.body.receiverId }, { receiverId: req.user.sportizenId }],
+              $and: [
+                { senderId: req.body.receiverId },
+                { receiverId: req.user.sportizenId },
+                { receiverDelete: false },
+              ],
             },
           ],
         },

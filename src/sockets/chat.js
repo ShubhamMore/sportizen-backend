@@ -53,7 +53,6 @@ const chatting = async (server) => {
       });
 
       socket.on('disconnect', () => {
-        io.emit('isOnline', { sportizenUser: socket.user.sportizenId, isOnline: false });
         Socket.deleteSocket(socket.user.sportizenId);
       });
     });

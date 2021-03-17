@@ -17,6 +17,14 @@ const chatSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  senderDelete: {
+    type: Boolean,
+    default: false,
+  },
+  receiverDelete: {
+    type: Boolean,
+    default: false,
+  },
   seen: {
     type: Boolean,
     default: false,
