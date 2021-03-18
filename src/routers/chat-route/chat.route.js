@@ -3,6 +3,7 @@ const express = require('express');
 const auth = require('../../middleware/auth');
 
 const getChats = require('../../controllers/chat-controller/getChats');
+const deleteAllMessages = require('../../controllers/chat-controller/deleteAllMessages');
 const deleteMessageForBoth = require('../../controllers/chat-controller/deleteMessageForBoth');
 const deleteMessageForReceiver = require('../../controllers/chat-controller/deleteMessageForReceiver');
 const deleteMessageForSender = require('../../controllers/chat-controller/deleteMessageForSender');
@@ -11,6 +12,10 @@ const router = new express.Router();
 
 router.post('/getChats', auth, async (req, res) => {
   await getChats(req, res);
+});
+
+router.post('/deleteAllMessages', auth, async (req, res) => {
+  await deleteAllMessages(req, res);
 });
 
 router.post('/deleteMessageForBoth', auth, async (req, res) => {
