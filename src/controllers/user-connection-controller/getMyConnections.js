@@ -71,6 +71,11 @@ const getMyConnections = async (req, res) => {
           sportizenId: 1,
         },
       },
+      {
+        $sort: {
+          name: 1,
+        },
+      },
     ]);
 
     responseHandler(myConnections, 200, res);
