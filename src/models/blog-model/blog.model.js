@@ -1,19 +1,15 @@
 const mongoose = require('mongoose');
 
 const blogSchema = new mongoose.Schema({
-  sportizenUser: {
+  title: {
     type: String,
     required: true,
   },
-  blogTitle: {
+  subtitle: {
     type: String,
     required: true,
   },
-  blogSubtitle: {
-    type: String,
-    required: true,
-  },
-  blogDescription: {
+  description: {
     type: String,
     required: true,
   },
@@ -36,48 +32,57 @@ const blogSchema = new mongoose.Schema({
         type: Date,
         default: new Date().toISOString(),
       },
-      position: {
-        type: Number,
-        required: true,
-      },
     },
   ],
-
-  tags: [{ type: Array, validate: [arrayLimit, 'length of tag exceeds 5'] }],
-  viewTime: {
-    type: Number,
+  createdBy: {
+    type: String,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    required: true,
+  },
+  modifiedAt: {
+    type: Date,
     required: true,
   },
 
-  views: {
-    type: Number,
-    required: true,
-    default: true,
-  },
-  likes: [{ type: String }],
+  // tags: [{ type: Array, validate: [arrayLimit, 'length of tag exceeds 5'] }],
 
-  comments: [
-    {
-      commentedBy: {
-        type: String,
-        required: true,
-      },
-      comment: {
-        type: String,
-        required: true,
-      },
-      commentedAt: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
+  // viewTime: {
+  //   type: Number,
+  //   required: true,
+  // },
 
-  bookmarkUser: [
-    {
-      type: Array,
-    },
-  ],
+  // views: {
+  //   type: Number,
+  //   required: true,
+  //   default: true,
+  // },
+  // likes: [{ type: String }],
+
+  // comments: [
+  //   {
+  //     commentedBy: {
+  //       type: String,
+  //       required: true,
+  //     },
+  //     comment: {
+  //       type: String,
+  //       required: true,
+  //     },
+  //     commentedAt: {
+  //       type: String,
+  //       required: true,
+  //     },
+  //   },
+  // ],
+
+  // bookmarkUser: [
+  //   {
+  //     type: Array,
+  //   },
+  // ],
 });
 
 function arrayLimit(val) {

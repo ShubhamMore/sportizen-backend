@@ -1,4 +1,4 @@
-const Blog = require('../../models/blog-model/blog-model');
+const Blog = require('../../models/blog-model/blog.model');
 const responseHandler = require('../../handlers/response.handler');
 const errorHandler = require('../../handlers/error.handler');
 

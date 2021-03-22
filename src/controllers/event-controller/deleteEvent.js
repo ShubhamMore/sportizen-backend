@@ -20,7 +20,7 @@ const deleteEvent = async (req, res) => {
     });
 
     if (event.eventType === '0') {
-      await EventRegisteredPlayer.deleteMany({ event: event._ipred.toString() });
+      await EventRegisteredPlayer.deleteMany({ event: event._id.toString() });
     } else if (event.eventType === '1') {
       await EventRegisteredTeam.deleteMany({ event: event._id.toString() });
     }

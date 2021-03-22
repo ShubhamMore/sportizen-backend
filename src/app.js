@@ -40,6 +40,7 @@ const shoppingCartRouter = require('./routers/shopping-route/shopping-cart.route
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded());
 
 app.use(cors());
 app.use(compression());
@@ -48,7 +49,7 @@ app.use('/log', express.static(path.join('log')));
 app.use('/images', express.static(path.join('images')));
 app.use('/fileToUpload', express.static(path.join('fileToUpload')));
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(morgan('tiny'));
@@ -84,7 +85,7 @@ app.use(
 // To Limit Incomming request from same IP
 const limiter = rateLimit({
   windowMs: 60 * 1000, // 1 minute
-  max: 100, // limit each IP to 100 requests per windowMs
+  max: 1000, // limit each IP to 1000 requests per windowMs
 });
 
 //  apply to all requests

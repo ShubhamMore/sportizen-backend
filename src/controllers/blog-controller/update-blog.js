@@ -1,23 +1,63 @@
-const Blog = require('../../models/blog-model/blog-model');
-const responseHandler = require('../../handlers/response.handler');
+const Blog = require('../../models/blog-model/blog.model');
+
+const awsUploadFiles = require('../../uploads/awsUploadFiles');
+
 const errorHandler = require('../../handlers/error.handler');
+const responseHandler = require('../../handlers/response.handler');
 
-const updateBlog = async (req, res) => {
+const editBlog = async (req, res) => {
   try {
-    const blog = await Blog.findByIdAndUpdate(req.body.blogId, {
-      blogTitle: req.body.blogTitle,
-      blogSubtitle: req.body.blogSubtitle,
-      blogDescription: req.body.blogDescription,
-    });
+    const file = req.files;
 
-    if (!blog) {
-      throw new Error('Blog Not Found');
+    const blog = await Blog.findById(req.body._id);
+
+    const images = blog.images;
+
+    if (file.length > 0 && file !== undefined) {
+      let filePaths = new Array();
+      let fileNames = new Array();
+
+      const n = file.length;
+
+      for (let i = 0; i < n; i++) {
+        filePaths.push(file[i].path);
+        fileNames.push(file[i].filename);
+      }
+
+      const cloudDirectory = 'blogs';
+      const uploadResponce = await awsUploadFiles(filePaths, fileNames, cloudDirectory);
+
+      const uploadRes = uploadResponce.uploadRes;
+      const uploadResLen = uploadRes.length;
+
+      if (uploadResLen > 0) {
+        for (let i = 0; i < uploadResLen; i++) {
+          const image = {
+            imageName: uploadRes[i].key,
+            secureUrl: uploadRes[i].Location,
+            publicId: uploadRes[i].key,
+            createdAt: Date.now(),
+          };
+          images.push(image);
+        }
+      }
     }
 
-    responseHandler({ msg: 'Blog is updated' }, 200, res);
-  } catch (error) {
-    errorHandler(error, 400, res);
+    blog.title = req.body.title;
+    blog.sport = req.body.sport;
+    blog.subtitle = req.body.subtitle;
+    blog.description = req.body.description;
+    blog.createdBy = req.user.sportizenId;
+    blog.images = images;
+    blog.modifiedAt = Date.now();
+
+    await Blog.findByIdAndUpdate(blog._id, blog);
+
+    responseHandler(blog, 200, res);
+  } catch (e) {
+    console.log(e);
+    errorHandler(e, 400, res);
   }
 };
 
-module.exports = updateBlog;
+module.exports = editBlog;

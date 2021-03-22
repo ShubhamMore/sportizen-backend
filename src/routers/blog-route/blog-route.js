@@ -21,17 +21,19 @@ const storage = multer.diskStorage({
   filename: (req, file, cb) => {
     const name = file.originalname.toLowerCase().split(' ').join('-');
     const ext = MIME_TYPE_MAP[file.mimetype];
-    cb(null, 'event-' + name.substring(0, name.lastIndexOf('.')) + '-' + Date.now() + '.' + ext);
+    cb(null, 'blog-' + name.substring(0, name.lastIndexOf('.')) + '-' + Date.now() + '.' + ext);
   },
 });
 
 const auth = require('../../middleware/auth');
 
 const createBlog = require('../../controllers/blog-controller/create-blog');
-const getMyBlog = require('../../controllers/blog-controller/get-my-blogs');
-const viewBlog = require('../../controllers/blog-controller/view-blog');
+const updateBlog = require('../../controllers/blog-controller/update-blog');
+const getMyBlogs = require('../../controllers/blog-controller/get-my-blogs');
+const getBlogs = require('../../controllers/blog-controller/get-blogs');
+const getBlog = require('../../controllers/blog-controller/get-blog');
 const deleteBlog = require('../../controllers/blog-controller/delete-blog');
-const likeBlog = require('../../controllers/blog-controller/like-blog');
+const deleteBlogImage = require('../../controllers/blog-controller/delete-blog-image');
 
 const router = new express.Router();
 
@@ -44,36 +46,33 @@ router.post(
   }
 );
 
-router.post('/get-my-blog', auth, async (req, res) => {
-  await getMyBlog(req, res);
+router.post(
+  '/update-blog',
+  auth,
+  multer({ storage: storage }).array('blogImage'),
+  async (req, res) => {
+    await updateBlog(req, res);
+  }
+);
+
+router.post('/get-blogs', auth, async (req, res) => {
+  await getBlogs(req, res);
 });
 
-router.post('/view-blog', auth, async (req, res) => {
-  await viewBlog(req, res);
+router.post('/get-my-blogs', auth, async (req, res) => {
+  await getMyBlogs(req, res);
 });
 
-router.post('/update-blog', auth, async (req, res) => {
-  // await updateBlog(req, res);
-});
-
-router.post('/like-blog', auth, async (req, res) => {
-  await likeBlog(req, res);
-});
-
-router.post('/unlike-blog', auth, async (req, res) => {
-  // await unlikeBlog(req, res);
-});
-
-router.post('/comment-blog', auth, async (req, res) => {
-  // await commentBlog(req, res);
+router.post('/get-blog', auth, async (req, res) => {
+  await getBlog(req, res);
 });
 
 router.post('/delete-blog', auth, async (req, res) => {
   await deleteBlog(req, res);
 });
 
-router.post('/search-blogs', async (req, res) => {
-  // await deleteBlog(req, res);
+router.post('/delete-blog-image', auth, async (req, res) => {
+  await deleteBlogImage(req, res);
 });
 
 module.exports = router;

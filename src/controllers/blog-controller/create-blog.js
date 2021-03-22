@@ -1,15 +1,16 @@
-const Blog = require('../../models/blog-model/blog-model');
-const responseHandler = require('../../handlers/response.handler');
+const Blog = require('../../models/blog-model/blog.model');
+
 const errorHandler = require('../../handlers/error.handler');
+const responseHandler = require('../../handlers/response.handler');
 
 const awsUploadFiles = require('../../uploads/awsUploadFiles');
 
-const createBlog = async (req, res) => {
+const newBlog = async (req, res) => {
   try {
     const file = req.files;
     const images = new Array();
 
-    if (file !== undefined) {
+    if (file.length > 0 && file !== undefined) {
       let filePaths = new Array();
       let fileNames = new Array();
 
@@ -23,7 +24,7 @@ const createBlog = async (req, res) => {
       const cloudDirectory = 'blogs';
       const uploadResponce = await awsUploadFiles(filePaths, fileNames, cloudDirectory);
 
-      const uploadRes = uploadResponce.upload_res;
+      const uploadRes = uploadResponce.uploadRes;
       const uploadResLen = uploadRes.length;
 
       if (uploadResLen > 0) {
@@ -32,7 +33,6 @@ const createBlog = async (req, res) => {
             imageName: uploadRes[i].key,
             secureUrl: uploadRes[i].Location,
             publicId: uploadRes[i].key,
-            position: file[i].position,
             createdAt: Date.now(),
           };
           images.push(image);
@@ -41,23 +41,26 @@ const createBlog = async (req, res) => {
     }
 
     const blogData = {
-      sportizenUser: req.user.sportizenId,
-      blogTitle: req.body.blogTitle,
-      blogSubtitle: req.body.blogSubtitle,
-      blogDescription: req.body.blogDescription,
-      viewTime: req.body.viewTime,
-      tags: req.body.tags,
-      images: images,
+      title: req.body.title,
+      sport: req.body.sport,
+      subtitle: req.body.subtitle,
+      description: req.body.description,
+      createdBy: req.user.sportizenId,
+      createdAt: Date.now(),
+      modifiedAt: Date.now(),
     };
 
     const blog = new Blog(blogData);
 
+    // console.log(blog);
+
     await blog.save();
 
     responseHandler(blog, 200, res);
-  } catch (error) {
-    errorHandler(error, 400, res);
+  } catch (e) {
+    console.log(e);
+    errorHandler(e, 400, res);
   }
 };
 
-module.exports = createBlog;
+module.exports = newBlog;
