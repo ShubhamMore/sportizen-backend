@@ -26,13 +26,32 @@ const getPosts = async (req, res) => {
       userConnections.push(connection.followedUser);
     }
 
-    const posts = await Post.aggregate([
+    const query = [
       {
         $match: {
           // _id: mongoose.Types.ObjectId('5fd8f2997cafe35d194ba8c5'),
           sportizenUser: { $in: userConnections },
         },
       },
+      {
+        $sort: { _id: -1 },
+      },
+    ];
+
+    if (req.body.skip) {
+      query.push({
+        $skip: req.body.skip,
+      });
+    }
+
+    if (req.body.limit) {
+      query.push({
+        $limit: req.body.limit,
+      });
+    }
+
+    const posts = await Post.aggregate([
+      ...query,
       {
         $addFields: {
           id: {
@@ -285,9 +304,6 @@ const getPosts = async (req, res) => {
           postUser: 0,
           __v: 0,
         },
-      },
-      {
-        $sort: { _id: -1 },
       },
     ]);
 

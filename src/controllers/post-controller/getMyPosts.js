@@ -5,12 +5,31 @@ const responseHandler = require('../../handlers/response.handler');
 
 const getMyPosts = async (req, res) => {
   try {
-    const posts = await Post.aggregate([
+    const query = [
       {
         $match: {
           sportizenUser: req.user.sportizenId,
         },
       },
+      {
+        $sort: { _id: -1 },
+      },
+    ];
+
+    if (req.body.skip) {
+      query.push({
+        $skip: req.body.skip,
+      });
+    }
+
+    if (req.body.limit) {
+      query.push({
+        $limit: req.body.limit,
+      });
+    }
+
+    const posts = await Post.aggregate([
+      ...query,
       {
         $addFields: {
           id: {
@@ -270,9 +289,6 @@ const getMyPosts = async (req, res) => {
           postUser: 0,
           __v: 0,
         },
-      },
-      {
-        $sort: { _id: -1 },
       },
     ]);
 
