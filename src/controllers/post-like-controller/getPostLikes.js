@@ -5,12 +5,31 @@ const responseHandler = require('../../handlers/response.handler');
 
 const getPostLikes = async (req, res) => {
   try {
-    const postLikes = await PostLike.aggregate([
+    const query = [
       {
         $match: {
           post: req.body.post,
         },
       },
+      {
+        $sort: { _id: -1 },
+      },
+    ];
+
+    if (req.body.skip) {
+      query.push({
+        $skip: req.body.skip,
+      });
+    }
+
+    if (req.body.limit) {
+      query.push({
+        $limit: req.body.limit,
+      });
+    }
+
+    const postLikes = await PostLike.aggregate([
+      ...query,
       {
         $lookup: {
           from: 'userprofiles',

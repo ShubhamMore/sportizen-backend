@@ -5,19 +5,38 @@ const responseHandler = require('../../handlers/response.handler');
 
 const getAllEvents = async (req, res) => {
   try {
-    const query = {};
+    const query = [
+      {
+        $match: {},
+      },
+      {
+        $sort: { _id: -1 },
+      },
+    ];
 
     // if (req.body.longitude && req.body.latitude) {
-    //   query.location = {
-    //     $geoWithin: { $centerSphere: [[req.body.latitude, req.body.longitude], 100 / 3963.2] },
-    //     // 10 Miles of Radius, The query converts the distance to radians by dividing by the approximate equatorial radius of the earth, 3963.2 miles
+    //   query[0].$match = {
+    //     location: {
+    //       $geoWithin: { $centerSphere: [[req.body.latitude, req.body.longitude], 100 / 3963.2] },
+    //       // 10 Miles of Radius, The query converts the distance to radians by dividing by the approximate equatorial radius of the earth, 3963.2 miles
+    //     },
     //   };
     // }
 
+    if (req.body.skip) {
+      query.push({
+        $skip: req.body.skip,
+      });
+    }
+
+    if (req.body.limit) {
+      query.push({
+        $limit: req.body.limit,
+      });
+    }
+
     const events = await Event.aggregate([
-      {
-        $match: query,
-      },
+      ...query,
       {
         $addFields: {
           event: { $toString: '$_id' },
