@@ -46,13 +46,12 @@ const newBlog = async (req, res) => {
       subtitle: req.body.subtitle,
       description: req.body.description,
       createdBy: req.user.sportizenId,
+      images,
       createdAt: Date.now(),
       modifiedAt: Date.now(),
     };
 
     const blog = new Blog(blogData);
-
-    // console.log(blog);
 
     await blog.save();
 
