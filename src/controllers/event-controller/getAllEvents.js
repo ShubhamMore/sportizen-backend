@@ -248,6 +248,7 @@ const getAllEvents = async (req, res) => {
       },
     ]);
 
+  
     responseHandler(events, 200, res);
   } catch (e) {
     errorHandler(e, 400, res);

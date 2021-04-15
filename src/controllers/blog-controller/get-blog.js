@@ -5,6 +5,8 @@ const responseHandler = require('../../handlers/response.handler');
 
 const getBlog = async (req, res) => {
   try {
+
+
     const blog = await Blog.aggregate([
       {
         $match: {
