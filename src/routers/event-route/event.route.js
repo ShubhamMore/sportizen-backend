@@ -30,7 +30,7 @@ const auth = require('../../middleware/auth');
 const newEvent = require('../../controllers/event-controller/newEvent');
 const editEvent = require('../../controllers/event-controller/editEvent');
 const getEvent = require('../../controllers/event-controller/getEvent');
-const getEvents = require('../../controllers/event-controller/getEvents');
+const getJoinedEvents = require('../../controllers/event-controller/getJoinedEvents');
 const getMyEvents = require('../../controllers/event-controller/getMyEvents');
 const getAllEvents = require('../../controllers/event-controller/getAllEvents');
 const deleteEvent = require('../../controllers/event-controller/deleteEvent');
@@ -56,8 +56,8 @@ router.post(
   }
 );
 
-router.post('/getEvents', auth, async (req, res) => {
-  await getEvents(req, res);
+router.post('/getJoinedEvents', auth, async (req, res) => {
+  await getJoinedEvents(req, res);
 });
 
 router.post('/getMyEvents', auth, async (req, res) => {
