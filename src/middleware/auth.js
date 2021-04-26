@@ -14,7 +14,7 @@ const auth = async (req, res, next) => {
       throw new Error();
     }
 
-    console.log(req.route.path)
+    // console.log(req.route.path)
 
     req.token = token;
     req.user = user;

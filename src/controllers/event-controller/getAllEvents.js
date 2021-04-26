@@ -4,6 +4,8 @@ const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
 
 const getAllEvents = async (req, res) => {
+  const sportizenId = req.user ? req.user.sportizenId : '';
+
   try {
     const query = [
       {
@@ -173,7 +175,7 @@ const getAllEvents = async (req, res) => {
                       $eq: ['$event', '$$eventId'],
                     },
                     {
-                      $eq: ['$sportizenUser', req.user.sportizenId],
+                      $eq: ['$sportizenUser', sportizenId],
                     },
                   ],
                 },
@@ -196,7 +198,7 @@ const getAllEvents = async (req, res) => {
                       $eq: ['$event', '$$eventId'],
                     },
                     {
-                      $eq: ['$sportizenUser', req.user.sportizenId],
+                      $eq: ['$sportizenUser', sportizenId],
                     },
                   ],
                 },
@@ -248,7 +250,6 @@ const getAllEvents = async (req, res) => {
       },
     ]);
 
-  
     responseHandler(events, 200, res);
   } catch (e) {
     errorHandler(e, 400, res);

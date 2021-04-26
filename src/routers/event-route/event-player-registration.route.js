@@ -13,6 +13,10 @@ router.post('/getEventPlayers', auth, async (req, res) => {
   await getEventPlayers(req, res);
 });
 
+router.get('/getEventPlayers/:id', async (req, res) => {
+  await getEventPlayers(req, res);
+});
+
 router.post('/getEventPlayer', auth, async (req, res) => {
   await getEventPlayer(req, res);
 });

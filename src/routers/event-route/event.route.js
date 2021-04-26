@@ -68,7 +68,15 @@ router.post('/getAllEvents', auth, async (req, res) => {
   await getAllEvents(req, res);
 });
 
+router.get('/getAllEvents', async (req, res) => {
+  await getAllEvents(req, res);
+});
+
 router.post('/getEvent', auth, async (req, res) => {
+  await getEvent(req, res);
+});
+
+router.get('/getEvent/:id', async (req, res) => {
   await getEvent(req, res);
 });
 

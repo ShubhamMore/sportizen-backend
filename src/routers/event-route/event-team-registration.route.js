@@ -13,6 +13,10 @@ router.post('/getEventTeams', auth, async (req, res) => {
   await getEventTeams(req, res);
 });
 
+router.get('/getEventTeams/:id', async (req, res) => {
+  await getEventTeams(req, res);
+});
+
 router.post('/getEventTeam', auth, async (req, res) => {
   await getEventTeam(req, res);
 });

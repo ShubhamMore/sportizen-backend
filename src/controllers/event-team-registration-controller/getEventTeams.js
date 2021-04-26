@@ -5,8 +5,10 @@ const responseHandler = require('../../handlers/response.handler');
 
 const getEventTeams = async (req, res) => {
   try {
+    const eventId = req.body.id ? req.body.id : req.params.id;
+
     const eventTeamRegistrations = await EventRegisteredTeam.aggregate([
-      { $match: { event: req.body.event } },
+      { $match: { event: eventId } },
       {
         $lookup: {
           from: 'userprofiles',

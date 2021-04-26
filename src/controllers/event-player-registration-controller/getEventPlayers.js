@@ -5,8 +5,10 @@ const responseHandler = require('../../handlers/response.handler');
 
 const getEventPlayers = async (req, res) => {
   try {
+    const eventId = req.body.id ? req.body.id : req.params.id;
+
     const eventPlayerRegistrations = await EventRegisteredPlayer.aggregate([
-      { $match: { event: req.body.event } },
+      { $match: { event: eventId } },
       {
         $lookup: {
           from: 'userprofiles',
