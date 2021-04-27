@@ -1,6 +1,6 @@
 const express = require('express');
 
-const auth = require('../../middleware/auth');
+const userAuth = require('../../middleware/user-auth');
 
 const addProduct = require('../../controllers/product-controller/addProduct');
 const getProduct = require('../../controllers/product-controller/getProduct');
@@ -10,23 +10,23 @@ const updateQuantity = require('../../controllers/product-controller/updateQuant
 
 const router = new express.Router();
 
-router.post('/addProduct', auth, async (req, res) => {
+router.post('/addProduct', userAuth, async (req, res) => {
   await addProduct(req, res);
 });
 
-router.post('/getProduct', auth, async (req, res) => {
+router.post('/getProduct', userAuth, async (req, res) => {
   await getProduct(req, res);
 });
 
-router.post('/getProducts', auth, async (req, res) => {
+router.post('/getProducts', userAuth, async (req, res) => {
   await getProducts(req, res);
 });
 
-router.post('/updateProduct', auth, async (req, res) => {
+router.post('/updateProduct', userAuth, async (req, res) => {
   await updateProduct(req, res);
 });
 
-router.post('/updateQuantity', auth, async (req, res) => {
+router.post('/updateQuantity', userAuth, async (req, res) => {
   await updateQuantity(req, res);
 });
 

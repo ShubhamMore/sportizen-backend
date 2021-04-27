@@ -1,5 +1,5 @@
 const express = require('express');
-const auth = require('../../middleware/auth');
+const userAuth = require('../../middleware/user-auth');
 
 const getCommentLikes = require('../../controllers/comment-like-controller/getCommentLikes');
 const likeComment = require('../../controllers/comment-like-controller/likeComment');
@@ -7,15 +7,15 @@ const unlikeComment = require('../../controllers/comment-like-controller/unlikeC
 
 const router = new express.Router();
 
-router.post('/getCommentLikes', auth, async (req, res) => {
+router.post('/getCommentLikes', userAuth, async (req, res) => {
   await getCommentLikes(req, res);
 });
 
-router.post('/likeComment', auth, async (req, res) => {
+router.post('/likeComment', userAuth, async (req, res) => {
   await likeComment(req, res);
 });
 
-router.post('/unlikeComment', auth, async (req, res) => {
+router.post('/unlikeComment', userAuth, async (req, res) => {
   await unlikeComment(req, res);
 });
 

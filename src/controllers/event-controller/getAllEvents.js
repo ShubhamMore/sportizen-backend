@@ -4,9 +4,9 @@ const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
 
 const getAllEvents = async (req, res) => {
-  const sportizenId = req.user ? req.user.sportizenId : '';
-
   try {
+    const sportizenId = req.user ? req.user.sportizenId : '';
+
     const query = [
       {
         $match: {},
@@ -16,24 +16,24 @@ const getAllEvents = async (req, res) => {
       },
     ];
 
-    // if (req.body.longitude && req.body.latitude) {
+    // if (req.params.longitude && req.params.latitude) {
     //   query[0].$match = {
     //     location: {
-    //       $geoWithin: { $centerSphere: [[req.body.latitude, req.body.longitude], 100 / 3963.2] },
+    //       $geoWithin: { $centerSphere: [[req.params.latitude, req.params.longitude], 100 / 3963.2] },
     //       // 10 Miles of Radius, The query converts the distance to radians by dividing by the approximate equatorial radius of the earth, 3963.2 miles
     //     },
     //   };
     // }
 
-    if (req.body.skip) {
+    if (req.params.skip !== 'null') {
       query.push({
-        $skip: req.body.skip,
+        $skip: +req.params.skip,
       });
     }
 
-    if (req.body.limit) {
+    if (req.params.limit !== 'null') {
       query.push({
-        $limit: req.body.limit,
+        $limit: +req.params.limit,
       });
     }
 
@@ -252,6 +252,7 @@ const getAllEvents = async (req, res) => {
 
     responseHandler(events, 200, res);
   } catch (e) {
+    console.log(e);
     errorHandler(e, 400, res);
   }
 };

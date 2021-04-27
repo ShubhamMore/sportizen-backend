@@ -5,7 +5,7 @@ const responseHandler = require('../../handlers/response.handler');
 
 const getEvent = async (req, res) => {
   try {
-    const eventId = req.body.id ? req.body.id : req.params.id;
+    const eventId = req.params.id;
 
     const sportizenId = req.user ? req.user.sportizenId : '';
 

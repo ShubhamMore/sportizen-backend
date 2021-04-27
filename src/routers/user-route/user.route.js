@@ -1,6 +1,6 @@
 const express = require('express');
 
-const auth = require('../../middleware/auth');
+const userAuth = require('../../middleware/user-auth');
 
 const newUser = require('../../controllers/user-controller/newUser');
 const createUserGoogle = require('../../controllers/user-controller/createUserGoogle');
@@ -38,7 +38,7 @@ router.post('/googleLogin', async (req, res) => {
   await googleLogin(req, res);
 });
 
-router.post('/autoLogin', auth, async (req, res) => {
+router.post('/autoLogin', userAuth, async (req, res) => {
   await autoLogin(req, res);
 });
 
@@ -54,19 +54,19 @@ router.post('/resetPassword', async (req, res) => {
   await resetPassword(req, res);
 });
 
-router.post('/setPassword', auth, async (req, res) => {
+router.post('/setPassword', userAuth, async (req, res) => {
   await setPassword(req, res);
 });
 
-router.post('/changePassword', auth, async (req, res) => {
+router.post('/changePassword', userAuth, async (req, res) => {
   await changePassword(req, res);
 });
 
-router.post('/logout', auth, async (req, res) => {
+router.post('/logout', userAuth, async (req, res) => {
   await logout(req, res);
 });
 
-router.post('/logoutAll', auth, async (req, res) => {
+router.post('/logoutAll', userAuth, async (req, res) => {
   await logoutAll(req, res);
 });
 

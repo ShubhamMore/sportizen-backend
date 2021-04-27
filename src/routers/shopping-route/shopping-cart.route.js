@@ -1,6 +1,6 @@
 const express = require('express');
 
-const auth = require('../../middleware/auth');
+const userAuth = require('../../middleware/user-auth');
 
 const addToCart = require('../../controllers/shopping-cart-controller/addToCart');
 const getShoppingCart = require('../../controllers/shopping-cart-controller/getShoppingCart');
@@ -9,19 +9,19 @@ const updateCartQuantity = require('../../controllers/shopping-cart-controller/u
 
 const router = new express.Router();
 
-router.post('/addToCart', auth, async (req, res) => {
+router.post('/addToCart', userAuth, async (req, res) => {
   await addToCart(req, res);
 });
 
-router.post('/getShoppingCart', auth, async (req, res) => {
+router.post('/getShoppingCart', userAuth, async (req, res) => {
   await getShoppingCart(req, res);
 });
 
-router.post('/removeFromCart', auth, async (req, res) => {
+router.post('/removeFromCart', userAuth, async (req, res) => {
   await removeFromCart(req, res);
 });
 
-router.post('/updateCartQuantity', auth, async (req, res) => {
+router.post('/updateCartQuantity', userAuth, async (req, res) => {
   await updateCartQuantity(req, res);
 });
 

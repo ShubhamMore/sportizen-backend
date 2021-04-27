@@ -25,6 +25,7 @@ const storage = multer.diskStorage({
   },
 });
 
+const userAuth = require('../../middleware/user-auth');
 const auth = require('../../middleware/auth');
 
 const newEvent = require('../../controllers/event-controller/newEvent');
@@ -40,7 +41,7 @@ const router = new express.Router();
 
 router.post(
   '/newEvent',
-  auth,
+  userAuth,
   multer({ storage: storage }).array('eventImage'),
   async (req, res) => {
     await newEvent(req, res);
@@ -49,42 +50,38 @@ router.post(
 
 router.post(
   '/editEvent',
-  auth,
+  userAuth,
   multer({ storage: storage }).array('eventImage'),
   async (req, res) => {
     await editEvent(req, res);
   }
 );
 
-router.post('/getJoinedEvents', auth, async (req, res) => {
+router.post('/getJoinedEvents', userAuth, async (req, res) => {
   await getJoinedEvents(req, res);
 });
 
-router.post('/getMyEvents', auth, async (req, res) => {
+router.post('/getMyEvents', userAuth, async (req, res) => {
   await getMyEvents(req, res);
 });
 
-router.post('/getAllEvents', auth, async (req, res) => {
+router.get('/getAllEvents/:limit/:skip/:longitude/:latitude', auth, async (req, res) => {
   await getAllEvents(req, res);
 });
 
-router.get('/getAllEvents', async (req, res) => {
-  await getAllEvents(req, res);
-});
+// router.post('/getEvent', userAuth, async (req, res) => {
+//   await getEvent(req, res);
+// });
 
-router.post('/getEvent', auth, async (req, res) => {
+router.get('/getEvent/:id', auth, async (req, res) => {
   await getEvent(req, res);
 });
 
-router.get('/getEvent/:id', async (req, res) => {
-  await getEvent(req, res);
-});
-
-router.post('/deleteEvent', auth, async (req, res) => {
+router.post('/deleteEvent', userAuth, async (req, res) => {
   await deleteEvent(req, res);
 });
 
-router.post('/deleteEventImage', auth, async (req, res) => {
+router.post('/deleteEventImage', userAuth, async (req, res) => {
   await deleteEventImage(req, res);
 });
 

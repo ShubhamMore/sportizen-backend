@@ -1,5 +1,5 @@
 const express = require('express');
-const auth = require('../../middleware/auth');
+const userAuth = require('../../middleware/user-auth');
 
 const registerPlayer = require('../../controllers/event-player-registration-controller/registerPlayer');
 const getEventPlayer = require('../../controllers/event-player-registration-controller/getEventPlayer');
@@ -9,7 +9,7 @@ const deletePlayerRegistration = require('../../controllers/event-player-registr
 
 const router = new express.Router();
 
-router.post('/getEventPlayers', auth, async (req, res) => {
+router.post('/getEventPlayers', userAuth, async (req, res) => {
   await getEventPlayers(req, res);
 });
 
@@ -17,19 +17,19 @@ router.get('/getEventPlayers/:id', async (req, res) => {
   await getEventPlayers(req, res);
 });
 
-router.post('/getEventPlayer', auth, async (req, res) => {
+router.post('/getEventPlayer', userAuth, async (req, res) => {
   await getEventPlayer(req, res);
 });
 
-router.post('/registerPlayer', auth, async (req, res) => {
+router.post('/registerPlayer', userAuth, async (req, res) => {
   await registerPlayer(req, res);
 });
 
-router.post('/updatePlayerRegistration', auth, async (req, res) => {
+router.post('/updatePlayerRegistration', userAuth, async (req, res) => {
   await updatePlayerRegistration(req, res);
 });
 
-router.post('/deletePlayerRegistration', auth, async (req, res) => {
+router.post('/deletePlayerRegistration', userAuth, async (req, res) => {
   await deletePlayerRegistration(req, res);
 });
 

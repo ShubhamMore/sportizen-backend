@@ -24,7 +24,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const auth = require('../../middleware/auth');
+const userAuth = require('../../middleware/user-auth');
 
 const getUserProfile = require('../../controllers/user-profile-controller/getUserProfile');
 const getMyProfile = require('../../controllers/user-profile-controller/getMyProfile');
@@ -35,17 +35,17 @@ const saveUserStory = require('../../controllers/user-profile-controller/saveUse
 
 const router = new express.Router();
 
-router.post('/getUserProfile', auth, async (req, res) => {
+router.post('/getUserProfile', userAuth, async (req, res) => {
   await getUserProfile(req, res);
 });
 
-router.post('/getMyProfile', auth, async (req, res) => {
+router.post('/getMyProfile', userAuth, async (req, res) => {
   await getMyProfile(req, res);
 });
 
 router.post(
   '/saveUserProfile',
-  auth,
+  userAuth,
   multer({ storage: storage }).single('profileImage'),
   async (req, res) => {
     await saveUserProfile(req, res);
@@ -54,7 +54,7 @@ router.post(
 
 router.post(
   '/saveProfileImage',
-  auth,
+  userAuth,
   multer({ storage: storage }).single('profileImage'),
   async (req, res) => {
     await saveProfileImage(req, res);
@@ -63,14 +63,14 @@ router.post(
 
 router.post(
   '/saveCoverImage',
-  auth,
+  userAuth,
   multer({ storage: storage }).single('coverImage'),
   async (req, res) => {
     await saveCoverImage(req, res);
   }
 );
 
-router.post('/saveUserStory', auth, async (req, res) => {
+router.post('/saveUserStory', userAuth, async (req, res) => {
   await saveUserStory(req, res);
 });
 

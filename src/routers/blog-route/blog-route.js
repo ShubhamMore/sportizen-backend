@@ -25,7 +25,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const auth = require('../../middleware/auth');
+const userAuth = require('../../middleware/user-auth');
 
 const createBlog = require('../../controllers/blog-controller/create-blog');
 const updateBlog = require('../../controllers/blog-controller/update-blog');
@@ -39,7 +39,7 @@ const router = new express.Router();
 
 router.post(
   '/create-blog',
-  auth,
+  userAuth,
   multer({ storage: storage }).array('blogImage'),
   async (req, res) => {
     await createBlog(req, res);
@@ -48,30 +48,30 @@ router.post(
 
 router.post(
   '/update-blog',
-  auth,
+  userAuth,
   multer({ storage: storage }).array('blogImage'),
   async (req, res) => {
     await updateBlog(req, res);
   }
 );
 
-router.post('/get-blogs', auth, async (req, res) => {
+router.post('/get-blogs', userAuth, async (req, res) => {
   await getBlogs(req, res);
 });
 
-router.post('/get-my-blogs', auth, async (req, res) => {
+router.post('/get-my-blogs', userAuth, async (req, res) => {
   await getMyBlogs(req, res);
 });
 
-router.post('/get-blog', auth, async (req, res) => {
+router.post('/get-blog', userAuth, async (req, res) => {
   await getBlog(req, res);
 });
 
-router.post('/delete-blog', auth, async (req, res) => {
+router.post('/delete-blog', userAuth, async (req, res) => {
   await deleteBlog(req, res);
 });
 
-router.post('/delete-blog-image', auth, async (req, res) => {
+router.post('/delete-blog-image', userAuth, async (req, res) => {
   await deleteBlogImage(req, res);
 });
 

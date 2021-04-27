@@ -1,6 +1,6 @@
 const express = require('express');
 
-const auth = require('../../middleware/auth');
+const userAuth = require('../../middleware/user-auth');
 
 const getChats = require('../../controllers/chat-controller/getChats');
 const deleteAllMessages = require('../../controllers/chat-controller/deleteAllMessages');
@@ -10,23 +10,23 @@ const deleteMessageForSender = require('../../controllers/chat-controller/delete
 
 const router = new express.Router();
 
-router.post('/getChats', auth, async (req, res) => {
+router.post('/getChats', userAuth, async (req, res) => {
   await getChats(req, res);
 });
 
-router.post('/deleteAllMessages', auth, async (req, res) => {
+router.post('/deleteAllMessages', userAuth, async (req, res) => {
   await deleteAllMessages(req, res);
 });
 
-router.post('/deleteMessageForBoth', auth, async (req, res) => {
+router.post('/deleteMessageForBoth', userAuth, async (req, res) => {
   await deleteMessageForBoth(req, res);
 });
 
-router.post('/deleteMessageForReceiver', auth, async (req, res) => {
+router.post('/deleteMessageForReceiver', userAuth, async (req, res) => {
   await deleteMessageForReceiver(req, res);
 });
 
-router.post('/deleteMessageForSender', auth, async (req, res) => {
+router.post('/deleteMessageForSender', userAuth, async (req, res) => {
   await deleteMessageForSender(req, res);
 });
 
