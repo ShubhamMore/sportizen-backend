@@ -26,6 +26,7 @@ const storage = multer.diskStorage({
   },
 });
 
+const auth = require('../../middleware/auth');
 const userAuth = require('../../middleware/user-auth');
 
 const createPost = require('../../controllers/post-controller/createPost');
@@ -69,7 +70,7 @@ router.post('/getMyPosts', userAuth, async (req, res) => {
   await getMyPosts(req, res);
 });
 
-router.post('/getPost', userAuth, async (req, res) => {
+router.get('/getPost/:id', auth, async (req, res) => {
   await getPost(req, res);
 });
 

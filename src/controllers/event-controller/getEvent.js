@@ -6,7 +6,6 @@ const responseHandler = require('../../handlers/response.handler');
 const getEvent = async (req, res) => {
   try {
     const eventId = req.params.id;
-
     const sportizenId = req.user ? req.user.sportizenId : '';
 
     if (mongoose.Types.ObjectId.isValid(eventId)) {

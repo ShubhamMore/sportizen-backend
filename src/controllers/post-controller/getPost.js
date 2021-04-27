@@ -1,15 +1,15 @@
 const Post = require('../../models/post-model/post.model');
 
-const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
+const errorHandler = require('../../handlers/error.handler');
 
 const mongoose = require('mongoose');
 
-const getUserPosts = async (req, res) => {
+const getPost = async (req, res) => {
   try {
-    const postId = req.body.id ? req.body.post : req.params.id;
+    const postId = req.params.id;
 
-    const sportizenId = req.user.sportizenId ? req.user.sportizenId : '';
+    const sportizenId = req.user ? req.user.sportizenId : '';
 
     if (mongoose.Types.ObjectId.isValid(postId)) {
       const post = await Post.aggregate([
@@ -218,13 +218,20 @@ const getUserPosts = async (req, res) => {
         },
       ]);
 
-      responseHandler(post, 200, res);
+      console.log(post);
+
+      if (!post[0]) {
+        throw new Error('Post Not Found');
+      }
+
+      responseHandler(post[0], 200, res);
     } else {
-      throw new Error('invalid Event Id');
+      throw new Error('invalid Post Id');
     }
   } catch (e) {
+    console.log(e);
     errorHandler(e, 400, res);
   }
 };
 
-module.exports = getUserPosts;
+module.exports = getPost;
