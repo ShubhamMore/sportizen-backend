@@ -26,6 +26,7 @@ const storage = multer.diskStorage({
 });
 
 const userAuth = require('../../middleware/user-auth');
+const auth = require('../../middleware/auth');
 
 const createBlog = require('../../controllers/blog-controller/create-blog');
 const updateBlog = require('../../controllers/blog-controller/update-blog');
@@ -55,15 +56,23 @@ router.post(
   }
 );
 
-router.post('/get-blogs', userAuth, async (req, res) => {
-  await getBlogs(req, res);
-});
-
 router.post('/get-my-blogs', userAuth, async (req, res) => {
   await getMyBlogs(req, res);
 });
 
-router.post('/get-blog', userAuth, async (req, res) => {
+// router.post('/get-blogs', userAuth, async (req, res) => {
+//   await getBlogs(req, res);
+// });
+
+router.get('/get-blogs/:limit/:skip', auth, async (req, res) => {
+  await getBlogs(req, res);
+});
+
+// router.post('/get-blog', userAuth, async (req, res) => {
+//   await getBlog(req, res);
+// });
+
+router.get('/get-blog/:id', auth, async (req, res) => {
   await getBlog(req, res);
 });
 

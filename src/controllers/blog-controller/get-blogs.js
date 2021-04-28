@@ -5,7 +5,16 @@ const responseHandler = require('../../handlers/response.handler');
 
 const getAllBlogs = async (req, res) => {
   try {
-    const query = {};
+    const sportizenId = req.user ? req.user.sportizenId : '';
+
+    const query = [
+      {
+        $match: {},
+      },
+      {
+        $sort: { _id: -1 },
+      },
+    ];
 
     // if (req.body.longitude && req.body.latitude) {
     //   query.location = {
@@ -14,10 +23,20 @@ const getAllBlogs = async (req, res) => {
     //   };
     // }
 
+    if (req.params.skip !== 'null') {
+      query.push({
+        $skip: +req.params.skip,
+      });
+    }
+
+    if (req.params.limit !== 'null') {
+      query.push({
+        $limit: +req.params.limit,
+      });
+    }
+
     const blogs = await Blog.aggregate([
-      {
-        $match: query,
-      },
+      ...query,
       {
         $lookup: {
           from: 'userprofiles',
