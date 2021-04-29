@@ -32,6 +32,8 @@ const PostGalleryRouter = require('./routers/post-route/post-gallery.route');
 const PostLikeRouter = require('./routers/post-route/post-like.route');
 const PostViewRouter = require('./routers/post-route/post-view.route');
 const postRouter = require('./routers/post-route/post.route');
+const orderRouter = require('./routers/payment-route/order.route');
+const paymentRouter = require('./routers/payment-route/payment.route');
 const savePostRouter = require('./routers/post-route/save-post.route');
 const blogRouter = require('./routers/blog-route/blog-route');
 const productRouter = require('./routers/shopping-route/product.route');
@@ -129,6 +131,8 @@ app.use(savePostRouter);
 app.use(blogRouter);
 app.use(productRouter);
 app.use(shoppingCartRouter);
+app.use(orderRouter);
+app.use(paymentRouter);
 
 app.use((req, res, next) => {
   const error = new Error('NOT FOUND');
