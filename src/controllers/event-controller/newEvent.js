@@ -40,14 +40,17 @@ const newEvent = async (req, res) => {
       }
     }
 
+    console.log(req.body);
+
     const eventData = {
       name: req.body.name,
       sport: req.body.sport,
+      eventType: req.body.eventType,
       registrationType: req.body.registrationType,
       startDate: req.body.startDate,
       endDate: req.body.endDate,
       registerTill: req.body.registerTill,
-      // time: req.body.time,
+      time: req.body.time,
       noOfPlayers: req.body.noOfPlayers,
       address: req.body.address,
       state: req.body.state,

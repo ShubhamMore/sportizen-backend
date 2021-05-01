@@ -41,6 +41,10 @@ const paymentReceiptSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  paymentId: {
+    type: String,
+    default: null,
+  },
 });
 
 paymentReceiptSchema.methods.toJSON = function () {

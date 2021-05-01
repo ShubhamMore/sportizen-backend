@@ -45,11 +45,12 @@ const editEvent = async (req, res) => {
 
     event.name = req.body.name;
     event.sport = req.body.sport;
+    event.eventType = req.body.eventType;
     event.registrationType = req.body.registrationType;
     event.startDate = req.body.startDate;
     event.endDate = req.body.endDate;
     event.registerTill = req.body.registerTill;
-    // event.time = req.body.time;
+    event.time = req.body.time;
     event.noOfPlayers = req.body.noOfPlayers;
     event.address = req.body.address;
     event.state = req.body.state;

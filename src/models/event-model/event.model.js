@@ -9,7 +9,7 @@ const eventSchema = new mongoose.Schema({
   },
   eventType: {
     type: String, // Tournament, Podcast, Live
-    default: 'tournament',
+    required: true,
   },
   sport: {
     type: String,

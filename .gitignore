@@ -5,3 +5,4 @@ images/*
 !images/.gitkeep
 log/*
 !log/.gitkeep
+package-lock.json
