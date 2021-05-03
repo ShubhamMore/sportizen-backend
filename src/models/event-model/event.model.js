@@ -19,13 +19,37 @@ const eventSchema = new mongoose.Schema({
     type: String, // Individual, Team
     required: true,
   },
+  description: {
+    type: String,
+    required: true,
+  },
+  winningPrice: {
+    type: String,
+    required: true,
+  },
+  fees: {
+    type: String,
+    required: true,
+  },
+  noOfRegistrations: {
+    type: Number,
+    required: true,
+  },
+  noOfPlayers: {
+    type: Number,
+    default: null,
+  },
+  durationType: {
+    type: String,
+    required: true,
+  },
   startDate: {
     type: String,
     required: true,
   },
   endDate: {
     type: String,
-    required: true,
+    default: null,
   },
   registerTill: {
     type: String,
@@ -53,22 +77,6 @@ const eventSchema = new mongoose.Schema({
       default: 'Point',
     },
     coordinates: [Number],
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  winningPrice: {
-    type: String,
-    required: true,
-  },
-  fees: {
-    type: String,
-    required: true,
-  },
-  noOfPlayers: {
-    type: Number,
-    required: true,
   },
   images: [
     {
@@ -101,6 +109,10 @@ const eventSchema = new mongoose.Schema({
   modifiedAt: {
     type: Date,
     required: true,
+  },
+  status: {
+    type: Boolean,
+    default: true,
   },
 });
 

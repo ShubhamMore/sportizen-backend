@@ -46,7 +46,9 @@ const editEvent = async (req, res) => {
     event.name = req.body.name;
     event.sport = req.body.sport;
     event.eventType = req.body.eventType;
+    event.noOfRegistrations = req.body.noOfRegistrations;
     event.registrationType = req.body.registrationType;
+    event.durationType = req.body.durationType;
     event.startDate = req.body.startDate;
     event.endDate = req.body.endDate;
     event.registerTill = req.body.registerTill;
