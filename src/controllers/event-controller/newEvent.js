@@ -40,8 +40,6 @@ const newEvent = async (req, res) => {
       }
     }
 
-    console.log(req.body);
-
     const eventData = {
       name: req.body.name,
       sport: req.body.sport,
@@ -72,12 +70,9 @@ const newEvent = async (req, res) => {
 
     const event = new Event(eventData);
 
-    // console.log(event);
-
     await event.save();
     responseHandler(event, 200, res);
   } catch (e) {
-    console.log(e);
     errorHandler(e, 400, res);
   }
 };

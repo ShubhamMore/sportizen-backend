@@ -24,11 +24,11 @@ const eventSchema = new mongoose.Schema({
     required: true,
   },
   winningPrice: {
-    type: String,
+    type: Number,
     required: true,
   },
   fees: {
-    type: String,
+    type: Number,
     required: true,
   },
   noOfRegistrations: {

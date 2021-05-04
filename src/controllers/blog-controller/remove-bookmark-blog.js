@@ -18,7 +18,6 @@ const addBookmark = async (req, res) => {
 
     responseHandler({ success: true }, 200, res);
   } catch (error) {
-    console.log(error);
     errorHandler(error, 400, res);
   }
 };

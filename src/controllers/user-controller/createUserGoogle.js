@@ -51,7 +51,6 @@ const newGoogleUser = async (req, res) => {
       throw new Error('Invalid User');
     }
   } catch (e) {
-    console.log(e);
     errorHandler(e, 400, res);
   }
 };

@@ -55,7 +55,6 @@ const editBlog = async (req, res) => {
 
     responseHandler(blog, 200, res);
   } catch (e) {
-    console.log(e);
     errorHandler(e, 400, res);
   }
 };

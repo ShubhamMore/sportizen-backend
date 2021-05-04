@@ -1,6 +1,7 @@
 const Razorpay = require('razorpay');
 const Order = require('../../models/payment-model/order.model');
 const PaymentReceipt = require('../../models/payment-model/payment-receipt.model');
+const Event = require('../../models/event-model/event.model');
 const errorHandler = require('../../handlers/error.handler');
 
 const instance = new Razorpay({
@@ -10,7 +11,15 @@ const instance = new Razorpay({
 
 const generateOrder = async (req, res) => {
   try {
+    const event = await Event.findById(req.body.event, { fees: 1 });
+
+    if (!event) {
+      throw new Error('Event Not Found');
+    }
+
     const receiptData = { ...req.body };
+
+    receiptData.amount = event.fees;
 
     const paymentReceipt = new PaymentReceipt(receiptData);
 

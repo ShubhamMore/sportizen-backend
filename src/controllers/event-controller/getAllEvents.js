@@ -252,7 +252,6 @@ const getAllEvents = async (req, res) => {
 
     responseHandler(events, 200, res);
   } catch (e) {
-    console.log(e);
     errorHandler(e, 400, res);
   }
 };

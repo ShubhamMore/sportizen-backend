@@ -16,7 +16,6 @@ const updatePlayerRegistration = async (req, res) => {
 
     responseHandler({ success: true }, 200, res);
   } catch (e) {
-    console.log(e);
     errorHandler(e, 400, res);
   }
 };

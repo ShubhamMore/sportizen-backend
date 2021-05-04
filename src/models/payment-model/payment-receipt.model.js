@@ -11,7 +11,7 @@ const paymentReceiptSchema = mongoose.Schema({
   },
   userPhone: {
     type: String,
-    required: true,
+    default: null,
   },
   userEmail: {
     type: String,
@@ -25,6 +25,11 @@ const paymentReceiptSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  event: {
+    type: String,
+    required: true,
+  },
+
   description: {
     type: String,
     required: true,

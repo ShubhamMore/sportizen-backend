@@ -218,8 +218,6 @@ const getPost = async (req, res) => {
         },
       ]);
 
-      console.log(post);
-
       if (!post[0]) {
         throw new Error('Post Not Found');
       }
@@ -229,7 +227,6 @@ const getPost = async (req, res) => {
       throw new Error('invalid Post Id');
     }
   } catch (e) {
-    console.log(e);
     errorHandler(e, 400, res);
   }
 };

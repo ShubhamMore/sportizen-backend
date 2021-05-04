@@ -71,7 +71,6 @@ const editEvent = async (req, res) => {
 
     responseHandler(event, 200, res);
   } catch (e) {
-    console.log(e);
     errorHandler(e, 400, res);
   }
 };

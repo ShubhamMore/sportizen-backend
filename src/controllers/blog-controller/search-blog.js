@@ -16,7 +16,6 @@ const searchBlog = async (req, res) => {
 
     responseHandler(blogs, 200, res);
   } catch (error) {
-    console.log(error);
     errorHandler(error, 400, res);
   }
 };
