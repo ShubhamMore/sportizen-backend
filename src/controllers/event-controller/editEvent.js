@@ -44,16 +44,19 @@ const editEvent = async (req, res) => {
     }
 
     event.name = req.body.name;
+    event.description = req.body.description;
     event.sport = req.body.sport;
-    event.eventType = req.body.eventType;
+    // event.eventType = req.body.eventType;
     event.noOfRegistrations = req.body.noOfRegistrations;
-    event.registrationType = req.body.registrationType;
+    // event.registrationType = req.body.registrationType;
+    // event.noOfPlayers = req.body.noOfPlayers;
+    event.winningPrice = req.body.winningPrice;
+    // event.fees = req.body.fees;
     event.durationType = req.body.durationType;
     event.startDate = req.body.startDate;
     event.endDate = req.body.endDate;
     event.registerTill = req.body.registerTill;
     event.time = req.body.time;
-    event.noOfPlayers = req.body.noOfPlayers;
     event.address = req.body.address;
     event.state = req.body.state;
     event.city = req.body.city;
@@ -61,9 +64,6 @@ const editEvent = async (req, res) => {
       type: 'Point',
       coordinates: [+req.body.latitude, +req.body.longitude],
     };
-    event.description = req.body.description;
-    event.winningPrice = req.body.winningPrice;
-    event.fees = req.body.fees;
     event.images = images;
     event.modifiedAt = Date.now();
 
