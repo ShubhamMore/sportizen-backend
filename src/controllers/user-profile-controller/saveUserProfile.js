@@ -21,7 +21,7 @@ const saveUserProfile = async (req, res) => {
       const cloudDirectory = 'profileImage';
       const uploadResponce = await awsUploadFile(filePath, fileName, cloudDirectory);
 
-      const uploadRes = uploadResponce.uploadRes;
+      const uploadRes = uploadResponce.upload_res;
 
       if (uploadRes) {
         if (profileImage.publicId !== undefined) {
@@ -53,9 +53,7 @@ const saveUserProfile = async (req, res) => {
 
     await UserProfile.findByIdAndUpdate(userProfile._id, userProfile);
 
-    const updatedUserProfile = await UserProfile.findById(userProfile._id);
-
-    responseHandler(updatedUserProfile, 200, res);
+    responseHandler(userProfile, 200, res);
   } catch (e) {
     errorHandler(e, 400, res);
   }
