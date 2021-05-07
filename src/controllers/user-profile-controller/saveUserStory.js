@@ -5,9 +5,12 @@ const responseHandler = require('../../handlers/response.handler');
 
 const saveUserStory = async (req, res) => {
   try {
-    const userProfile = await UserProfile.findByIdAndUpdate(req.body._id, {
-      story: req.body.story,
-    });
+    const userProfile = await UserProfile.findOneAndUpdate(
+      { sportizenId: req.user.sportizenId },
+      {
+        story: req.body.story,
+      }
+    );
 
     userProfile.story = req.body.story;
 
