@@ -23,6 +23,9 @@ const getMyFollowers = async (req, res) => {
     const myFollowers = UserConnection.aggregate([
       ...query,
       {
+        $project: { status: 0 },
+      },
+      {
         $lookup: {
           from: 'userprofiles',
           let: { searchUser: '$primaryUser' },
@@ -38,7 +41,7 @@ const getMyFollowers = async (req, res) => {
                       $expr: {
                         $and: [
                           { $eq: ['$primaryUser', req.user.sportizenId] },
-                          { $eq: ['$status', 'followers'] },
+                          { $eq: ['$status', 'following'] },
                         ],
                       },
                     },
@@ -63,7 +66,7 @@ const getMyFollowers = async (req, res) => {
                       $expr: {
                         $and: [
                           { $eq: ['$followedUser', '$$searchUser'] },
-                          { $eq: ['$status', 'followers'] },
+                          { $eq: ['$status', 'following'] },
                         ],
                       },
                     },
