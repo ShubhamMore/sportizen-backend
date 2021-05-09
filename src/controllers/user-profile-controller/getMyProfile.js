@@ -19,7 +19,7 @@ const getMyProfile = async (req, res) => {
               $match: {
                 $expr: {
                   $and: [
-                    { $eq: ['$primaryUser', req.user.sportizenId] },
+                    { $eq: ['$followedUser', req.user.sportizenId] },
                     { $eq: ['$status', 'following'] },
                   ],
                 },
@@ -44,7 +44,7 @@ const getMyProfile = async (req, res) => {
               $match: {
                 $expr: {
                   $and: [
-                    { $eq: ['$followedUser', req.user.sportizenId] },
+                    { $eq: ['$primaryUser', req.user.sportizenId] },
                     { $eq: ['$status', 'following'] },
                   ],
                 },

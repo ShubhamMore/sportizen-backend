@@ -15,10 +15,12 @@ const getUserFollowers = async (req, res) => {
     ];
 
     if (req.body.limit) {
-      query.push({ limit: req.body.limit });
+      query.push({ $limit: req.body.limit });
     }
 
-    const userFollowers = await UserConnection.aggregate([
+    const userFollowersCount = UserConnection.find(query[0].$match).count();
+
+    const userFollowers = UserConnection.aggregate([
       ...query,
       {
         $project: { status: 0 },
@@ -51,7 +53,7 @@ const getUserFollowers = async (req, res) => {
                     },
                   },
                 ],
-                as: 'myFollowings',
+                as: 'userFollowings',
               },
             },
             {
@@ -81,7 +83,7 @@ const getUserFollowers = async (req, res) => {
             },
             {
               $addFields: {
-                connections: { $setIntersection: ['$myFollowings', '$userFollowers'] },
+                connections: { $setIntersection: ['$userFollowings', '$userFollowers'] },
               },
             },
             {
@@ -152,7 +154,13 @@ const getUserFollowers = async (req, res) => {
       },
     ]);
 
-    responseHandler(userFollowers, 200, res);
+    Promise.all([userFollowersCount, userFollowers])
+      .then((resData) => {
+        responseHandler({ connectionCount: resData[0], connections: resData[1] }, 200, res);
+      })
+      .catch((e) => {
+        throw new Error(e);
+      });
   } catch (e) {
     errorHandler(e, 400, res);
   }

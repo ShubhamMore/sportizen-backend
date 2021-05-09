@@ -8,22 +8,24 @@ const getMyFollowers = async (req, res) => {
     const query = [
       {
         $match: {
-          primaryUser: req.user.sportizenId,
+          followedUser: req.user.sportizenId,
           status: 'following',
         },
       },
     ];
 
     if (req.body.limit) {
-      query.push({ limit: req.body.limit });
+      query.push({ $limit: req.body.limit });
     }
 
-    const myFollowings = await UserConnection.aggregate([
+    const myFollowersCount = UserConnection.find(query[0].$match).count();
+
+    const myFollowers = UserConnection.aggregate([
       ...query,
       {
         $lookup: {
           from: 'userprofiles',
-          let: { searchUser: '$followedUser' },
+          let: { searchUser: '$primaryUser' },
           pipeline: [
             { $match: { $expr: { $eq: ['$sportizenId', '$$searchUser'] } } },
             {
@@ -36,7 +38,7 @@ const getMyFollowers = async (req, res) => {
                       $expr: {
                         $and: [
                           { $eq: ['$primaryUser', req.user.sportizenId] },
-                          { $eq: ['$status', 'following'] },
+                          { $eq: ['$status', 'followers'] },
                         ],
                       },
                     },
@@ -48,7 +50,7 @@ const getMyFollowers = async (req, res) => {
                     },
                   },
                 ],
-                as: 'myFollowings',
+                as: 'userFollowings',
               },
             },
             {
@@ -61,7 +63,7 @@ const getMyFollowers = async (req, res) => {
                       $expr: {
                         $and: [
                           { $eq: ['$followedUser', '$$searchUser'] },
-                          { $eq: ['$status', 'following'] },
+                          { $eq: ['$status', 'followers'] },
                         ],
                       },
                     },
@@ -78,9 +80,43 @@ const getMyFollowers = async (req, res) => {
             },
             {
               $addFields: {
-                connections: { $setIntersection: ['$myFollowings', '$userFollowers'] },
+                connections: { $setIntersection: ['$userFollowings', '$userFollowers'] },
               },
             },
+            // {
+            //   $lookup: {
+            //     from: 'userconnections',
+            //     let: { searchUser: '$sportizenId' },
+            //     pipeline: [
+            //       {
+            //         $match: {
+            //           $expr: {
+            //             $and: [
+            //               {
+            //                 $eq: ['$primaryUser', req.user.sportizenId],
+            //               },
+            //               {
+            //                 $eq: ['$followedUser', '$$searchUser'],
+            //               },
+            //             ],
+            //           },
+            //         },
+            //       },
+            //       {
+            //         $project: {
+            //           _id: 0,
+            //           status: 1,
+            //         },
+            //       },
+            //     ],
+            //     as: 'connectionStatus',
+            //   },
+            // },
+            // {
+            //   $replaceRoot: {
+            //     newRoot: { $mergeObjects: [{ $arrayElemAt: ['$connectionStatus', 0] }, '$$ROOT'] },
+            //   },
+            // },
             {
               $project: {
                 name: 1,
@@ -89,6 +125,7 @@ const getMyFollowers = async (req, res) => {
                 mutuleConnections: {
                   $size: '$connections',
                 },
+                // connectionStatus: '$status',
               },
             },
           ],
@@ -107,9 +144,20 @@ const getMyFollowers = async (req, res) => {
           connectionDetails: 0,
         },
       },
+      // {
+      //   $sort: {
+      //     connectionStatus: -1,
+      //   },
+      // },
     ]);
 
-    responseHandler(myFollowings, 200, res);
+    Promise.all([myFollowersCount, myFollowers])
+      .then((resData) => {
+        responseHandler({ connectionCount: resData[0], connections: resData[1] }, 200, res);
+      })
+      .catch((e) => {
+        throw new Error(e);
+      });
   } catch (e) {
     errorHandler(e, 400, res);
   }
