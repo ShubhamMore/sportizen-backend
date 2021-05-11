@@ -20,9 +20,9 @@ const registerPlayer = async (req, res) => {
 
     await newEventPlayerRegistration.save();
 
-    responseHandler(newEventPlayerRegistration, 200, res);
+    responseHandler(newEventPlayerRegistration, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

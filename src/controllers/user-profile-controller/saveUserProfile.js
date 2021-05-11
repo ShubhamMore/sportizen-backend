@@ -53,9 +53,9 @@ const saveUserProfile = async (req, res) => {
 
     await UserProfile.findByIdAndUpdate(userProfile._id, userProfile);
 
-    responseHandler(userProfile, 200, res);
+    responseHandler(userProfile, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

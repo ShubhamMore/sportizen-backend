@@ -131,9 +131,9 @@ const getPostReplyComments = async (req, res) => {
       },
     ]);
 
-    responseHandler(comments, 200, res);
+    responseHandler(comments, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

@@ -53,9 +53,9 @@ const editBlog = async (req, res) => {
 
     await Blog.findByIdAndUpdate(blog._id, blog);
 
-    responseHandler(blog, 200, res);
+    responseHandler(blog, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

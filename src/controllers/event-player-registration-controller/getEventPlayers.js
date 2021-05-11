@@ -38,9 +38,9 @@ const getEventPlayers = async (req, res) => {
       },
     ]);
 
-    responseHandler(eventPlayerRegistrations, 200, res);
+    responseHandler(eventPlayerRegistrations, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

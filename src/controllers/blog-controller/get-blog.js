@@ -47,12 +47,12 @@ const getBlog = async (req, res) => {
         throw new Error('No Blog Found..');
       }
 
-      responseHandler(blog[0], 200, res);
+      responseHandler(blog[0], 200, req, res);
     } else {
       throw new Error('invalid Event Id');
     }
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

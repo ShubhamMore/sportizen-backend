@@ -69,9 +69,9 @@ const getMyProfile = async (req, res) => {
       throw new Error('Profile Not Found');
     }
 
-    responseHandler(userProfile[0], 200, res);
+    responseHandler(userProfile[0], 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

@@ -7,9 +7,9 @@ const addProduct = async (req, res) => {
   try {
     const products = Product.findById(req.body.id);
 
-    responseHandler(products, 200, res);
+    responseHandler(products, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

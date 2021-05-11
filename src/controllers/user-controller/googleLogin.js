@@ -23,12 +23,12 @@ const googleLogin = async (req, res) => {
         expiresIn: 3600,
       };
 
-      responseHandler(data, 200, res);
+      responseHandler(data, 200, req, res);
     } else {
       throw new Error('Invalid User');
     }
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

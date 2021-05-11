@@ -11,9 +11,9 @@ const getEventTeam = async (req, res) => {
       throw new Error('Invalid Team');
     }
 
-    responseHandler(eventTeamRegistration, 200, res);
+    responseHandler(eventTeamRegistration, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

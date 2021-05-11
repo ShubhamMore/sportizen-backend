@@ -14,9 +14,9 @@ const searchBlog = async (req, res) => {
       ],
     });
 
-    responseHandler(blogs, 200, res);
+    responseHandler(blogs, 200, req, res);
   } catch (error) {
-    errorHandler(error, 400, res);
+    errorHandler(error, 400, req, res);
   }
 };
 

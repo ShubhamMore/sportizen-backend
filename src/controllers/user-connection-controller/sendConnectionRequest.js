@@ -38,9 +38,9 @@ const sendConnectionRequest = async (req, res) => {
 
     await newUserConnection.save();
 
-    responseHandler({ status }, 200, res);
+    responseHandler({ status }, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

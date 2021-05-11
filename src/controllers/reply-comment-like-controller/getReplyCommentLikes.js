@@ -65,9 +65,9 @@ const getReplyCommentLikes = async (req, res) => {
       },
     ]);
 
-    responseHandler(replyCommentLikes, 200, res);
+    responseHandler(replyCommentLikes, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

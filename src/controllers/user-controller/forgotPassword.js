@@ -27,9 +27,9 @@ const forgotPassword = async (req, res) => {
 
     await sendMail(mail);
 
-    responseHandler({ data: 'success' }, 200, res);
+    responseHandler({ data: 'success' }, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

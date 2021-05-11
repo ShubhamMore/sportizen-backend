@@ -130,9 +130,9 @@ const searchNewConnections = async (req, res) => {
       },
     ]);
 
-    responseHandler(userConnections, 200, res);
+    responseHandler(userConnections, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

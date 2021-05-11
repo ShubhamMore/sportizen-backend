@@ -3,6 +3,9 @@ const PaymentReceipt = require('../../models/payment-model/payment-receipt.model
 
 const crypto = require('crypto');
 
+const responseHandler = require('../../handlers/response.handler');
+const errorrHandler = require('../../handlers/error.handler');
+
 const verifyPayment = async (req, res) => {
   try {
     const hmac = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET);
@@ -19,7 +22,12 @@ const verifyPayment = async (req, res) => {
         paymentId: payment.razorpay_payment_id,
       });
 
-      res.status(200).send({ orderId: paymentReceipt.orderId, receiptId: paymentReceipt._id });
+      responseHandler(
+        { orderId: paymentReceipt.orderId, receiptId: paymentReceipt._id },
+        200,
+        req,
+        res
+      );
 
       const order = await Order.findById(paymentReceipt.orderId);
       order.amount_paid = order.amount;
@@ -29,7 +37,7 @@ const verifyPayment = async (req, res) => {
       throw new Error('Payment Verification Failed');
     }
   } catch (e) {
-    res.status(400).send(e + '');
+    errorrHandler(e, 200, req, res);
   }
 };
 

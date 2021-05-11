@@ -64,9 +64,9 @@ const getAllBlogs = async (req, res) => {
       },
     ]);
 
-    responseHandler(blogs, 200, res);
+    responseHandler(blogs, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

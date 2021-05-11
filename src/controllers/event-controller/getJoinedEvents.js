@@ -315,9 +315,9 @@ const getJoinedEvents = async (req, res) => {
       { $project: { event: 0 } },
     ]);
 
-    responseHandler(events, 200, res);
+    responseHandler(events, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

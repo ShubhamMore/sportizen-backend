@@ -7,9 +7,9 @@ const getEventPlayer = async (req, res) => {
   try {
     const eventPlayerRegistration = await EventRegisteredPlayer.findById(req.body.id);
 
-    responseHandler(eventPlayerRegistration, 200, res);
+    responseHandler(eventPlayerRegistration, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

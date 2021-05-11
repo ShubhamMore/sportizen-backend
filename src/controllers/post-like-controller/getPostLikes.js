@@ -60,9 +60,9 @@ const getPostLikes = async (req, res) => {
       { $project: { postLikeUsers: 0, sportizenUser: 0 } },
     ]);
 
-    responseHandler(postLikes, 200, res);
+    responseHandler(postLikes, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

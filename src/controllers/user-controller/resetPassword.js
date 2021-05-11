@@ -23,9 +23,9 @@ const resetPassword = async (req, res) => {
 
     await user.save();
 
-    responseHandler({ success: true }, 200, res);
+    responseHandler({ success: true }, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

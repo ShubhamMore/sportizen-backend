@@ -11,9 +11,9 @@ const getDeliveryAddress = async (req, res) => {
       throw new Error('Delivery Address Not Found');
     }
 
-    responseHandler(deliveryAddress, 200, res);
+    responseHandler(deliveryAddress, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

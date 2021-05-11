@@ -228,12 +228,12 @@ const getEvent = async (req, res) => {
         throw new Error('No Event Found..');
       }
 
-      responseHandler(event[0], 200, res);
+      responseHandler(event[0], 200, req, res);
     } else {
       throw new Error('invalid Event Id');
     }
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

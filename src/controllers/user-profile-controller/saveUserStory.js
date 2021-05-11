@@ -14,9 +14,9 @@ const saveUserStory = async (req, res) => {
 
     userProfile.story = req.body.story;
 
-    responseHandler(userProfile, 200, res);
+    responseHandler(userProfile, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

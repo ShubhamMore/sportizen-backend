@@ -1,10 +1,11 @@
-const responseHandler = async (response, status, res) => {
+// const logger = require('./../../log/logger');
+const errorHandler = require('./error.handler');
+
+const responseHandler = async (response, status, req, res) => {
   try {
-    status = status ? status : 200;
-    res.status(status).send(response);
+    res.status(status || 200).send(response);
   } catch (error) {
-    let err = '' + error;
-    res.status(400).send(err.replace('Error: ', ''));
+    errorHandler(error, error.status, req, res);
   }
 };
 

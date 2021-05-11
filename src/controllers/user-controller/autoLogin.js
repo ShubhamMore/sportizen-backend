@@ -3,9 +3,9 @@ const responseHandler = require('../../handlers/response.handler');
 
 const autoLogin = async (req, res) => {
   try {
-    responseHandler({ authenticated: true }, 200, res);
+    responseHandler({ authenticated: true }, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

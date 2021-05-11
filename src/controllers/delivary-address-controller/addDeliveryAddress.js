@@ -11,9 +11,9 @@ const addDeliveryAddress = async (req, res) => {
 
     await deliveryAddress.save();
 
-    responseHandler(deliveryAddress, 200, res);
+    responseHandler(deliveryAddress, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

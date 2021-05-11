@@ -69,9 +69,9 @@ const editEvent = async (req, res) => {
 
     await Event.findByIdAndUpdate(event._id, event);
 
-    responseHandler(event, 200, res);
+    responseHandler(event, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

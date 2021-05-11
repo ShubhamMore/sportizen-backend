@@ -54,9 +54,9 @@ const updatePost = async (req, res) => {
 
     await Post.findByIdAndUpdate(req.body._id, updatedPost);
 
-    responseHandler(post, 200, res);
+    responseHandler(post, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

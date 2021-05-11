@@ -52,9 +52,9 @@ const addProduct = async (req, res) => {
 
     await product.save();
 
-    responseHandler(product, 200, res);
+    responseHandler(product, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

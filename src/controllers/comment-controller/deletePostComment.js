@@ -20,18 +20,18 @@ const deleteComment = async (req, res) => {
     try {
       Promise.all([commentLike, replyComment, replyCommentLike])
         .then((resData) => {
-          responseHandler({ success: true }, 200, res);
+          responseHandler({ success: true }, 200, req, res);
         })
         .catch((e) => {
           throw new Error(e);
         });
     } catch (e) {
-      errorHandler(e, 400, res);
+      errorHandler(e, 400, req, res);
     }
 
-    responseHandler({ success: true }, 200, res);
+    responseHandler({ success: true }, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

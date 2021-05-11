@@ -7,9 +7,9 @@ const getAllDeliveryAddress = async (req, res) => {
   try {
     const deliveryAddresses = await DeliveryAddress.find({ sportizenUser: req.user.sportizenId });
 
-    responseHandler(deliveryAddresses, 200, res);
+    responseHandler(deliveryAddresses, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

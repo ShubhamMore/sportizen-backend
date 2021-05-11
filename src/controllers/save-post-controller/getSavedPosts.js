@@ -98,9 +98,9 @@ const getSavedPosts = async (req, res) => {
       { $project: { posts: 0 } },
     ]);
 
-    responseHandler(savesPosts, 200, res);
+    responseHandler(savesPosts, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

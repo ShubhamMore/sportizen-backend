@@ -14,9 +14,9 @@ const getBlockedConnections = async (req, res) => {
       throw new Error('');
     }
 
-    responseHandler(userConnection, 200, res);
+    responseHandler(userConnection, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

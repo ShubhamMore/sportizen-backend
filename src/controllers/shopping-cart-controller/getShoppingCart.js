@@ -13,9 +13,9 @@ const addToCart = async (req, res) => {
       },
     ]);
 
-    responseHandler(cartItems, 200, res);
+    responseHandler(cartItems, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

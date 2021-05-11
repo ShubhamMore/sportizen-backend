@@ -28,9 +28,9 @@ const deleteBlogImage = async (req, res) => {
 
     await Blog.findByIdAndUpdate(id, blog);
 
-    responseHandler({ success: true }, 200, res);
+    responseHandler({ success: true }, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

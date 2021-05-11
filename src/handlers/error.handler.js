@@ -1,5 +1,21 @@
-const errorHandler = async (error, status, res) => {
+const logger = require('./../../log/logger');
+
+const errorHandler = async (error, status, req, res) => {
   try {
+    logger.log('error', {
+      sportizenId: req.user ? req.user.sportizenId : '',
+      body: req.body,
+      error,
+      stackTrace: error.stack,
+    });
+
+    console.log({
+      sportizenId: req.user.sportizenId,
+      body: req.body,
+      error,
+      stackTrace: error.stack,
+    });
+
     let err = '' + error;
     if (error.name === 'CastError') {
       err = 'No Record Found';
@@ -8,12 +24,18 @@ const errorHandler = async (error, status, res) => {
     } else if (error.code === 11000) {
       err = 'Duplicate key error';
     }
+
     err = err ? err.replace('Error: ', '') : 'Something Bad Happen, Bad request';
-    status = status ? status : 400;
-    res.status(status).send(err);
+
+    res.status(status || 400).send(err);
   } catch (error) {
-    let err = '' + error;
-    res.status(400).send(err.replace('Error: ', ''));
+    logger.log('error', {
+      sportizenId: req.user ? req.user.sportizenId : '',
+      body: req.body,
+      error,
+      stackTrace: error.stack,
+    });
+    res.status(error.status || 400).send(error);
   }
 };
 

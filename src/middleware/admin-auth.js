@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user-model/user.model');
 
+const errorHandler = require('./../handlers/error.handler');
+
 const adminAuth = async (req, res, next) => {
   try {
     if (req.user.userType !== 'admin') {
@@ -8,7 +10,7 @@ const adminAuth = async (req, res, next) => {
     }
     next();
   } catch (e) {
-    res.status(401).send({ error: 'Invalid Access.' });
+    errorHandler('Invalid Access.', 401, req, res);
   }
 };
 

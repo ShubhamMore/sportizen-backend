@@ -24,9 +24,9 @@ const deleteEvent = async (req, res) => {
     } else if (event.eventType === '1') {
       await EventRegisteredTeam.deleteMany({ event: event._id.toString() });
     }
-    responseHandler({ success: true }, 200, res);
+    responseHandler({ success: true }, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

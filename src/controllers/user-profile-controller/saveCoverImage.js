@@ -44,9 +44,9 @@ const saveUserCoverImage = async (req, res) => {
 
     const updatedUserProfile = await UserProfile.findById(userProfile._id);
 
-    responseHandler(updatedUserProfile, 200, res);
+    responseHandler(updatedUserProfile, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

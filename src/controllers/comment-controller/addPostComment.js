@@ -14,9 +14,9 @@ const addPostComment = async (req, res) => {
 
     await comment.save();
 
-    responseHandler(comment, 200, res);
+    responseHandler(comment, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

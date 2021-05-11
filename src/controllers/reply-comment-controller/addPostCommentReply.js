@@ -15,9 +15,9 @@ const addPostCommentReply = async (req, res) => {
 
     await replyComment.save();
 
-    responseHandler(replyComment, 200, res);
+    responseHandler(replyComment, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

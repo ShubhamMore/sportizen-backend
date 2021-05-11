@@ -71,9 +71,9 @@ const newEvent = async (req, res) => {
     const event = new Event(eventData);
 
     await event.save();
-    responseHandler(event, 200, res);
+    responseHandler(event, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

@@ -33,9 +33,9 @@ const getChats = async (req, res) => {
       },
     ]);
 
-    responseHandler(chats, 200, res);
+    responseHandler(chats, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

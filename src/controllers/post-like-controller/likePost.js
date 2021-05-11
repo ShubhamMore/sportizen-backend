@@ -20,9 +20,9 @@ const likePost = async (req, res) => {
       await postLike.save();
     }
 
-    responseHandler({ success: true }, 200, res);
+    responseHandler({ success: true }, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

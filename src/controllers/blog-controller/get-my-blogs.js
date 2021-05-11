@@ -8,9 +8,9 @@ const getMyBlogs = async (req, res) => {
       sportizenUser: req.user.sportizenId,
     });
 
-    responseHandler(myBlogs, 200, res);
+    responseHandler(myBlogs, 200, req, res);
   } catch (error) {
-    errorHandler(error, 400, res);
+    errorHandler(error, 400, req, res);
   }
 };
 

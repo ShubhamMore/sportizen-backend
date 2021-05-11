@@ -124,9 +124,9 @@ const sharePost = async (req, res) => {
       },
     ]);
 
-    responseHandler(responsePost.length > 0 ? responsePost[0] : post, 200, res);
+    responseHandler(responsePost.length > 0 ? responsePost[0] : post, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

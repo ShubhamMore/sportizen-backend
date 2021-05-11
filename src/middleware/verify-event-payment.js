@@ -19,7 +19,7 @@ const verifyEventPayment = async (req, res, next) => {
       next();
     }
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

@@ -222,12 +222,12 @@ const getPost = async (req, res) => {
         throw new Error('Post Not Found');
       }
 
-      responseHandler(post[0], 200, res);
+      responseHandler(post[0], 200, req, res);
     } else {
       throw new Error('invalid Post Id');
     }
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

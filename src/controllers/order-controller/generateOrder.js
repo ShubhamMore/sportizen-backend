@@ -2,6 +2,8 @@ const Razorpay = require('razorpay');
 const Order = require('../../models/payment-model/order.model');
 const PaymentReceipt = require('../../models/payment-model/payment-receipt.model');
 const Event = require('../../models/event-model/event.model');
+
+const responseHandler = require('../../handlers/response.handler');
 const errorHandler = require('../../handlers/error.handler');
 
 const instance = new Razorpay({
@@ -58,13 +60,13 @@ const generateOrder = async (req, res) => {
         await generatedOrder.save();
         await paymentReceipt.save();
 
-        res.status(200).send({ paymentReceipt, order });
+        responseHandler({ paymentReceipt, order }, 200, req, res);
       } catch (e) {
-        errorHandler(e, 400, res);
+        errorHandler(e, 400, req, res);
       }
     });
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

@@ -20,9 +20,9 @@ const registerTeam = async (req, res) => {
 
     await newEventTeamRegistration.save();
 
-    responseHandler(newEventTeamRegistration, 200, res);
+    responseHandler(newEventTeamRegistration, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

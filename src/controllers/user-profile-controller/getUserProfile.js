@@ -38,7 +38,7 @@ const getUserProfile = async (req, res) => {
         connection,
       };
 
-      responseHandler(privateUser, 200, res);
+      responseHandler(privateUser, 200, req, res);
     } else {
       const publicUser = {
         name: userProfile.name,
@@ -50,10 +50,10 @@ const getUserProfile = async (req, res) => {
         connection,
       };
 
-      responseHandler(publicUser, 200, res);
+      responseHandler(publicUser, 200, req, res);
     }
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

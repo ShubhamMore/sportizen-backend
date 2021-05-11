@@ -11,9 +11,9 @@ const getBillingDetails = async (req, res) => {
       throw new Error('Billing Details Not Found');
     }
 
-    responseHandler(billingDetails, 200, res);
+    responseHandler(billingDetails, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

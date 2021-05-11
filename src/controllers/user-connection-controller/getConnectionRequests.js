@@ -10,9 +10,9 @@ const getMyConnectionRequests = async (req, res) => {
       status: 'requested',
     });
 
-    responseHandler(userConnection, 200, res);
+    responseHandler(userConnection, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

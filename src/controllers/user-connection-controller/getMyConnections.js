@@ -78,9 +78,9 @@ const getMyConnections = async (req, res) => {
       },
     ]);
 
-    responseHandler(myConnections, 200, res);
+    responseHandler(myConnections, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

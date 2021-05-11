@@ -12,6 +12,8 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 
+const errorHandler = require('./handlers/error.handler');
+
 require('./database/mongoose');
 
 // const birthDayWishes = require('./functions/birthDayWishes');
@@ -135,18 +137,12 @@ app.use(orderRouter);
 app.use(paymentRouter);
 
 app.use((req, res, next) => {
-  const error = new Error('NOT FOUND');
-  error.status = 404;
+  const error = new Error('NOT FOUND').status(404);
   next(error);
 });
 
 app.use((error, req, res, next) => {
-  res.status(error.status || 500);
-  res.json({
-    error: {
-      message: error.message,
-    },
-  });
+  errorHandler(error.message, error.status || 500, req, res);
 });
 
 // birthDayWishes();

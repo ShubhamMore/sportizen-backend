@@ -16,9 +16,9 @@ const addBookmark = async (req, res) => {
       throw new Error("Blog doesn't Exists");
     }
 
-    responseHandler({ success: true }, 200, res);
+    responseHandler({ success: true }, 200, req, res);
   } catch (error) {
-    errorHandler(error, 400, res);
+    errorHandler(error, 400, req, res);
   }
 };
 

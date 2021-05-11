@@ -27,9 +27,9 @@ const getMyPostGallery = async (req, res) => {
       },
     ]);
 
-    responseHandler(postGallery, 200, res);
+    responseHandler(postGallery, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

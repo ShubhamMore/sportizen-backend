@@ -22,9 +22,9 @@ const validateToken = async (req, res) => {
       valid_token: true,
     };
 
-    responseHandler(data, 200, res);
+    responseHandler(data, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

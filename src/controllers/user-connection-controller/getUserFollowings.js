@@ -156,13 +156,13 @@ const getUserFollowings = async (req, res) => {
 
     Promise.all([userFollowingsCount, userFollowings])
       .then((resData) => {
-        responseHandler({ connectionCount: resData[0], connections: resData[1] }, 200, res);
+        responseHandler({ connectionCount: resData[0], connections: resData[1] }, 200, req, res);
       })
       .catch((e) => {
         throw new Error(e);
       });
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

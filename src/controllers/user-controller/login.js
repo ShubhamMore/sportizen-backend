@@ -23,9 +23,9 @@ const login = async (req, res) => {
 
     data._id = userProfile._id;
 
-    responseHandler(data, 200, res);
+    responseHandler(data, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 

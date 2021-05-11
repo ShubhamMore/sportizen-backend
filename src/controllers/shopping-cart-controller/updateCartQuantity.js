@@ -18,9 +18,9 @@ const updateCartQuantity = async (req, res) => {
       throw new Error('Cart Item Not Found');
     }
 
-    responseHandler({ success: true }, 200, res);
+    responseHandler({ success: true }, 200, req, res);
   } catch (e) {
-    errorHandler(e, 400, res);
+    errorHandler(e, 400, req, res);
   }
 };
 
