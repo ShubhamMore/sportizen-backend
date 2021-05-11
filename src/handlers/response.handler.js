@@ -1,4 +1,4 @@
-// const logger = require('./../../log/logger');
+// const logger = require('./../config/logger');
 const errorHandler = require('./error.handler');
 
 const responseHandler = async (response, status, req, res) => {
