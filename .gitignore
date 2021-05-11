@@ -6,3 +6,4 @@ images/*
 log/*
 !log/.gitkeep
 package-lock.json
+logger.log

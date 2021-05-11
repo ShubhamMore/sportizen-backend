@@ -9,12 +9,12 @@ const errorHandler = async (error, status, req, res) => {
       stackTrace: error.stack,
     });
 
-    console.log({
-      sportizenId: req.user.sportizenId,
-      body: req.body,
-      error,
-      stackTrace: error.stack,
-    });
+    // console.log({
+    //   sportizenId: req.user ? req.user.sportizenId : '',
+    //   body: req.body,
+    //   error,
+    //   stackTrace: error.stack,
+    // });
 
     let err = '' + error;
     if (error.name === 'CastError') {
