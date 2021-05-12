@@ -9,42 +9,34 @@ const blogSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  tags: [String],
   description: {
     type: String,
     required: true,
   },
-
-  images: [
-    {
-      imageName: {
-        type: String, // for image & video
-        default: null,
-      },
-      secureUrl: {
-        type: String,
-        default: null,
-      },
-      publicId: {
-        type: String,
-        default: null,
-      },
-      createdAt: {
-        type: Date,
-        default: new Date().toISOString(),
-      },
-    },
-  ],
+  imageName: {
+    type: String, // for image & video
+    default: null,
+  },
+  secureUrl: {
+    type: String,
+    default: null,
+  },
+  publicId: {
+    type: String,
+    default: null,
+  },
   createdBy: {
     type: String,
     required: true,
   },
   createdAt: {
     type: Date,
-    required: true,
+    default: new Date().toISOString(),
   },
   modifiedAt: {
     type: Date,
-    required: true,
+    default: new Date().toISOString(),
   },
 
   // tags: [{ type: Array, validate: [arrayLimit, 'length of tag exceeds 5'] }],

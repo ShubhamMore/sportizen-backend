@@ -8,7 +8,12 @@ const awsUploadFiles = require('../../uploads/awsUploadFiles');
 const newBlog = async (req, res) => {
   try {
     const file = req.files;
-    const images = new Array();
+
+    let image = {
+      imageName: null,
+      secureUrl: null,
+      publicId: null,
+    };
 
     if (file.length > 0 && file !== undefined) {
       let filePaths = new Array();
@@ -29,24 +34,22 @@ const newBlog = async (req, res) => {
 
       if (uploadResLen > 0) {
         for (let i = 0; i < uploadResLen; i++) {
-          const image = {
+          image = {
             imageName: uploadRes[i].key,
             secureUrl: uploadRes[i].Location,
             publicId: uploadRes[i].key,
-            createdAt: Date.now(),
           };
-          images.push(image);
         }
       }
     }
 
     const blogData = {
       title: req.body.title,
-      sport: req.body.sport,
       subtitle: req.body.subtitle,
+      tags: req.body.tags.split('-'),
       description: req.body.description,
+      ...image,
       createdBy: req.user.sportizenId,
-      images,
       createdAt: Date.now(),
       modifiedAt: Date.now(),
     };

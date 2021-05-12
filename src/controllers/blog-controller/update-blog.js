@@ -11,7 +11,7 @@ const editBlog = async (req, res) => {
 
     const blog = await Blog.findById(req.body._id);
 
-    const images = blog.images;
+    let image = blog.image;
 
     if (file.length > 0 && file !== undefined) {
       let filePaths = new Array();
@@ -32,23 +32,24 @@ const editBlog = async (req, res) => {
 
       if (uploadResLen > 0) {
         for (let i = 0; i < uploadResLen; i++) {
-          const image = {
+          image = {
             imageName: uploadRes[i].key,
             secureUrl: uploadRes[i].Location,
             publicId: uploadRes[i].key,
-            createdAt: Date.now(),
           };
-          images.push(image);
         }
       }
     }
 
     blog.title = req.body.title;
-    blog.sport = req.body.sport;
     blog.subtitle = req.body.subtitle;
+    blog.tags = req.body.tags.split('-');
+    blog.sport = req.body.sport;
     blog.description = req.body.description;
+    blog.imageName = image.imageName;
+    blog.secureUrl = image.secureUrl;
+    blog.publicId = image.publicId;
     blog.createdBy = req.user.sportizenId;
-    blog.images = images;
     blog.modifiedAt = Date.now();
 
     await Blog.findByIdAndUpdate(blog._id, blog);
