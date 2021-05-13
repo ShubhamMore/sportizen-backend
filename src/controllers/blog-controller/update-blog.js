@@ -11,7 +11,11 @@ const editBlog = async (req, res) => {
 
     const blog = await Blog.findById(req.body._id);
 
-    let image = blog.image;
+    let image = {
+      imageName: blog.imageName,
+      secureUrl: blog.secureUrl,
+      publicId: blog.publicId,
+    };
 
     if (file.length > 0 && file !== undefined) {
       let filePaths = new Array();
