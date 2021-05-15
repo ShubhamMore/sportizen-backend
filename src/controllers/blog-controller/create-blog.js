@@ -9,6 +9,12 @@ const newBlog = async (req, res) => {
   try {
     const file = req.files;
 
+    const tags = req.body.tags.split('-');
+
+    if (tags.length > 5) {
+      throw new Error('Maximum 5 tags are Allowed');
+    }
+
     let image = {
       imageName: null,
       secureUrl: null,
@@ -46,7 +52,7 @@ const newBlog = async (req, res) => {
     const blogData = {
       title: req.body.title,
       subtitle: req.body.subtitle,
-      tags: req.body.tags.split('-'),
+      tags,
       description: req.body.description,
       ...image,
       createdBy: req.user.sportizenId,

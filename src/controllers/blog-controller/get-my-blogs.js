@@ -4,13 +4,69 @@ const errorHandler = require('../../handlers/error.handler');
 
 const getMyBlogs = async (req, res) => {
   try {
-    const myBlogs = await Blog.find({
-      sportizenUser: req.user.sportizenId,
-    });
+    const query = [
+      {
+        $match: {
+          createdBy: req.user.sportizenId,
+        },
+      },
+      {
+        $project: {
+          description: 0,
+        },
+      },
+      {
+        $sort: { _id: -1 },
+      },
+    ];
 
-    responseHandler(myBlogs, 200, req, res);
-  } catch (error) {
-    errorHandler(error, 400, req, res);
+    if (req.params.skip !== 'null') {
+      query.push({
+        $skip: +req.params.skip,
+      });
+    }
+
+    if (req.params.limit !== 'null') {
+      query.push({
+        $limit: +req.params.limit,
+      });
+    }
+
+    console.log(req.params);
+
+    const blogs = await Blog.aggregate([
+      ...query,
+      {
+        $lookup: {
+          from: 'userprofiles',
+          localField: 'createdBy',
+          foreignField: 'sportizenId',
+          as: 'sportizenUsers',
+        },
+      },
+      {
+        $addFields: {
+          sportizenUser: { $arrayElemAt: ['$sportizenUsers', 0] },
+        },
+      },
+      {
+        $addFields: {
+          createdUserImage: '$sportizenUser.userImageURL',
+          createdUser: '$sportizenUser.name',
+        },
+      },
+      {
+        $project: {
+          sportizenUser: 0,
+          sportizenUsers: 0,
+        },
+      },
+    ]);
+
+    responseHandler(blogs, 200, req, res);
+  } catch (e) {
+    console.log(e);
+    errorHandler(e, 400, req, res);
   }
 };
 

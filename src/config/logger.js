@@ -1,9 +1,10 @@
 const { createLogger, transports, format } = require('winston');
+const path = require('path');
 
 const logger = createLogger({
   transports: [
     new transports.File({
-      filename: 'logger.log',
+      filename: path.join(__dirname, '../../log', 'logger.log'),
       level: 'error',
       format: format.combine(format.timestamp(), format.json()),
     }),

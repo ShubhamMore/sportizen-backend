@@ -9,7 +9,7 @@ const blogSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  tags: [String],
+  // tags: [String],
   description: {
     type: String,
     required: true,
@@ -39,7 +39,7 @@ const blogSchema = new mongoose.Schema({
     default: new Date().toISOString(),
   },
 
-  // tags: [{ type: Array, validate: [arrayLimit, 'length of tag exceeds 5'] }],
+  tags: [{ type: [String], validate: [arrayLimit, 'length of tag exceeds 5'] }],
 
   // viewTime: {
   //   type: Number,

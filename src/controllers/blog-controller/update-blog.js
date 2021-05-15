@@ -9,6 +9,12 @@ const editBlog = async (req, res) => {
   try {
     const file = req.files;
 
+    const tags = req.body.tags.split('-');
+
+    if (tags.length > 5) {
+      throw new Error('Maximum 5 tags are Allowed');
+    }
+
     const blog = await Blog.findById(req.body._id);
 
     let image = {
@@ -47,7 +53,7 @@ const editBlog = async (req, res) => {
 
     blog.title = req.body.title;
     blog.subtitle = req.body.subtitle;
-    blog.tags = req.body.tags.split('-');
+    blog.tags = tags;
     blog.sport = req.body.sport;
     blog.description = req.body.description;
     blog.imageName = image.imageName;
