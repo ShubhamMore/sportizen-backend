@@ -56,16 +56,16 @@ router.post(
   }
 );
 
-router.post('/get-my-blogs/:limit/:skip ', userAuth, async (req, res) => {
-  await getMyBlogs(req, res);
-});
-
 // router.post('/get-blogs', userAuth, async (req, res) => {
 //   await getBlogs(req, res);
 // });
 
 router.get('/get-blogs/:limit/:skip', auth, async (req, res) => {
   await getBlogs(req, res);
+});
+
+router.get('/get-my-blogs/:limit/:skip', userAuth, async (req, res) => {
+  await getMyBlogs(req, res);
 });
 
 // router.post('/get-blog', userAuth, async (req, res) => {

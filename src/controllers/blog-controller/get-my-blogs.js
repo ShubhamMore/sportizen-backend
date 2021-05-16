@@ -32,8 +32,6 @@ const getMyBlogs = async (req, res) => {
       });
     }
 
-    console.log(req.params);
-
     const blogs = await Blog.aggregate([
       ...query,
       {
