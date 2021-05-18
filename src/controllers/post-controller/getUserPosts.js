@@ -165,7 +165,7 @@ const getUserPosts = async (req, res) => {
       },
       {
         $lookup: {
-          from: 'comments',
+          from: 'postcomments',
           let: { postId: '$id' },
           pipeline: [
             { $match: { $expr: { $eq: ['$post', '$$postId'] } } },
@@ -176,7 +176,7 @@ const getUserPosts = async (req, res) => {
       },
       {
         $lookup: {
-          from: 'replycomments',
+          from: 'postreplycomments',
           let: { postId: '$id' },
           pipeline: [
             { $match: { $expr: { $eq: ['$post', '$$postId'] } } },
@@ -187,7 +187,7 @@ const getUserPosts = async (req, res) => {
       },
       {
         $lookup: {
-          from: 'saveposts',
+          from: 'postbookmarks',
           let: { postId: '$id' },
           pipeline: [
             {
@@ -203,11 +203,11 @@ const getUserPosts = async (req, res) => {
             {
               $project: {
                 _id: 0,
-                alreadySaved: { $cond: [{ $eq: ['$savePost', true] }, true, false] },
+                alreadyBookmarked: { $cond: [{ $eq: ['$bookmark', true] }, true, false] },
               },
             },
           ],
-          as: 'savePosts',
+          as: 'bookmarks',
         },
       },
       {
@@ -261,7 +261,7 @@ const getUserPosts = async (req, res) => {
       },
       {
         $replaceRoot: {
-          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$savePosts', 0] }, '$$ROOT'] },
+          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$bookmarks', 0] }, '$$ROOT'] },
         },
       },
       {
@@ -278,7 +278,7 @@ const getUserPosts = async (req, res) => {
           views: 0,
           comments: 0,
           replyComments: 0,
-          savePosts: 0,
+          bookmarks: 0,
           postUser: 0,
           __v: 0,
         },

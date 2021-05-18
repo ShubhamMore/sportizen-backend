@@ -10,6 +10,7 @@ const blogSchema = new mongoose.Schema({
     required: true,
   },
   // tags: [String],
+  tags: [{ type: [String], validate: [arrayLimit, 'length of tag exceeds 5'] }],
   description: {
     type: String,
     required: true,
@@ -26,7 +27,7 @@ const blogSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
-  createdBy: {
+  sportizenUser: {
     type: String,
     required: true,
   },
@@ -38,8 +39,6 @@ const blogSchema = new mongoose.Schema({
     type: Date,
     default: new Date().toISOString(),
   },
-
-  tags: [{ type: [String], validate: [arrayLimit, 'length of tag exceeds 5'] }],
 
   // viewTime: {
   //   type: Number,

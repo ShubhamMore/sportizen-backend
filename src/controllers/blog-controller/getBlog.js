@@ -1,21 +1,21 @@
-const Post = require('../../models/post-model/post.model');
+const Blog = require('../../models/blog-model/blog.model');
 
 const responseHandler = require('../../handlers/response.handler');
 const errorHandler = require('../../handlers/error.handler');
 
 const mongoose = require('mongoose');
 
-const getPost = async (req, res) => {
+const getBlog = async (req, res) => {
   try {
-    const postId = req.params.id;
+    const blogId = req.params.id;
 
     const sportizenId = req.user ? req.user.sportizenId : '';
 
-    if (mongoose.Types.ObjectId.isValid(postId)) {
-      const post = await Post.aggregate([
+    if (mongoose.Types.ObjectId.isValid(blogId)) {
+      const blog = await Blog.aggregate([
         {
           $match: {
-            _id: mongoose.Types.ObjectId(postId),
+            _id: mongoose.Types.ObjectId(blogId),
           },
         },
         {
@@ -27,14 +27,14 @@ const getPost = async (req, res) => {
         },
         {
           $lookup: {
-            from: 'postlikes',
-            let: { postId: '$id' },
+            from: 'bloglikes',
+            let: { blogId: '$id' },
             pipeline: [
               {
                 $match: {
                   $expr: {
                     $and: [
-                      { $eq: ['$post', '$$postId'] },
+                      { $eq: ['$blog', '$$blogId'] },
                       { $eq: ['$sportizenUser', sportizenId] },
                     ],
                   },
@@ -43,7 +43,7 @@ const getPost = async (req, res) => {
               {
                 $project: {
                   _id: 0,
-                  alreadyLiked: { $cond: [{ $eq: ['$postLike', true] }, true, false] },
+                  alreadyLiked: { $cond: [{ $eq: ['$blogLike', true] }, true, false] },
                 },
               },
             ],
@@ -52,25 +52,25 @@ const getPost = async (req, res) => {
         },
         {
           $lookup: {
-            from: 'postlikes',
-            let: { postId: '$id' },
+            from: 'bloglikes',
+            let: { blogId: '$id' },
             pipeline: [
-              { $match: { $expr: { $eq: ['$post', '$$postId'] } } },
-              { $count: 'postLikes' },
+              { $match: { $expr: { $eq: ['$blog', '$$blogId'] } } },
+              { $count: 'blogLikes' },
             ],
             as: 'likes',
           },
         },
         {
           $lookup: {
-            from: 'postviews',
-            let: { postId: '$id' },
+            from: 'blogviews',
+            let: { blogId: '$id' },
             pipeline: [
               {
                 $match: {
                   $expr: {
                     $and: [
-                      { $eq: ['$post', '$$postId'] },
+                      { $eq: ['$blog', '$$blogId'] },
                       { $eq: ['$sportizenUser', sportizenId] },
                     ],
                   },
@@ -79,7 +79,7 @@ const getPost = async (req, res) => {
               {
                 $project: {
                   _id: 0,
-                  alreadyViewed: { $cond: [{ $eq: ['$postView', true] }, true, false] },
+                  alreadyViewed: { $cond: [{ $eq: ['$blogView', true] }, true, false] },
                 },
               },
             ],
@@ -88,47 +88,36 @@ const getPost = async (req, res) => {
         },
         {
           $lookup: {
-            from: 'postviews',
-            let: { postId: '$id' },
+            from: 'blogviews',
+            let: { blogId: '$id' },
             pipeline: [
-              { $match: { $expr: { $eq: ['$post', '$$postId'] } } },
-              { $count: 'postViews' },
+              { $match: { $expr: { $eq: ['$blog', '$$blogId'] } } },
+              { $count: 'blogViews' },
             ],
             as: 'views',
           },
         },
         {
           $lookup: {
-            from: 'postcomments',
-            let: { postId: '$id' },
+            from: 'blogcomments',
+            let: { blogId: '$id' },
             pipeline: [
-              { $match: { $expr: { $eq: ['$post', '$$postId'] } } },
-              { $count: 'postComments' },
+              { $match: { $expr: { $eq: ['$blog', '$$blogId'] } } },
+              { $count: 'blogComments' },
             ],
             as: 'comments',
           },
         },
         {
           $lookup: {
-            from: 'postreplycomments',
-            let: { postId: '$id' },
-            pipeline: [
-              { $match: { $expr: { $eq: ['$post', '$$postId'] } } },
-              { $count: 'postReplyComments' },
-            ],
-            as: 'replyComments',
-          },
-        },
-        {
-          $lookup: {
-            from: 'postbookmarks',
-            let: { postId: '$id' },
+            from: 'bookmarkblogs',
+            let: { blogId: '$id' },
             pipeline: [
               {
                 $match: {
                   $expr: {
                     $and: [
-                      { $eq: ['$post', '$$postId'] },
+                      { $eq: ['$blog', '$$blogId'] },
                       { $eq: ['$sportizenUser', sportizenId] },
                     ],
                   },
@@ -137,11 +126,11 @@ const getPost = async (req, res) => {
               {
                 $project: {
                   _id: 0,
-                  alreadyBookmarked: { $cond: [{ $eq: ['$bookmark', true] }, true, false] },
+                  alreadySaved: { $cond: [{ $eq: ['$saveBlog', true] }, true, false] },
                 },
               },
             ],
-            as: 'bookmarks',
+            as: 'bookmarkBlogs',
           },
         },
         {
@@ -160,7 +149,7 @@ const getPost = async (req, res) => {
                 $project: { _id: 0, userName: '$name', userImageURL: 1 },
               },
             ],
-            as: 'postUser',
+            as: 'blogUser',
           },
         },
         {
@@ -190,17 +179,12 @@ const getPost = async (req, res) => {
         },
         {
           $replaceRoot: {
-            newRoot: { $mergeObjects: [{ $arrayElemAt: ['$replyComments', 0] }, '$$ROOT'] },
+            newRoot: { $mergeObjects: [{ $arrayElemAt: ['$bookmarkBlogs', 0] }, '$$ROOT'] },
           },
         },
         {
           $replaceRoot: {
-            newRoot: { $mergeObjects: [{ $arrayElemAt: ['$bookmarks', 0] }, '$$ROOT'] },
-          },
-        },
-        {
-          $replaceRoot: {
-            newRoot: { $mergeObjects: [{ $arrayElemAt: ['$postUser', 0] }, '$$ROOT'] },
+            newRoot: { $mergeObjects: [{ $arrayElemAt: ['$blogUser', 0] }, '$$ROOT'] },
           },
         },
         {
@@ -210,25 +194,84 @@ const getPost = async (req, res) => {
             viewStatus: 0,
             views: 0,
             comments: 0,
-            replyComments: 0,
-            bookmarks: 0,
-            postUser: 0,
+            bookmarkBlogs: 0,
+            blogUser: 0,
             __v: 0,
           },
         },
       ]);
 
-      if (!post[0]) {
-        throw new Error('Post Not Found');
+      if (!blog[0]) {
+        throw new Error('Blog Not Found');
       }
 
-      responseHandler(post[0], 200, req, res);
+      responseHandler(blog[0], 200, req, res);
     } else {
-      throw new Error('invalid Post Id');
+      throw new Error('invalid Blog Id');
     }
   } catch (e) {
     errorHandler(e, 400, req, res);
   }
 };
 
-module.exports = getPost;
+module.exports = getBlog;
+
+// const Blog = require('../../models/blog-model/blog.model');
+// const mongoose = require('mongoose');
+// const errorHandler = require('../../handlers/error.handler');
+// const responseHandler = require('../../handlers/response.handler');
+
+// const getBlog = async (req, res) => {
+//   try {
+//     const blogId = req.params.id;
+//     const sportizenId = req.user ? req.user.sportizenId : '';
+
+//     if (mongoose.Types.ObjectId.isValid(blogId)) {
+//       const blog = await Blog.aggregate([
+//         {
+//           $match: {
+//             _id: mongoose.Types.ObjectId(blogId),
+//           },
+//         },
+//         {
+//           $lookup: {
+//             from: 'userprofiles',
+//             localField: 'createdBy',
+//             foreignField: 'sportizenId',
+//             as: 'sportizenUsers',
+//           },
+//         },
+//         {
+//           $addFields: {
+//             sportizenUser: { $arrayElemAt: ['$sportizenUsers', 0] },
+//           },
+//         },
+//         {
+//           $addFields: {
+//             createdUserImage: '$sportizenUser.userImageURL',
+//             createdUser: '$sportizenUser.name',
+//           },
+//         },
+
+//         {
+//           $project: {
+//             sportizenUser: 0,
+//             sportizenUsers: 0,
+//           },
+//         },
+//       ]);
+
+//       if (!blog[0]) {
+//         throw new Error('No Blog Found..');
+//       }
+
+//       responseHandler(blog[0], 200, req, res);
+//     } else {
+//       throw new Error('invalid Event Id');
+//     }
+//   } catch (e) {
+//     errorHandler(e, 400, req, res);
+//   }
+// };
+
+// module.exports = getBlog;

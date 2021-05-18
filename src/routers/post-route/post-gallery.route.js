@@ -1,8 +1,8 @@
 const express = require('express');
 const userAuth = require('../../middleware/user-auth');
 
-const getMyPostGallery = require('../../controllers/post-gallery-controller/getMyPostGallery');
-const getUserPostGallery = require('../../controllers/post-gallery-controller/getUserPostGallery');
+const getMyPostGallery = require('../../controllers/post-controller/post-gallery-controller/getMyPostGallery');
+const getUserPostGallery = require('../../controllers/post-controller/post-gallery-controller/getUserPostGallery');
 
 const router = new express.Router();
 

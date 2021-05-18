@@ -1,0 +1,36 @@
+const Post = require('../../../models/post-model/post.model');
+
+const errorHandler = require('../../../handlers/error.handler');
+const responseHandler = require('../../../handlers/response.handler');
+
+const getMyPostGallery = async (req, res) => {
+  try {
+    const query = [
+      {
+        $match: {
+          sportizenUser: req.user.sportizenId,
+          postType: 'image',
+        },
+      },
+    ];
+
+    if (req.body.limit) {
+      query.push({ $limit: req.body.limit });
+    }
+
+    const postGallery = await Post.aggregate([
+      ...query,
+      {
+        $project: {
+          secureUrl: 1,
+        },
+      },
+    ]);
+
+    responseHandler(postGallery, 200, req, res);
+  } catch (e) {
+    errorHandler(e, 400, req, res);
+  }
+};
+
+module.exports = getMyPostGallery;

@@ -1,9 +1,9 @@
 const express = require('express');
 const userAuth = require('../../middleware/user-auth');
 
-const getPostLikes = require('../../controllers/post-like-controller/getPostLikes');
-const likePost = require('../../controllers/post-like-controller/likePost');
-const unlikePost = require('../../controllers/post-like-controller/unlikePost');
+const getPostLikes = require('../../controllers/post-controller/post-like-controller/getPostLikes');
+const likePost = require('../../controllers/post-controller/post-like-controller/likePost');
+const unlikePost = require('../../controllers/post-controller/post-like-controller/unlikePost');
 
 const router = new express.Router();
 

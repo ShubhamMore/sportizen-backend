@@ -1,14 +1,19 @@
-const Post = require('../../models/post-model/post.model');
+const Blog = require('../../models/blog-model/blog.model');
 
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
 
-const getMyPosts = async (req, res) => {
+const mongoose = require('mongoose');
+
+const getBlogs = async (req, res) => {
   try {
     const query = [
       {
-        $match: {
-          sportizenUser: req.user.sportizenId,
+        $match: {},
+      },
+      {
+        $project: {
+          description: 0,
         },
       },
       {
@@ -28,79 +33,30 @@ const getMyPosts = async (req, res) => {
       });
     }
 
-    const posts = await Post.aggregate([
+    const blogs = await Blog.aggregate([
       ...query,
       {
         $addFields: {
           id: {
             $toString: '$_id',
           },
-          sharedPost: {
-            $toObjectId: '$sharedPost',
-          },
-        },
-      },
-      {
-        $lookup: {
-          from: 'posts',
-          let: { postId: '$sharedPost' },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $and: [{ $eq: ['$_id', '$$postId'] }],
-                },
-              },
-            },
-            {
-              $lookup: {
-                from: 'userprofiles',
-                let: { sportizenUserId: '$sportizenUser' },
-                pipeline: [
-                  {
-                    $match: {
-                      $expr: {
-                        $and: [{ $eq: ['$sportizenId', '$$sportizenUserId'] }],
-                      },
-                    },
-                  },
-                  {
-                    $project: { _id: 0, userName: '$name', userImageURL: 1 },
-                  },
-                ],
-                as: 'postUser',
-              },
-            },
-            {
-              $replaceRoot: {
-                newRoot: { $mergeObjects: [{ $arrayElemAt: ['$postUser', 0] }, '$$ROOT'] },
-              },
-            },
-            {
-              $project: {
-                postUser: 0,
-                __v: 0,
-              },
-            },
-          ],
-          as: 'posts',
         },
       },
       {
         $addFields: {
-          sharedPost: { $arrayElemAt: ['$posts', 0] },
+          sharedBlog: { $arrayElemAt: ['$blogs', 0] },
         },
       },
       {
         $lookup: {
-          from: 'postlikes',
-          let: { postId: '$id' },
+          from: 'bloglikes',
+          let: { blogId: '$id' },
           pipeline: [
             {
               $match: {
                 $expr: {
                   $and: [
-                    { $eq: ['$post', '$$postId'] },
+                    { $eq: ['$blog', '$$blogId'] },
                     { $eq: ['$sportizenUser', req.user.sportizenId] },
                   ],
                 },
@@ -109,7 +65,7 @@ const getMyPosts = async (req, res) => {
             {
               $project: {
                 _id: 0,
-                alreadyLiked: { $cond: [{ $eq: ['$postLike', true] }, true, false] },
+                alreadyLiked: { $cond: [{ $eq: ['$blogLike', true] }, true, false] },
               },
             },
           ],
@@ -117,33 +73,26 @@ const getMyPosts = async (req, res) => {
         },
       },
       {
-        $addFields: {
-          id: {
-            $toString: '$_id',
-          },
-        },
-      },
-      {
         $lookup: {
-          from: 'postlikes',
-          let: { postId: '$id' },
+          from: 'bloglikes',
+          let: { blogId: '$id' },
           pipeline: [
-            { $match: { $expr: { $eq: ['$post', '$$postId'] } } },
-            { $count: 'postLikes' },
+            { $match: { $expr: { $eq: ['$blog', '$$blogId'] } } },
+            { $count: 'blogLikes' },
           ],
           as: 'likes',
         },
       },
       {
         $lookup: {
-          from: 'postviews',
-          let: { postId: '$id' },
+          from: 'blogviews',
+          let: { blogId: '$id' },
           pipeline: [
             {
               $match: {
                 $expr: {
                   $and: [
-                    { $eq: ['$post', '$$postId'] },
+                    { $eq: ['$blog', '$$blogId'] },
                     { $eq: ['$sportizenUser', req.user.sportizenId] },
                   ],
                 },
@@ -152,7 +101,7 @@ const getMyPosts = async (req, res) => {
             {
               $project: {
                 _id: 0,
-                alreadyViewed: { $cond: [{ $eq: ['$postView', true] }, true, false] },
+                alreadyViewed: { $cond: [{ $eq: ['$blogView', true] }, true, false] },
               },
             },
           ],
@@ -161,47 +110,36 @@ const getMyPosts = async (req, res) => {
       },
       {
         $lookup: {
-          from: 'postviews',
-          let: { postId: '$id' },
+          from: 'blogviews',
+          let: { blogId: '$id' },
           pipeline: [
-            { $match: { $expr: { $eq: ['$post', '$$postId'] } } },
-            { $count: 'postViews' },
+            { $match: { $expr: { $eq: ['$blog', '$$blogId'] } } },
+            { $count: 'blogViews' },
           ],
           as: 'views',
         },
       },
       {
         $lookup: {
-          from: 'postcomments',
-          let: { postId: '$id' },
+          from: 'blogcomments',
+          let: { blogId: '$id' },
           pipeline: [
-            { $match: { $expr: { $eq: ['$post', '$$postId'] } } },
-            { $count: 'postComments' },
+            { $match: { $expr: { $eq: ['$blog', '$$blogId'] } } },
+            { $count: 'blogComments' },
           ],
           as: 'comments',
         },
       },
       {
         $lookup: {
-          from: 'postreplycomments',
-          let: { postId: '$id' },
-          pipeline: [
-            { $match: { $expr: { $eq: ['$post', '$$postId'] } } },
-            { $count: 'postReplyComments' },
-          ],
-          as: 'replyComments',
-        },
-      },
-      {
-        $lookup: {
-          from: 'postbookmarks',
-          let: { postId: '$id' },
+          from: 'bookmarkblogs',
+          let: { blogId: '$id' },
           pipeline: [
             {
               $match: {
                 $expr: {
                   $and: [
-                    { $eq: ['$post', '$$postId'] },
+                    { $eq: ['$blog', '$$blogId'] },
                     { $eq: ['$sportizenUser', req.user.sportizenId] },
                   ],
                 },
@@ -210,11 +148,11 @@ const getMyPosts = async (req, res) => {
             {
               $project: {
                 _id: 0,
-                alreadyBookmarked: { $cond: [{ $eq: ['$bookmark', true] }, true, false] },
+                alreadySaved: { $cond: [{ $eq: ['$saveBlog', true] }, true, false] },
               },
             },
           ],
-          as: 'bookmarks',
+          as: 'bookmarkBlogs',
         },
       },
       {
@@ -233,7 +171,7 @@ const getMyPosts = async (req, res) => {
               $project: { _id: 0, userName: '$name', userImageURL: 1 },
             },
           ],
-          as: 'postUser',
+          as: 'blogUser',
         },
       },
       {
@@ -263,39 +201,105 @@ const getMyPosts = async (req, res) => {
       },
       {
         $replaceRoot: {
-          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$replyComments', 0] }, '$$ROOT'] },
+          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$bookmarkBlogs', 0] }, '$$ROOT'] },
         },
       },
       {
         $replaceRoot: {
-          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$bookmarks', 0] }, '$$ROOT'] },
-        },
-      },
-      {
-        $replaceRoot: {
-          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$postUser', 0] }, '$$ROOT'] },
+          newRoot: { $mergeObjects: [{ $arrayElemAt: ['$blogUser', 0] }, '$$ROOT'] },
         },
       },
       {
         $project: {
-          posts: 0,
+          blogs: 0,
           likeStatus: 0,
           likes: 0,
           viewStatus: 0,
           views: 0,
           comments: 0,
-          replyComments: 0,
-          bookmarks: 0,
-          postUser: 0,
+          bookmarkBlogs: 0,
+          blogUser: 0,
           __v: 0,
         },
       },
     ]);
 
-    responseHandler(posts, 200, req, res);
+    responseHandler(blogs, 200, req, res);
   } catch (e) {
     errorHandler(e, 400, req, res);
   }
 };
 
-module.exports = getMyPosts;
+module.exports = getBlogs;
+
+// const Blog = require('../../models/blog-model/blog.model');
+
+// const errorHandler = require('../../handlers/error.handler');
+// const responseHandler = require('../../handlers/response.handler');
+
+// const getAllBlogs = async (req, res) => {
+//   try {
+//     const sportizenId = req.user ? req.user.sportizenId : '';
+
+//     const query = [
+//       {
+//         $match: {},
+//       },
+//       {
+//         $project: {
+//           description: 0,
+//         },
+//       },
+//       {
+//         $sort: { _id: -1 },
+//       },
+//     ];
+
+//     if (req.params.skip !== 'null') {
+//       query.push({
+//         $skip: +req.params.skip,
+//       });
+//     }
+
+//     if (req.params.limit !== 'null') {
+//       query.push({
+//         $limit: +req.params.limit,
+//       });
+//     }
+
+//     const blogs = await Blog.aggregate([
+//       ...query,
+//       {
+//         $lookup: {
+//           from: 'userprofiles',
+//           localField: 'createdBy',
+//           foreignField: 'sportizenId',
+//           as: 'sportizenUsers',
+//         },
+//       },
+//       {
+//         $addFields: {
+//           sportizenUser: { $arrayElemAt: ['$sportizenUsers', 0] },
+//         },
+//       },
+//       {
+//         $addFields: {
+//           createdUserImage: '$sportizenUser.userImageURL',
+//           createdUser: '$sportizenUser.name',
+//         },
+//       },
+//       {
+//         $project: {
+//           sportizenUser: 0,
+//           sportizenUsers: 0,
+//         },
+//       },
+//     ]);
+
+//     responseHandler(blogs, 200, req, res);
+//   } catch (e) {
+//     errorHandler(e, 400, req, res);
+//   }
+// };
+
+// module.exports = getAllBlogs;
