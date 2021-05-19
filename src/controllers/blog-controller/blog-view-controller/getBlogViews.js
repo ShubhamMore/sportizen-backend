@@ -1,7 +1,7 @@
-const BlogView = require('../../models/blog-model/blog-view.model');
+const BlogView = require('../../../models/blog-model/blog-view.model');
 
-const errorHandler = require('../../handlers/error.handler');
-const responseHandler = require('../../handlers/response.handler');
+const errorHandler = require('../../../handlers/error.handler');
+const responseHandler = require('../../../handlers/response.handler');
 
 const getBlogViews = async (req, res) => {
   try {

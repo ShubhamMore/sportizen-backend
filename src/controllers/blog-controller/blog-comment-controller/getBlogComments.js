@@ -1,10 +1,12 @@
-const BlogComment = require('../../models/blog-model/blog-comment.model');
+const BlogComment = require('../../../models/blog-model/blog-comment.model');
 
-const errorHandler = require('../../handlers/error.handler');
-const responseHandler = require('../../handlers/response.handler');
+const errorHandler = require('../../../handlers/error.handler');
+const responseHandler = require('../../../handlers/response.handler');
 
 const getBlogComments = async (req, res) => {
   try {
+    const sportizenId = req.user ? req.user.sportizenId : '';
+
     const query = [
       {
         $match: {
@@ -71,7 +73,7 @@ const getBlogComments = async (req, res) => {
                   $and: [
                     { $eq: ['$blog', req.body.blog] },
                     { $eq: ['$comment', '$$commentId'] },
-                    { $eq: ['$sportizenUser', req.user.sportizenId] },
+                    { $eq: ['$sportizenUser', sportizenId] },
                   ],
                 },
               },
@@ -126,6 +128,7 @@ const getBlogComments = async (req, res) => {
 
     responseHandler(blogComments, 200, req, res);
   } catch (e) {
+    console.log(e);
     errorHandler(e, 400, req, res);
   }
 };

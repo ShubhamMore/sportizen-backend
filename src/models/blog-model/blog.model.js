@@ -39,6 +39,10 @@ const blogSchema = new mongoose.Schema({
     type: Date,
     default: new Date().toISOString(),
   },
+  blogViews: {
+    type: Number,
+    default: 0,
+  },
 
   // viewTime: {
   //   type: Number,

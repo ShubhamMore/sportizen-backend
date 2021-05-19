@@ -1,7 +1,7 @@
-const BookmarkBlog = require('../../models/blog-model/bookmark-blog.model');
+const BookmarkBlog = require('../../../models/blog-model/bookmark-blog.model');
 
-const errorHandler = require('../../handlers/error.handler');
-const responseHandler = require('../../handlers/response.handler');
+const errorHandler = require('../../../handlers/error.handler');
+const responseHandler = require('../../../handlers/response.handler');
 
 const getBookmarkdBlogs = async (req, res) => {
   try {

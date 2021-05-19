@@ -63,42 +63,6 @@ const getBlog = async (req, res) => {
         },
         {
           $lookup: {
-            from: 'blogviews',
-            let: { blogId: '$id' },
-            pipeline: [
-              {
-                $match: {
-                  $expr: {
-                    $and: [
-                      { $eq: ['$blog', '$$blogId'] },
-                      { $eq: ['$sportizenUser', sportizenId] },
-                    ],
-                  },
-                },
-              },
-              {
-                $project: {
-                  _id: 0,
-                  alreadyViewed: { $cond: [{ $eq: ['$blogView', true] }, true, false] },
-                },
-              },
-            ],
-            as: 'viewStatus',
-          },
-        },
-        {
-          $lookup: {
-            from: 'blogviews',
-            let: { blogId: '$id' },
-            pipeline: [
-              { $match: { $expr: { $eq: ['$blog', '$$blogId'] } } },
-              { $count: 'blogViews' },
-            ],
-            as: 'views',
-          },
-        },
-        {
-          $lookup: {
             from: 'blogcomments',
             let: { blogId: '$id' },
             pipeline: [
@@ -169,11 +133,6 @@ const getBlog = async (req, res) => {
         },
         {
           $replaceRoot: {
-            newRoot: { $mergeObjects: [{ $arrayElemAt: ['$views', 0] }, '$$ROOT'] },
-          },
-        },
-        {
-          $replaceRoot: {
             newRoot: { $mergeObjects: [{ $arrayElemAt: ['$comments', 0] }, '$$ROOT'] },
           },
         },
@@ -191,8 +150,6 @@ const getBlog = async (req, res) => {
           $project: {
             likeStatus: 0,
             likes: 0,
-            viewStatus: 0,
-            views: 0,
             comments: 0,
             bookmarkBlogs: 0,
             blogUser: 0,
@@ -204,6 +161,15 @@ const getBlog = async (req, res) => {
       if (!blog[0]) {
         throw new Error('Blog Not Found');
       }
+
+      await Blog.findByIdAndUpdate(
+        {
+          _id: blogId,
+        },
+        {
+          $inc: { blogViews: 1 },
+        }
+      );
 
       responseHandler(blog[0], 200, req, res);
     } else {

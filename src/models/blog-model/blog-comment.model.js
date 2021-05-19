@@ -21,12 +21,12 @@ const blogCommentSchema = new mongoose.Schema({
 });
 
 blogCommentSchema.methods.toJSON = function () {
-  const comment = this;
-  const commentObject = comment.toObject();
+  const blogComment = this;
+  const blogCommentObject = blogComment.toObject();
 
-  delete commentObject.__v;
+  delete blogCommentObject.__v;
 
-  return commentObject;
+  return blogCommentObject;
 };
 
 const BlogComment = mongoose.model('BlogComment', blogCommentSchema);

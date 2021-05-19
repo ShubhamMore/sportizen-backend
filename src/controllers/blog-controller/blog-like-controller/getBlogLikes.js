@@ -1,7 +1,7 @@
-const BlogLike = require('../../models/blog-model/blog-like.model');
+const BlogLike = require('../../../models/blog-model/blog-like.model');
 
-const errorHandler = require('../../handlers/error.handler');
-const responseHandler = require('../../handlers/response.handler');
+const errorHandler = require('../../../handlers/error.handler');
+const responseHandler = require('../../../handlers/response.handler');
 
 const getBlogLikes = async (req, res) => {
   try {

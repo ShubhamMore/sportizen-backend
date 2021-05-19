@@ -1,7 +1,7 @@
-const BlogLike = require('../../models/blog-model/blog-like.model');
+const BlogLike = require('../../../models/blog-model/blog-like.model');
 
-const errorHandler = require('../../handlers/error.handler');
-const responseHandler = require('../../handlers/response.handler');
+const errorHandler = require('../../../handlers/error.handler');
+const responseHandler = require('../../../handlers/response.handler');
 
 const likeBlog = async (req, res) => {
   try {
@@ -28,10 +28,10 @@ const likeBlog = async (req, res) => {
 
 module.exports = likeBlog;
 
-// const Blog = require('../../models/blog-model/blog-model');
+// const Blog = require('../../../models/blog-model/blog-model');
 
-// const responseHandler = require('../../handlers/response.handler');
-// const errorHandler = require('../../handlers/error.handler');
+// const responseHandler = require('../../../handlers/response.handler');
+// const errorHandler = require('../../../handlers/error.handler');
 
 // const likeBlog = async (req, res) => {
 //   try {

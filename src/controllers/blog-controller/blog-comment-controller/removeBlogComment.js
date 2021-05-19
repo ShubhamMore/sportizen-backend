@@ -1,8 +1,8 @@
-const BlogComment = require('../../models/blog-model/blog-comment.model');
-const BlogCommentLike = require('../../models/blog-model/blog-comment-like.model');
+const BlogComment = require('../../../models/blog-model/blog-comment.model');
+const BlogCommentLike = require('../../../models/blog-model/blog-comment-like.model');
 
-const errorHandler = require('../../handlers/error.handler');
-const responseHandler = require('../../handlers/response.handler');
+const errorHandler = require('../../../handlers/error.handler');
+const responseHandler = require('../../../handlers/response.handler');
 
 const removeBlogComment = async (req, res) => {
   try {

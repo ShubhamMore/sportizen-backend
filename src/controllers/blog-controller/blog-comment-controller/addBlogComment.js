@@ -1,26 +1,25 @@
-const PostReplyComment = require('../../../models/post-model/post-reply-comment.model');
+const BlogComment = require('../../../models/blog-model/blog-comment.model');
 
 const errorHandler = require('../../../handlers/error.handler');
 const responseHandler = require('../../../handlers/response.handler');
 
 const mongoose = require('mongoose');
 
-const addPostCommentReply = async (req, res) => {
+const addBlogComment = async (req, res) => {
   try {
-    const postReplyComment = new PostReplyComment({
-      post: req.body.post,
+    const blogComment = new BlogComment({
+      blog: req.body.blog,
       sportizenUser: req.user.sportizenId,
       comment: req.body.comment,
-      replyComment: req.body.replyComment,
       createdAt: new Date().toISOString(),
     });
 
-    await postReplyComment.save();
+    await blogComment.save();
 
-    const postReplyComments = await PostReplyComment.aggregate([
+    const blogComments = await BlogComment.aggregate([
       {
         $match: {
-          _id: mongoose.Types.ObjectId(postReplyComment._id),
+          _id: mongoose.Types.ObjectId(blogComment._id),
         },
       },
       {
@@ -45,25 +44,27 @@ const addPostCommentReply = async (req, res) => {
           newRoot: { $mergeObjects: [{ $arrayElemAt: ['$users', 0] }, '$$ROOT'] },
         },
       },
+      { $project: { users: 0 } },
+      {
+        $addFields: {
+          id: {
+            $toString: '$_id',
+          },
+        },
+      },
       {
         $project: {
           sportizenUser: 0,
           id: 0,
-          post: 0,
-          users: 0,
+          blog: 0,
         },
       },
     ]);
 
-    responseHandler(
-      postReplyComments.length > 0 ? postReplyComments[0] : postReplyComment,
-      200,
-      req,
-      res
-    );
+    responseHandler(blogComments.length > 0 ? blogComments[0] : blogComment, 200, req, res);
   } catch (e) {
     errorHandler(e, 400, req, res);
   }
 };
 
-module.exports = addPostCommentReply;
+module.exports = addBlogComment;

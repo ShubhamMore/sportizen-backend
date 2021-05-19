@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 
 const getBlogs = async (req, res) => {
   try {
+    const sportizenId = req.user ? req.user.sportizenId : '';
+
     const query = [
       {
         $match: {},
@@ -55,10 +57,7 @@ const getBlogs = async (req, res) => {
             {
               $match: {
                 $expr: {
-                  $and: [
-                    { $eq: ['$blog', '$$blogId'] },
-                    { $eq: ['$sportizenUser', req.user.sportizenId] },
-                  ],
+                  $and: [{ $eq: ['$blog', '$$blogId'] }, { $eq: ['$sportizenUser', sportizenId] }],
                 },
               },
             },
@@ -91,10 +90,7 @@ const getBlogs = async (req, res) => {
             {
               $match: {
                 $expr: {
-                  $and: [
-                    { $eq: ['$blog', '$$blogId'] },
-                    { $eq: ['$sportizenUser', req.user.sportizenId] },
-                  ],
+                  $and: [{ $eq: ['$blog', '$$blogId'] }, { $eq: ['$sportizenUser', sportizenId] }],
                 },
               },
             },
@@ -138,10 +134,7 @@ const getBlogs = async (req, res) => {
             {
               $match: {
                 $expr: {
-                  $and: [
-                    { $eq: ['$blog', '$$blogId'] },
-                    { $eq: ['$sportizenUser', req.user.sportizenId] },
-                  ],
+                  $and: [{ $eq: ['$blog', '$$blogId'] }, { $eq: ['$sportizenUser', sportizenId] }],
                 },
               },
             },
@@ -239,7 +232,7 @@ module.exports = getBlogs;
 
 // const getAllBlogs = async (req, res) => {
 //   try {
-//     const sportizenId = req.user ? req.user.sportizenId : '';
+//     const sportizenId = req.user ? sportizenId : '';
 
 //     const query = [
 //       {

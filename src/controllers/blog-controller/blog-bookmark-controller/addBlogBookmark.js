@@ -1,18 +1,18 @@
-const BookmarkBlog = require('../../models/blog-model/bookmark-blog.model');
+const BookmarkBlog = require('../../../models/blog-model/bookmark-blog.model');
 
-const errorHandler = require('../../handlers/error.handler');
-const responseHandler = require('../../handlers/response.handler');
+const errorHandler = require('../../../handlers/error.handler');
+const responseHandler = require('../../../handlers/response.handler');
 
 const addBlogBookmark = async (req, res) => {
   try {
     let bookmarkBlog = await BookmarkBlog.findOne({
-      post: req.body.post,
+      blog: req.body.blog,
       sportizenUser: req.user.sportizenId,
     });
 
     if (!bookmarkBlog) {
       bookmarkBlog = new BookmarkBlog({
-        post: req.body.post,
+        blog: req.body.blog,
         sportizenUser: req.user.sportizenId,
         createdAt: new Date().toISOString(),
       });
