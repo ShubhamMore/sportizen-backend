@@ -78,7 +78,7 @@ router.get('/search-blogs/:limit/:skip', userAuth, async (req, res) => {
   await searchBlogs(req, res);
 });
 
-router.get('/search-blogs-by-tag/:limit/:skip', userAuth, async (req, res) => {
+router.get('/search-blogs-by-tag/:tag/:limit/:skip', userAuth, async (req, res) => {
   await searchBlogsByTag(req, res);
 });
 

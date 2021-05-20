@@ -20,15 +20,15 @@ const getMyBlogs = async (req, res) => {
       },
     ];
 
-    if (req.body.skip) {
+    if (req.params.skip !== 'null') {
       query.push({
-        $skip: req.body.skip,
+        $skip: +req.params.skip,
       });
     }
 
-    if (req.body.limit) {
+    if (req.params.limit !== 'null') {
       query.push({
-        $limit: req.body.limit,
+        $limit: +req.params.limit,
       });
     }
 

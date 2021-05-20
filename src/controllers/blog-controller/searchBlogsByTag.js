@@ -4,9 +4,13 @@ const errorHandler = require('../../handlers/error.handler');
 
 const searchBlogsByTags = async (req, res) => {
   try {
+    const tag = req.params.tag;
+
     const query = [
       {
-        $match: {},
+        $match: {
+          tags: { $all: [tag] },
+        },
       },
       {
         $project: {
@@ -18,15 +22,15 @@ const searchBlogsByTags = async (req, res) => {
       },
     ];
 
-    if (req.body.skip) {
+    if (req.params.skip !== 'null') {
       query.push({
-        $skip: req.body.skip,
+        $skip: +req.params.skip,
       });
     }
 
-    if (req.body.limit) {
+    if (req.params.limit !== 'null') {
       query.push({
-        $limit: req.body.limit,
+        $limit: +req.params.limit,
       });
     }
 
