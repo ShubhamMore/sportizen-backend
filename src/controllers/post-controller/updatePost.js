@@ -22,7 +22,7 @@ const updatePost = async (req, res) => {
       publicId: post.publicId,
     };
 
-    if (file !== undefined) {
+    if (file) {
       const filePath = file.path;
       const fileName = file.filename;
 

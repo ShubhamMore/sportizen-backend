@@ -10,7 +10,7 @@ const addProduct = async (req, res) => {
     const file = req.files;
     const images = new Array();
 
-    if (file !== undefined) {
+    if (file) {
       let filePaths = new Array();
       let fileNames = new Array();
 

@@ -14,7 +14,7 @@ const saveUserProfile = async (req, res) => {
 
     let profileImage = userProfile.userImage;
 
-    if (file !== undefined) {
+    if (file) {
       const filePath = file.path;
       const fileName = file.filename;
 
@@ -24,7 +24,7 @@ const saveUserProfile = async (req, res) => {
       const uploadRes = uploadResponce.upload_res;
 
       if (uploadRes) {
-        if (profileImage.publicId !== undefined) {
+        if (profileImage.publicId) {
           await awsRemoveFile(profileImage.publicId);
         }
 

@@ -4,6 +4,8 @@ const errorHandler = require('../../handlers/error.handler');
 
 const searchBlogs = async (req, res) => {
   try {
+    const sportizenId = req.user ? req.user.sportizenId : '';
+
     const query = [
       {
         $match: {
@@ -109,10 +111,7 @@ const searchBlogs = async (req, res) => {
             {
               $match: {
                 $expr: {
-                  $and: [
-                    { $eq: ['$blog', '$$blogId'] },
-                    { $eq: ['$sportizenUser', req.user.sportizenId] },
-                  ],
+                  $and: [{ $eq: ['$blog', '$$blogId'] }, { $eq: ['$sportizenUser', sportizenId] }],
                 },
               },
             },
@@ -145,10 +144,7 @@ const searchBlogs = async (req, res) => {
             {
               $match: {
                 $expr: {
-                  $and: [
-                    { $eq: ['$blog', '$$blogId'] },
-                    { $eq: ['$sportizenUser', req.user.sportizenId] },
-                  ],
+                  $and: [{ $eq: ['$blog', '$$blogId'] }, { $eq: ['$sportizenUser', sportizenId] }],
                 },
               },
             },
@@ -192,10 +188,7 @@ const searchBlogs = async (req, res) => {
             {
               $match: {
                 $expr: {
-                  $and: [
-                    { $eq: ['$blog', '$$blogId'] },
-                    { $eq: ['$sportizenUser', req.user.sportizenId] },
-                  ],
+                  $and: [{ $eq: ['$blog', '$$blogId'] }, { $eq: ['$sportizenUser', sportizenId] }],
                 },
               },
             },

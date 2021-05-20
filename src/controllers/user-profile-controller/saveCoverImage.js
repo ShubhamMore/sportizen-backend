@@ -14,7 +14,7 @@ const saveUserCoverImage = async (req, res) => {
 
     let coverImage = userProfile.userCoverImage;
 
-    if (file !== undefined) {
+    if (file) {
       const filePath = file.path;
       const fileName = file.filename;
 
@@ -24,7 +24,7 @@ const saveUserCoverImage = async (req, res) => {
       const uploadRes = uploadResponce.upload_res;
 
       if (uploadRes) {
-        if (coverImage.publicId !== undefined) {
+        if (coverImage.publicId) {
           await awsRemoveFile(coverImage.publicId);
         }
 

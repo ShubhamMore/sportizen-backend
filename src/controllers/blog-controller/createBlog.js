@@ -21,7 +21,7 @@ const newBlog = async (req, res) => {
       publicId: null,
     };
 
-    if (file.length > 0 && file !== undefined) {
+    if (file && file.length > 0) {
       let filePaths = new Array();
       let fileNames = new Array();
 

@@ -10,7 +10,7 @@ const newEvent = async (req, res) => {
     const file = req.files;
     const images = new Array();
 
-    if (file.length > 0 && file !== undefined) {
+    if (file && file.length > 0) {
       let filePaths = new Array();
       let fileNames = new Array();
 

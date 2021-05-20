@@ -16,7 +16,9 @@ const deleteEvent = async (req, res) => {
     }
 
     await event.images.forEach(async (image) => {
-      await awsRemoveFile(image.publicId);
+      if (image.publicId) {
+        await awsRemoveFile(image.publicId);
+      }
     });
 
     if (event.eventType === '0') {

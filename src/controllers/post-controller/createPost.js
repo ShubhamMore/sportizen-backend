@@ -17,7 +17,7 @@ const createPost = async (req, res) => {
       publicId: null,
     };
 
-    if (file !== undefined) {
+    if (file) {
       const filePath = file.path;
       const fileName = file.filename;
 

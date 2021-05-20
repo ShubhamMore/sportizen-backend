@@ -1,6 +1,7 @@
 const Blog = require('../../models/blog-model/blog.model');
 
 const awsUploadFiles = require('../../uploads/awsUploadFiles');
+const awsRemoveFile = require('../../uploads/awsRemoveFile');
 
 const errorHandler = require('../../handlers/error.handler');
 const responseHandler = require('../../handlers/response.handler');
@@ -23,7 +24,7 @@ const editBlog = async (req, res) => {
       publicId: blog.publicId,
     };
 
-    if (file.length > 0 && file !== undefined) {
+    if (file && file.length > 0) {
       let filePaths = new Array();
       let fileNames = new Array();
 
@@ -41,6 +42,10 @@ const editBlog = async (req, res) => {
       const uploadResLen = uploadRes.length;
 
       if (uploadResLen > 0) {
+        if (image.publicId) {
+          await awsRemoveFile(image.publicId);
+        }
+
         for (let i = 0; i < uploadResLen; i++) {
           image = {
             imageName: uploadRes[i].key,

@@ -13,7 +13,7 @@ const editEvent = async (req, res) => {
 
     const images = event.images;
 
-    if (file.length > 0 && file !== undefined) {
+    if (file && file.length > 0) {
       let filePaths = new Array();
       let fileNames = new Array();
 
