@@ -3,6 +3,8 @@ const User = require('../models/user-model/user.model');
 const Socket = require('./socket');
 const Chat = require('../models/chat-model/chat.model');
 
+const emitOnlineStatus = require('./services/emit-online-status');
+
 const chatting = async (server) => {
   const io = require('socket.io')(server);
 
@@ -27,9 +29,11 @@ const chatting = async (server) => {
         next(new Error('Authentication error'));
       }
     })
-    .on('connection', (socket) => {
+    .on('connection', async (socket) => {
       new Socket(socket.user.sportizenId, socket);
-      io.emit('isOnline', { sportizenUser: socket.user.sportizenId, isOnline: false });
+      // io.emit('isOnline', { sportizenUser: socket.user.sportizenId, isOnline: false });
+
+      // await emitOnlineStatus(socket.user.sportizenId, true);
 
       socket.on('message', async (message) => {
         const chatMessage = {
@@ -52,7 +56,8 @@ const chatting = async (server) => {
         socket.emit('message', newMessage);
       });
 
-      socket.on('disconnect', () => {
+      socket.on('disconnect', async () => {
+        // await emitOnlineStatus(socket.user.sportizenId, false);
         Socket.deleteSocket(socket.user.sportizenId);
       });
     });

@@ -19,6 +19,7 @@
     "express": "^4.16.4",
     "express-mongo-sanitize": "^2.0.2",
     "express-rate-limit": "^5.2.6",
+    "fcm-node": "^1.6.1",
     "google-auth-library": "^6.1.6",
     "googleapis": "^46.0.0",
     "helmet": "^3.23.3",
