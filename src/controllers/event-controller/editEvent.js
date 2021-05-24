@@ -57,6 +57,7 @@ const editEvent = async (req, res) => {
     event.endDate = req.body.endDate;
     event.registerTill = req.body.registerTill;
     event.time = req.body.time;
+    event.locationType = req.body.locationType;
     event.address = req.body.address;
     event.state = req.body.state;
     event.city = req.body.city;

@@ -12,23 +12,23 @@ const postSchema = new mongoose.Schema({
   },
   sharedPost: {
     type: String,
-    default: null,
+    default: '',
   },
   description: {
     type: String,
-    default: null,
+    default: '',
   },
   fileName: {
     type: String, // for image & video
-    default: null,
+    default: '',
   },
   secureUrl: {
     type: String,
-    default: null,
+    default: '',
   },
   publicId: {
     type: String,
-    default: null,
+    default: '',
   },
   createdAt: {
     type: Date,

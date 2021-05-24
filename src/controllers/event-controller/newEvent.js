@@ -52,6 +52,7 @@ const newEvent = async (req, res) => {
       registerTill: req.body.registerTill,
       time: req.body.time,
       noOfPlayers: req.body.noOfPlayers,
+      locationType: req.body.locationType,
       address: req.body.address,
       state: req.body.state,
       city: req.body.city,
