@@ -45,9 +45,9 @@
   },
   "scripts": {
     "start": "node sportizen.js",
-    "dev": "env-cmd -f ./config/dev.env nodemon sportizen.js",
-    "dev-prod": "env-cmd -f ./config/prod.env nodemon sportizen.js",
-    "prod": "env-cmd -f ./config/prod.env pm2 start sportizen.js",
+    "dev": "env-cmd -f ./config/dev.env nodemon sportizen-old-backend.js",
+    "dev-prod": "env-cmd -f ./config/prod.env nodemon sportizen-old-backend.js",
+    "prod": "env-cmd -f ./config/prod.env pm2 start sportizen-old-backend.js",
     "pretty": "prettier --write \"./**/*.{js,jsx,json}\""
   },
   "author": "",
